@@ -1,0 +1,14 @@
+@import 'normalize.css';
+@import 'globals/colors.css';
+@import 'globals/queries.css';
+
+/* Template Media Queries */
+
+@media (width >= 1024px) {
+}
+
+@media (384px < width < 1024px) {
+}
+
+@media (width <= 384px) {
+}
