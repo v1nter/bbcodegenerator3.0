@@ -1,0 +1,105 @@
+// Stellt Verbindung zur DB her
+
+// Kommando um Tabellen zu erzeugen: npx prisma db push
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+// #############################################################################
+//
+// Jeder Forenthread entspricht einem Event. Ein Event kann mehrere Spiele haben
+// und ein Spiel kann zu mehreren Events gehören
+//
+// #############################################################################
+
+model Event {
+    event_id         Int         @id @default(autoincrement())
+    event_name       String      @unique
+    event_is_current Boolean
+    event_album      String
+    event_mainPost   String
+    event_updatePost String
+    GameEvent        GameEvent[]
+}
+
+// #############################################################################
+//
+// Plattformen:
+//
+// #############################################################################
+
+model Platform {
+    platform_id    Int            @id @default(autoincrement())
+    platform_name  String         @unique
+    platform_image String
+    platform_type  String
+    GamePlatform   GamePlatform[]
+}
+
+// #############################################################################
+//
+// Spiele
+//
+// #############################################################################
+
+model Game {
+    game_id           Int            @id @default(autoincrement())
+    game_name         String         @unique
+    game_release_date String
+    game_keyart       String
+    game_description  String
+    game_delta        Boolean
+    game_hidden       Boolean
+    game_update       Boolean
+    GamePlatform      GamePlatform[]
+    GameEvent         GameEvent[]
+    Trailer           Trailer[]
+}
+
+// #############################################################################
+//
+// Trailer
+// Ein Trailer hat ein Spiel, ein Spiel hat mehrere Trailer
+//
+// #############################################################################
+
+model Trailer {
+    trailer_id    Int      @id @default(autoincrement())
+    trailer_name  String
+    trailer_url   String
+    trailer_delta Boolean
+    trailer_date  DateTime @default(now())
+    game          Game     @relation(fields: [game_key], references: [game_id])
+    game_key      Int
+}
+
+// #############################################################################
+//
+// n-zu-n Beziehungen
+//
+// #############################################################################
+
+model GamePlatform {
+    game         Game     @relation(fields: [game_key], references: [game_id])
+    game_key     Int
+    platform     Platform @relation(fields: [platform_key], references: [platform_id])
+    platform_key Int
+
+    @@id([game_key, platform_key])
+}
+
+model GameEvent {
+    game      Game  @relation(fields: [game_key], references: [game_id])
+    game_key  Int
+    event     Event @relation(fields: [event_key], references: [event_id])
+    event_key Int
+
+    @@id([game_key, event_key])
+}
