@@ -1,3 +1,11 @@
+import Wrapper from '@/components/Wrapper/Wrapper';
+import { StrictMode } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
+
 export default function Home() {
-	return <div>BBCodeGenerator</div>;
+	return (
+		<StrictMode>
+			<Wrapper />
+		</StrictMode>
+	);
 }

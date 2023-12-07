@@ -1,6 +1,7 @@
 // Stellt Verbindung zur DB her
 
 // Kommando um Tabellen zu erzeugen: npx prisma db push
+// Bei Änderungen am Schema: npx prisma generate
 
 generator client {
     provider = "prisma-client-js"

@@ -19,6 +19,7 @@
 	--primary-bg: var(--dark-grey);
 	--secondary-bg: var(--light-grey);
 	--font: var(--white);
+	--primary-border: var(--white);
 	--accent-pink: var(--neon-pink);
 	--accent-green: var(--neon-green);
 }

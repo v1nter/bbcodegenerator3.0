@@ -1,0 +1,75 @@
+.Menu {
+	/* Container */
+	flex: 1;
+
+	/* Inhalt */
+	display: flex;
+	flex-direction: column;
+	color: var(--font);
+	background-color: var(--secondary-bg);
+	user-select: none;
+
+	> .Headline {
+		/* Container */
+		flex: 1;
+		width: 20rem;
+		height: 5rem;
+		margin: auto;
+		margin-top: 0.5rem;
+
+		/* Inhalt */
+		display: flex;
+		justify-content: center; /* In Flexbox: Horizontal zentrieren */
+		align-items: center; /* In Flexbox: Vertikal zentrieren */
+		white-space: nowrap;
+		font-size: 1.5rem;
+
+		/* border: solid red; */
+	}
+
+	> .Navbar {
+		/* Container */
+		flex: 1;
+		width: 20rem;
+		margin: auto;
+
+		/* Inhalt */
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		align-items: center;
+
+		margin-bottom: 0.5rem;
+		margin-top: 0.5rem;
+
+		@media (width >= 1024px) {
+			flex-wrap: nowrap;
+		}
+
+		@media (384px < width < 1024px) {
+			flex-wrap: nowrap;
+		}
+
+		@media (width <= 384px) {
+			flex-wrap: wrap;
+		}
+
+		/* border: solid green; */
+
+		> .MenuItem {
+			/* Container */
+			flex: 1;
+
+			/* Inhalt */
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding-left: 0.5rem;
+			padding-right: 0.5rem;
+			/* padding: 0.5rem; */
+
+			border: 2px solid var(--primary-border);
+			border-radius: 25px;
+		}
+	}
+}

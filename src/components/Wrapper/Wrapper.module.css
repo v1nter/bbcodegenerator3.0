@@ -1,0 +1,29 @@
+.siteWrapper {
+	display: flex;
+	flex-direction: column;
+
+	flex: 1;
+	/* border: 1px solid red; */
+	height: 100dvh;
+
+	> .siteHeader {
+		display: flex;
+		flex-direction: row;
+		flex: 1;
+		/* border: 1px solid blue; */
+	}
+
+	> .siteContent {
+		display: flex;
+		flex-direction: column;
+		flex: 6;
+		/* border: 1px solid green; */
+	}
+
+	> .siteFooter {
+		display: flex;
+		flex-direction: row;
+		flex: 0.5;
+		/* border: 1px solid violet; */
+	}
+}

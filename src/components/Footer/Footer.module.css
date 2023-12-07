@@ -1,0 +1,5 @@
+.Footer {
+	color: var(--font);
+	background-color: var(--secondary-bg);
+	flex: 1;
+}
