@@ -6,9 +6,9 @@ Footer;
 export default function Wrapper() {
 	return (
 		<div className={css.siteWrapper}>
-			<div className={css.siteHeader}>
-				<Menu />
-			</div>
+			<nav className={css.siteHeader}>
+				<Menu headline={'BBCodeGenerator 3.0'} />
+			</nav>
 			<div className={css.siteContent}></div>
 			<div className={css.siteFooter}>
 				<Footer />

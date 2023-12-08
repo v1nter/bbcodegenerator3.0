@@ -1,17 +1,30 @@
 import { Fragment } from 'react';
 import css from './Menu.module.css';
+import type { MenuItem } from './menu.config';
+import { menuItems } from './menu.config';
+import type { ReactNode } from 'react';
 
-export default function Menu() {
+type Props = {
+	headline: string;
+};
+
+export default function Menu({ headline }: Props) {
 	return (
 		<Fragment>
 			<div className={css.Menu}>
-				<div className={css.Headline}>BBCode Generator 3.0</div>
+				<div className={css.Headline}>
+					<img src={'Icon.bmp'} />
+					{headline}
+				</div>
 				<div className={css.Navbar}>
-					<div className={css.MenuItem}>Spiele</div>
-					<div className={css.MenuItem}>Reihenupdate</div>
-					<div className={css.MenuItem}>Export</div>
-					<div className={css.MenuItem}>Events</div>
-					<div className={css.MenuItem}>Plattformen</div>
+					{menuItems.map((item) => (
+						<div className={css.MenuItem} key={item.id}>
+							<object className={css.MenuIcon} data={`/Icons/${item.icon}`} />
+							<a className={css.Link} href={item.to}>
+								{item.name}
+							</a>
+						</div>
+					))}
 				</div>
 			</div>
 		</Fragment>

@@ -11,13 +11,15 @@
 	/* Layout-Farben */
 	--dark-grey: rgb(34, 34, 34);
 	--light-grey: rgb(50, 50, 50);
+	--moss-green: rgb(0, 90, 55);
+	--sun-yellow: rgb(185, 160, 0);
 	--white: rgb(255, 255, 255);
 	--neon-pink: rgb(220, 35, 115);
 	--neon-green: rgb(50, 205, 115);
 
 	/* Funktionen */
-	--primary-bg: var(--dark-grey);
-	--secondary-bg: var(--light-grey);
+	--primary-bg: var(--moss-green);
+	--secondary-bg: var(--sun-yellow);
 	--font: var(--white);
 	--primary-border: var(--white);
 	--accent-pink: var(--neon-pink);
