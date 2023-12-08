@@ -12,10 +12,7 @@ export default function Menu({ headline }: Props) {
 	return (
 		<Fragment>
 			<div className={css.Menu}>
-				<div className={css.Headline}>
-					<img src={'Icon.bmp'} />
-					{headline}
-				</div>
+				<div className={css.Headline}>{headline}</div>
 				<div className={css.Navbar}>
 					{menuItems.map((item) => (
 						<div className={css.MenuItem} key={item.id}>
