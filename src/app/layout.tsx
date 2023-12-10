@@ -30,9 +30,9 @@ export default function RootLayout({
 				<Menu headline={'BBCodegenerator 3.0'} />
 			</nav>
 			<body className={css.siteContent}>{children}</body>
-			<div className={css.siteFooter}>
+			{/* <div className={css.siteFooter}>
 				<Footer />
-			</div>
+			</div> */}
 			{/* </div>; */}
 		</Fragment>
 	);
