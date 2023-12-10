@@ -2,7 +2,7 @@ export const menuItems = [
 	{
 		id: 1,
 		name: 'Spiele',
-		to: '/Spiele',
+		to: '/',
 		icon: 'Game.svg',
 	},
 	{
