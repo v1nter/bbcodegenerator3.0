@@ -7,7 +7,7 @@
 .siteHeader {
 	display: flex;
 	flex-direction: row;
-	height: 5rem;
+	/* height: 5rem; */
 }
 
 .siteContent {

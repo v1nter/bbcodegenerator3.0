@@ -15,12 +15,12 @@
 	);
 	user-select: none;
 
-	@media (width >= 1024px) {
+	@media (width >= 1366px) {
 		flex-direction: row;
 		flex-wrap: nowrap;
 	}
 
-	@media (384px < width < 1024px) {
+	@media (384px < width < 1366px) {
 		flex-direction: row;
 		flex-wrap: nowrap;
 	}
@@ -47,11 +47,11 @@
 		font-size: 2.2rem;
 		font-weight: bolder;
 
-		@media (width >= 1024px) {
+		@media (width >= 1366px) {
 			font-size: 2.2rem;
 		}
 
-		@media (384px < width < 1024px) {
+		@media (384px < width < 1366px) {
 			font-size: 2.2rem;
 		}
 
@@ -77,14 +77,14 @@
 
 	/* border: solid; */
 
-	@media (width >= 1024px) {
+	@media (width >= 1366px) {
 		flex: 2;
 		justify-content: flex-start;
 		flex-wrap: nowrap;
 		margin-right: 5rem;
 	}
 
-	@media (384px < width < 1024px) {
+	@media (384px < width < 1366px) {
 		flex: 1;
 		justify-content: center;
 		flex-wrap: wrap;
