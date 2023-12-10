@@ -2,20 +2,20 @@
 	height: 100dvh;
 	display: flex;
 	flex-direction: column;
+}
 
-	> .siteHeader {
-		display: flex;
-		flex-direction: row;
-	}
+.siteHeader {
+	display: flex;
+	flex-direction: row;
+}
 
-	> .siteContent {
-		display: flex;
-		flex-direction: column;
-		flex: 1;
-	}
+.siteContent {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
 
-	> .siteFooter {
-		display: flex;
-		flex-direction: row;
-	}
+.siteFooter {
+	display: flex;
+	flex-direction: row;
 }
