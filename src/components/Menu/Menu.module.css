@@ -49,83 +49,82 @@
 
 		/* border: solid red; */
 	}
+}
 
-	> .Navbar {
-		/* Container */
+.Navbar {
+	/* Container */
 
-		width: 20rem;
-		margin: auto;
+	width: 20rem;
+	margin: auto;
 
-		/* Inhalt */
-		display: flex;
-		gap: 1rem;
-		/* justify-content: center; */
-		align-items: center;
+	/* Inhalt */
+	display: flex;
+	gap: 1rem;
+	/* justify-content: center; */
+	align-items: center;
 
-		margin-bottom: 0.5rem;
-		margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+	margin-top: 0.5rem;
 
-		/* border: solid; */
+	/* border: solid; */
 
-		@media (width >= 1024px) {
-			flex: 2;
-			justify-content: flex-start;
-			flex-wrap: nowrap;
-			margin-right: 5rem;
-		}
-
-		@media (384px < width < 1024px) {
-			flex: 1;
-			justify-content: center;
-			flex-wrap: wrap;
-			margin-right: 5rem;
-		}
-
-		@media (width <= 384px) {
-			flex: 1;
-			justify-content: center;
-			flex-wrap: wrap;
-		}
-
-		/* border: solid green; */
-
-		> .MenuItem {
-			/* Container */
-			flex: 1;
-			/* position: relative; */
-
-			/* Inhalt */
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			padding-left: 0.5rem;
-			padding-right: 0.5rem;
-			text-transform: uppercase;
-
-			/* padding: 0.5rem; */
-
-			border: 2px solid var(--primary-border);
-			/* border-radius: 25px; */
-
-			> .MenuIcon {
-				width: 2rem;
-				/* color: var(--font); */
-			}
-
-			> .Link {
-				text-decoration: none;
-				color: var(--font);
-				font-weight: bolder;
-			}
-
-			> .Link:link {
-				color: var(--font);
-			}
-		}
-
-		.MenuItem:hover {
-			/* color: var(--accent-pink); */
-			border: 2px solid var(--accent-green);
-		}
+	@media (width >= 1024px) {
+		flex: 2;
+		justify-content: flex-start;
+		flex-wrap: nowrap;
+		margin-right: 5rem;
 	}
+
+	@media (384px < width < 1024px) {
+		flex: 1;
+		justify-content: center;
+		flex-wrap: wrap;
+		margin-right: 5rem;
+	}
+
+	@media (width <= 384px) {
+		flex: 1;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	/* border: solid green; */
+}
+
+.MenuItem {
+	/* Container */
+	flex: 1;
+	/* position: relative; */
+
+	/* Inhalt */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	text-transform: uppercase;
+
+	/* padding: 0.5rem; */
+
+	border: 2px solid var(--primary-border);
+	/* border-radius: 25px; */
+
+	> .MenuIcon {
+		width: 2rem;
+		/* color: var(--font); */
+	}
+}
+
+.Link {
+	text-decoration: none;
+	color: var(--font);
+	font-weight: bolder;
+}
+
+.Link:link {
+	color: var(--font);
+}
+
+.MenuItem:hover {
+	color: var(--accent-pink);
 }
