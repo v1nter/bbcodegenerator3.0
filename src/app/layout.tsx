@@ -25,16 +25,15 @@ export default function RootLayout({
 }) {
 	return (
 		<Fragment>
-			<div className={css.siteWrapper}>
-				<nav className={css.siteHeader}>
-					<Menu headline={'BBCodegenerator 3.0'} />
-				</nav>
-				<body className={css.siteContent}>{children}</body>
-				<div className={css.siteFooter}>
-					<Footer />
-				</div>
+			{/* <div className={css.siteWrapper}> */}
+			<nav className={css.siteHeader}>
+				<Menu headline={'BBCodegenerator 3.0'} />
+			</nav>
+			<body className={css.siteContent}>{children}</body>
+			<div className={css.siteFooter}>
+				<Footer />
 			</div>
-			;
+			{/* </div>; */}
 		</Fragment>
 	);
 }
