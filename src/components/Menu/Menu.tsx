@@ -1,8 +1,6 @@
 import { Fragment } from 'react';
 import css from './Menu.module.css';
-import type { MenuItem } from './menu.config';
 import { menuItems } from './menu.config';
-import type { ReactNode } from 'react';
 
 type Props = {
 	headline: string;
