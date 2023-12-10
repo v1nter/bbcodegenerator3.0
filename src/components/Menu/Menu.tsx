@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import css from './Menu.module.css';
 import { menuItems } from './menu.config';
+import Image from 'next/image';
 
 type Props = {
 	headline: string;
@@ -11,7 +12,7 @@ export default function Menu({ headline }: Props) {
 		<Fragment>
 			<div className={css.Menu}>
 				<div className={css.Headline}>
-					<img src="/Icon.bmp" />
+					<img src="/Icon.bmp" loading="eager" />
 					{headline}
 				</div>
 				<div className={css.Navbar}>

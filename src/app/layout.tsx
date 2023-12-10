@@ -27,7 +27,7 @@ export default function RootLayout({
 		<html>
 			<body className={css.siteWrapper}>
 				<nav className={css.siteHeader}>
-					<Menu headline={'BBCodegenerator 3.0'} />
+					<Menu headline={'BBCodeGenerator 3.0'} />
 				</nav>
 				{children}
 				{/* <Footer /> */}

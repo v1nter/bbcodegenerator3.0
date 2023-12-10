@@ -70,7 +70,6 @@
 	/* Inhalt */
 	display: flex;
 	gap: 1rem;
-	/* justify-content: center; */
 	align-items: center;
 
 	margin-bottom: 0.5rem;
@@ -114,14 +113,13 @@
 	padding-right: 0.5rem;
 	text-transform: uppercase;
 
-	/* padding: 0.5rem; */
+	height: 2rem;
 
 	border: 2px solid var(--primary-border);
-	/* border-radius: 25px; */
+	/* border: 2px solid var(--accent-pink); */
 
 	> .MenuIcon {
 		width: 2rem;
-		/* color: var(--font); */
 	}
 }
 
