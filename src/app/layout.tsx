@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 // Einbinden der Schriftart
 const antonStyles = Play({
-	weight: ['400'],
+	weight: ['400', '700'],
 	subsets: ['latin-ext'],
 	variable: '--font-1',
 });

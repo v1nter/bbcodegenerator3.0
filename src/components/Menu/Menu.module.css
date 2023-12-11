@@ -103,7 +103,8 @@
 
 .MenuItem {
 	/* Container */
-	flex: 1;
+	/* flex: 1; */
+	flex: 1 1 0px;
 
 	/* Inhalt */
 	display: flex;
@@ -113,11 +114,13 @@
 	padding-right: 0.5rem;
 	text-transform: uppercase;
 	font-family: var(--font-1);
+	font-weight: 700;
+	/* font-size: 20px; */
 	gap: 0.5rem;
 
 	height: 2rem;
 
-	border: 2px solid var(--primary-border);
+	/* border: 2px solid var(--primary-border); */
 
 	> .MenuIcon {
 		width: 2rem;
@@ -126,7 +129,7 @@
 
 .MenuItem:hover {
 	color: var(--accent-pink);
-	border: 2px solid var(--accent-pink);
+	/* border: 2px solid var(--accent-pink); */
 
 	.Link {
 		color: var(--accent-pink);
@@ -138,7 +141,3 @@
 	color: var(--font);
 	font-weight: bolder;
 }
-
-/* .Link:hover {
-	color: var(--accent-pink);
-} */
