@@ -46,6 +46,7 @@
 		white-space: nowrap;
 		font-size: 2.2rem;
 		font-weight: bolder;
+		font-family: var(--font-1);
 
 		@media (width >= 1366px) {
 			font-size: 2.2rem;
@@ -103,7 +104,6 @@
 .MenuItem {
 	/* Container */
 	flex: 1;
-	/* position: relative; */
 
 	/* Inhalt */
 	display: flex;
@@ -112,14 +112,24 @@
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 	text-transform: uppercase;
+	font-family: var(--font-1);
+	gap: 0.5rem;
 
 	height: 2rem;
 
 	border: 2px solid var(--primary-border);
-	/* border: 2px solid var(--accent-pink); */
 
 	> .MenuIcon {
 		width: 2rem;
+	}
+}
+
+.MenuItem:hover {
+	color: var(--accent-pink);
+	border: 2px solid var(--accent-pink);
+
+	.Link {
+		color: var(--accent-pink);
 	}
 }
 
@@ -129,10 +139,6 @@
 	font-weight: bolder;
 }
 
-.Link:link {
-	color: var(--font);
-}
-
-.MenuItem:hover {
+/* .Link:hover {
 	color: var(--accent-pink);
-}
+} */

@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import 'css/style.css';
 import css from './layout.module.css';
-import { Fragment } from 'react';
-import Menu from '@/components/Menu/Menu';
 import Footer from '@/components/Footer/Footer';
+import { Play } from 'next/font/google';
+import Header from '@/components/Header/Header';
 
 // const inter = Inter({ subsets: ['latin'] });
 
@@ -19,19 +18,24 @@ export const metadata: Metadata = {
 // Routing erfolgt per Folder: Wird ein Order "Spiele" angelegt, entsteht
 // eine Route /Spiele. Im Ordner muss dann eine entsprechende page.tsx liegen.
 
+// Einbinden der Schriftart
+const antonStyles = Play({
+	weight: ['400'],
+	subsets: ['latin-ext'],
+	variable: '--font-1',
+});
+
 export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
 	return (
-		<html>
-			<body className={css.siteWrapper}>
-				<nav className={css.siteHeader}>
-					<Menu headline={'BBCodeGenerator 3.0'} />
-				</nav>
-				{children}
-				{/* <Footer /> */}
+		<html lang="de">
+			<body className={`${css.siteWrapper} ${antonStyles.variable}`}>
+				<Header />
+				<div className={css.siteContent}>{children}</div>
+				{<Footer />}
 			</body>
 		</html>
 	);

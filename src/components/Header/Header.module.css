@@ -1,0 +1,7 @@
+.siteHeader {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	position: relative;
+	/* height: 5rem; */
+}

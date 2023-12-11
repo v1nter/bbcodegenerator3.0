@@ -15,17 +15,20 @@ export default function Menu({ headline }: Props) {
 					<img src="/Icon.bmp" loading="eager" />
 					{headline}
 				</div>
-				<div className={css.Navbar}>
-					{menuItems.map((item) => (
-						<div className={css.MenuItem} key={item.id}>
-							<object className={css.MenuIcon} data={`/Icons/${item.icon}`} />
-							<a className={css.Link} href={item.to}>
-								{item.name}
-							</a>
-						</div>
-					))}
-				</div>
+				<div className={css.Navbar}>{createMenuItems()}</div>
 			</div>
 		</Fragment>
 	);
+}
+
+function createMenuItems() {
+	return menuItems.map((item) => (
+		<a className={css.Link} href={item.to}>
+			<div className={css.MenuItem} key={item.id}>
+				{<item.icon size={22} className={css.MenuIcon} />}
+
+				{item.name}
+			</div>
+		</a>
+	));
 }
