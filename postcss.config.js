@@ -1,5 +1,3 @@
-const OpenProps = require('open-props');
-
 module.exports = {
 	plugins: [
 		'postcss-import',
