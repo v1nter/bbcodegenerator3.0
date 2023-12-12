@@ -1,10 +1,11 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import css from './Menu.module.css';
 import { menuItems } from './menu.config';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 type Props = {
 	headline: string;
@@ -12,6 +13,9 @@ type Props = {
 
 export default function Menu({ headline }: Props) {
 	const [menu, toggleMenu] = useState(false);
+	const pathname = usePathname();
+
+	useEffect(() => toggleMenu(false), [pathname, toggleMenu]);
 
 	return (
 		<Fragment>
