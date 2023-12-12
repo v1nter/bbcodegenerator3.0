@@ -1,13 +1,2 @@
 @import 'normalize.css';
 @import 'globals/colors.css';
-
-/* Template Media Queries */
-
-@media (width >= 1366px) {
-}
-
-@media (384px < width < 1366px) {
-}
-
-@media (width <= 384px) {
-}

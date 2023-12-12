@@ -1,7 +1,6 @@
 import prisma from '@/prisma/prisma';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
-import css from './page.module.css';
 
 type Props = {
 	params: {
@@ -20,7 +19,7 @@ export default async function EventDetail({ params }: Props) {
 	return (
 		<Fragment>
 			<h1>{event.event_name}</h1>
-			<table className={css.DetailTable}>
+			<table>
 				<tbody>
 					<tr>
 						<td>Album:</td>

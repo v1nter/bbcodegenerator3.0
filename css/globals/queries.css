@@ -1,3 +1,0 @@
-@custom-media --mobile (width <= 384px);
-@custom-media --tablet(384px < width < 1024px);
-@custome-media --desktop (width >= 1024px);
