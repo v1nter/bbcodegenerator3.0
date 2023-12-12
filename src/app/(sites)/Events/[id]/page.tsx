@@ -21,22 +21,24 @@ export default async function EventDetail({ params }: Props) {
 		<Fragment>
 			<h1>{event.event_name}</h1>
 			<table className={css.DetailTable}>
-				<tr>
-					<td>Album:</td>
-					<td>{event.event_album}</td>
-				</tr>
-				<tr>
-					<td>Aktuelles Event:</td>
-					<td>{event.event_is_current.toString()}</td>
-				</tr>
-				<tr>
-					<td>Hauptpost:</td>
-					<td>{event.event_mainPost}</td>
-				</tr>
-				<tr>
-					<td>Updatepost:</td>
-					<td>{event.event_updatePost}</td>
-				</tr>
+				<tbody>
+					<tr>
+						<td>Album:</td>
+						<td>{event.event_album}</td>
+					</tr>
+					<tr>
+						<td>Aktuelles Event:</td>
+						<td>{event.event_is_current.toString()}</td>
+					</tr>
+					<tr>
+						<td>Hauptpost:</td>
+						<td>{event.event_mainPost}</td>
+					</tr>
+					<tr>
+						<td>Updatepost:</td>
+						<td>{event.event_updatePost}</td>
+					</tr>
+				</tbody>
 			</table>
 		</Fragment>
 	);
