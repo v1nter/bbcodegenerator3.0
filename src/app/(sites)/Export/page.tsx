@@ -1,4 +1,4 @@
 type Props = {};
 export default function page({}: Props) {
-	return <div>Spiele</div>;
+	return <h1>Export</h1>;
 }

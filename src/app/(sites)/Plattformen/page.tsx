@@ -1,4 +1,4 @@
 type Props = {};
 export default function page({}: Props) {
-	return <div>Plattformen</div>;
+	return <h1>Plattformen</h1>;
 }

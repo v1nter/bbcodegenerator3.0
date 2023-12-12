@@ -12,16 +12,20 @@
 	--dark-grey: rgb(34, 34, 34);
 	--light-grey: rgb(50, 50, 50);
 	--moss-green: rgb(0, 90, 55);
-	--sun-yellow: rgb(185, 160, 0);
+	--dark-blue: rgba(9, 9, 121, 1);
+	--sun-yellow: rgba(127, 199, 218, 0.301);
 	--white: rgb(255, 255, 255);
-	--neon-pink: rgb(220, 35, 115);
+	--neon-pink: rgb(255, 40, 133);
 	--neon-green: rgb(50, 205, 115);
+	--baby-blue: rgba(0, 255, 234, 0.4);
 
 	/* Funktionen */
-	--primary-bg: var(--moss-green);
+	--primary-bg: var(--sun-yellow);
 	--secondary-bg: var(--sun-yellow);
 	--font: var(--white);
+	--secondary-font: var(--dark-blue);
 	--primary-border: var(--white);
+	--hover: var(--neon-pink);
 	--accent-pink: var(--neon-pink);
 	--accent-green: var(--neon-green);
 }

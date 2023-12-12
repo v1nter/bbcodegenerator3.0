@@ -1,0 +1,41 @@
+.TableWrapper {
+	display: flex;
+
+	@media (width >= 1366px) {
+		width: 40dvw;
+		font-size: 24px;
+	}
+
+	@media (384px < width < 1366px) {
+		font-size: 24px;
+	}
+
+	@media (width <= 384px) {
+		width: 80dvw;
+		font-size: 18px;
+	}
+}
+
+.EventTable {
+	/* border: solid; */
+	width: 100%;
+}
+
+.EventTableHeader {
+	border-bottom: 2px solid;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+
+.tdCentered {
+	text-align: center;
+}
+
+.Link {
+	text-decoration: none;
+	color: var(--secondary-font);
+}
+
+.Link:hover {
+	color: var(--hover);
+}

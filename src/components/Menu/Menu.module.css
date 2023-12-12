@@ -159,8 +159,8 @@
 }
 
 .MenuItem:hover {
-	color: var(--accent-green);
-	border: 2px solid var(--accent-green);
+	color: var(--hover);
+	border: 2px solid var(--hover);
 }
 
 .Link {
