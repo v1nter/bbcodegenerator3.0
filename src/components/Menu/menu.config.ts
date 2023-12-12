@@ -1,6 +1,6 @@
 import { TbDeviceGamepad } from 'react-icons/tb';
 import { HiOutlineShare } from 'react-icons/hi';
-import { GrUpdate } from 'react-icons/gr';
+import { RxUpdate } from 'react-icons/rx';
 import { TbDeviceDesktop } from 'react-icons/tb';
 import { RiCalendarEventLine } from 'react-icons/ri';
 import { IconType } from 'react-icons';
@@ -18,7 +18,7 @@ export const menuItems = [
 		name: 'Reihenupdate',
 		to: '/Reihenupdate',
 		// icon: 'Update.svg',
-		icon: GrUpdate,
+		icon: RxUpdate,
 	},
 	{
 		id: 3,
