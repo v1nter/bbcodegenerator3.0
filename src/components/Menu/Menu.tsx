@@ -4,6 +4,7 @@ import { Fragment, useState } from 'react';
 import css from './Menu.module.css';
 import { menuItems } from './menu.config';
 import { RxHamburgerMenu } from 'react-icons/rx';
+import Link from 'next/link';
 
 type Props = {
 	headline: string;
@@ -33,11 +34,11 @@ export default function Menu({ headline }: Props) {
 
 function createMenuItems() {
 	return menuItems.map((item) => (
-		<a key={item.id} className={css.Link} href={item.to}>
+		<Link key={item.id} className={css.Link} href={item.to}>
 			<div className={css.MenuItem}>
 				{<item.icon size={22} className={css.MenuIcon} />}
 				{item.name}
 			</div>
-		</a>
+		</Link>
 	));
 }
