@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import 'css/style.css';
+import '/css/style.css';
 import css from './layout.module.css';
 import Footer from '@/components/Footer/Footer';
 import { Play } from 'next/font/google';
