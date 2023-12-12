@@ -28,37 +28,37 @@
 		flex-direction: column;
 		flex-wrap: wrap;
 	}
+}
 
-	> .Headline {
-		/* Container */
-		flex: 1;
-		width: 15rem;
-		height: 5rem;
-		margin: auto;
-		margin-top: 0.5rem;
-		margin-bottom: 0.5rem;
-		gap: 0.5rem;
+.Headline {
+	/* Container */
+	flex: 1;
+	width: 15rem;
+	height: 5rem;
+	margin: auto;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+	gap: 0.5rem;
 
-		/* Inhalt */
-		display: flex;
-		justify-content: center; /* In Flexbox: Horizontal zentrieren */
-		align-items: center; /* In Flexbox: Vertikal zentrieren */
-		white-space: nowrap;
+	/* Inhalt */
+	display: flex;
+	justify-content: center; /* In Flexbox: Horizontal zentrieren */
+	align-items: center; /* In Flexbox: Vertikal zentrieren */
+	white-space: nowrap;
+	font-size: 2.2rem;
+	font-weight: bolder;
+	font-family: var(--font-1);
+
+	@media (width >= 1366px) {
 		font-size: 2.2rem;
-		font-weight: bolder;
-		font-family: var(--font-1);
+	}
 
-		@media (width >= 1366px) {
-			font-size: 2.2rem;
-		}
+	@media (384px < width < 1366px) {
+		font-size: 2.2rem;
+	}
 
-		@media (384px < width < 1366px) {
-			font-size: 2.2rem;
-		}
-
-		@media (width <= 384px) {
-			font-size: 1.8rem;
-		}
+	@media (width <= 384px) {
+		font-size: 1.8rem;
 	}
 }
 
@@ -152,10 +152,10 @@
 	height: 2rem;
 
 	border: 2px solid var(--primary-border);
+}
 
-	> .MenuIcon {
-		width: 2rem;
-	}
+.MenuIcon {
+	width: 2rem;
 }
 
 .MenuItem:hover {
