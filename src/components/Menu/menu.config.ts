@@ -4,6 +4,8 @@ import { RxUpdate } from 'react-icons/rx';
 import { TbDeviceDesktop } from 'react-icons/tb';
 import { RiCalendarEventLine } from 'react-icons/ri';
 import { IconType } from 'react-icons';
+import { GiGameConsole } from 'react-icons/gi';
+import { GiPlatform } from 'react-icons/gi';
 
 export const menuItems = [
 	{
@@ -32,7 +34,7 @@ export const menuItems = [
 		name: 'Plattformen',
 		to: '/Plattformen',
 		// icon: 'Platform.svg',
-		icon: TbDeviceDesktop,
+		icon: GiPlatform,
 	},
 	{
 		id: 5,

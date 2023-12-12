@@ -1,21 +1,31 @@
-import { Fragment } from 'react';
+'use client';
+
+import { Fragment, useState } from 'react';
 import css from './Menu.module.css';
 import { menuItems } from './menu.config';
-import Image from 'next/image';
+import { RxHamburgerMenu } from 'react-icons/rx';
 
 type Props = {
 	headline: string;
 };
 
 export default function Menu({ headline }: Props) {
+	const [menu, toggleMenu] = useState(false);
+
 	return (
 		<Fragment>
 			<div className={css.Menu}>
 				<div className={css.Headline}>
-					<img src="/Icon.bmp" loading="eager" />
+					<img src="/Icon.bmp" />
 					{headline}
 				</div>
-				<div className={css.Navbar}>{createMenuItems()}</div>
+				<div className={css.DesktopNavbar}>{createMenuItems()}</div>
+				<div className={css.MobileNavbar}>
+					<button className={css.MenuButton} onClick={() => toggleMenu(!menu)}>
+						<RxHamburgerMenu />
+					</button>
+					{menu && <div>{createMenuItems()}</div>}
+				</div>
 			</div>
 		</Fragment>
 	);
@@ -23,10 +33,9 @@ export default function Menu({ headline }: Props) {
 
 function createMenuItems() {
 	return menuItems.map((item) => (
-		<a className={css.Link} href={item.to}>
-			<div className={css.MenuItem} key={item.id}>
+		<a key={item.id} className={css.Link} href={item.to}>
+			<div className={css.MenuItem}>
 				{<item.icon size={22} className={css.MenuIcon} />}
-
 				{item.name}
 			</div>
 		</a>

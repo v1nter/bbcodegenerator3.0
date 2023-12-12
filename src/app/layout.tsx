@@ -3,6 +3,7 @@ import 'css/style.css';
 import css from './layout.module.css';
 import Footer from '@/components/Footer/Footer';
 import { Play } from 'next/font/google';
+import { Share_Tech_Mono } from 'next/font/google';
 import Header from '@/components/Header/Header';
 
 // const inter = Inter({ subsets: ['latin'] });
@@ -19,11 +20,16 @@ export const metadata: Metadata = {
 // eine Route /Spiele. Im Ordner muss dann eine entsprechende page.tsx liegen.
 
 // Einbinden der Schriftart
-const antonStyles = Play({
+const fontStyles = Play({
 	weight: ['400', '700'],
 	subsets: ['latin-ext'],
 	variable: '--font-1',
 });
+// const fontStyles = Share_Tech_Mono({
+// 	weight: ['400'],
+// 	subsets: ['latin'],
+// 	variable: '--font-1',
+// });
 
 export default function RootLayout({
 	children,
@@ -32,7 +38,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="de">
-			<body className={`${css.siteWrapper} ${antonStyles.variable}`}>
+			<body className={`${css.siteWrapper} ${fontStyles.variable}`}>
 				<Header />
 				<div className={css.siteContent}>{children}</div>
 				{<Footer />}
