@@ -7,12 +7,3 @@
 	font-family: var(--font-1);
 	color: var(--secondary-font);
 }
-
-.Link {
-	text-decoration: none;
-	color: var(--secondary-font);
-}
-
-.Link:hover {
-	color: var(--hover);
-}
