@@ -2,7 +2,6 @@ import getEvent from '@/lib/db/getEvent';
 import prisma from '@/prisma/prisma';
 import { notFound } from 'next/navigation';
 import { Fragment, useState } from 'react';
-import css from './page.module.css';
 
 type Props = {
 	params: {
@@ -59,7 +58,7 @@ export default async function EventDetail({ params }: Props) {
 						</tr>
 						<tr>
 							<td>Aktuelles Event:</td>
-							<td className={css.tdCentered}>
+							<td>
 								<input
 									type="checkbox"
 									name="event_is_current"
