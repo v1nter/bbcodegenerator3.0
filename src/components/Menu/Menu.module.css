@@ -33,8 +33,6 @@
 .Headline {
 	/* Container */
 	flex: 1;
-	width: 15rem;
-	height: 5rem;
 	margin: auto;
 	margin-top: 0.5rem;
 	margin-bottom: 0.5rem;
@@ -45,7 +43,6 @@
 	justify-content: center; /* In Flexbox: Horizontal zentrieren */
 	align-items: center; /* In Flexbox: Vertikal zentrieren */
 	white-space: nowrap;
-	font-size: 2.2rem;
 	font-weight: bolder;
 	font-family: var(--font-1);
 
@@ -62,63 +59,44 @@
 	}
 }
 
-.DesktopNavbar {
-	/* Container */
+.DesktopWrapper {
+	display: flex;
+	flex-direction: row;
+	flex: 2;
 
-	display: none;
-
-	/* Inhalt */
-
-	@media (width >= 1366px) {
-		display: flex;
-		width: 20rem;
-		margin: auto;
-		gap: 1rem;
-		align-items: center;
-		margin-bottom: 0.5rem;
-		margin-top: 0.5rem;
-
-		flex: 2;
-		justify-content: flex-start;
-		flex-wrap: nowrap;
-		margin-right: 5rem;
-	}
-
-	@media (384px < width < 1366px) {
-		display: flex;
-		width: 20rem;
-		margin: auto;
-		gap: 1rem;
-		align-items: center;
-		margin-bottom: 0.5rem;
-		margin-top: 0.5rem;
-
-		flex: 1;
-		justify-content: center;
-		flex-wrap: wrap;
-		margin-right: 5rem;
-	}
-
-	.MenuButton {
-		border: none;
-		background: transparent;
-		color: var(--font);
+	@media (width <= 384px) {
+		display: none;
 	}
 }
 
+.DesktopNavbar {
+	/* Container */
+	display: flex;
+	flex: 2;
+
+	/* Inhalt */
+	margin: auto;
+	gap: 1rem;
+	align-items: center;
+	margin-bottom: 0.5rem;
+	margin-top: 0.5rem;
+
+	justify-content: flex-start;
+	flex-wrap: nowrap;
+	margin-right: 5rem;
+}
+
 .MobileWrapper {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+
 	@media (width >= 1366px) {
 		display: none;
 	}
 
 	@media (384px < width < 1366px) {
 		display: none;
-	}
-
-	@media (width <= 384px) {
-		display: flex;
-		flex-direction: column;
-		flex: 1;
 	}
 
 	> .MenuButton {
@@ -136,15 +114,16 @@
 	/* Inhalt */
 
 	@media (width <= 384px) {
-		width: 20rem;
+		display: flex;
+
+		width: 90%;
 		margin: auto;
 		margin-bottom: 0.5rem;
 		margin-top: 0.5rem;
-		display: flex;
+
 		flex-direction: column;
-		gap: 1rem;
-		align-items: center;
 		flex: 1;
+		align-items: center;
 		justify-content: center;
 		flex-wrap: wrap;
 	}
@@ -152,7 +131,6 @@
 .MenuItem {
 	/* Container */
 	flex: 1;
-	flex-basis: 50%;
 
 	/* Inhalt */
 	display: flex;
@@ -183,4 +161,18 @@
 	text-decoration: none;
 	color: var(--font);
 	font-weight: bolder;
+	display: flex;
+	flex: 1;
+
+	@media (width >= 1366px) {
+		width: 10%;
+	}
+
+	@media (384px < width < 1366px) {
+		width: 45%;
+	}
+
+	@media (width <= 384px) {
+		width: 70%;
+	}
 }

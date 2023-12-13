@@ -24,7 +24,9 @@ export default function Menu({ headline }: Props) {
 					<img src="/Icon.bmp" alt="" width="32" height="32" />
 					{headline}
 				</div>
-				<div className={css.DesktopNavbar}>{createMenuItems()}</div>
+				<div className={css.DesktopWrapper}>
+					<div className={css.DesktopNavbar}>{createMenuItems()}</div>
+				</div>
 				<div className={css.MobileWrapper}>
 					<button className={css.MenuButton} onClick={() => toggleMenu(!menu)}>
 						<RxHamburgerMenu />
