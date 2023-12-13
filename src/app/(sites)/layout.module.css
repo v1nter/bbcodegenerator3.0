@@ -6,4 +6,6 @@
 
 	font-family: var(--font-1);
 	color: var(--secondary-font);
+
+	user-select: none;
 }

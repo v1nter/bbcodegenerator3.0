@@ -22,7 +22,7 @@ export default async function Events() {
 					</thead>
 					<tbody>
 						{events.map((event) => (
-							<tr>
+							<tr key={event.event_id}>
 								<td>
 									<Link className={css.Link} href={`/Events/${event.event_id}`}>
 										{event.event_name}
