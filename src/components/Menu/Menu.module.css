@@ -98,6 +98,34 @@
 		flex-wrap: wrap;
 		margin-right: 5rem;
 	}
+
+	.MenuButton {
+		border: none;
+		background: transparent;
+		color: var(--font);
+	}
+}
+
+.MobileWrapper {
+	@media (width >= 1366px) {
+		display: none;
+	}
+
+	@media (384px < width < 1366px) {
+		display: none;
+	}
+
+	@media (width <= 384px) {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+	}
+
+	> .MenuButton {
+		border: none;
+		background: transparent;
+		color: var(--font);
+	}
 }
 
 .MobileNavbar {
@@ -121,13 +149,6 @@
 		flex-wrap: wrap;
 	}
 }
-
-.MenuButton {
-	border: none;
-	background: transparent;
-	color: var(--font);
-}
-
 .MenuItem {
 	/* Container */
 	flex: 1;

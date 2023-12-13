@@ -21,15 +21,15 @@ export default function Menu({ headline }: Props) {
 		<Fragment>
 			<div className={css.Menu}>
 				<div className={css.Headline}>
-					<img src="/Icon.bmp" />
+					<img src="/Icon.bmp" alt="" width="32" height="32" />
 					{headline}
 				</div>
 				<div className={css.DesktopNavbar}>{createMenuItems()}</div>
-				<div className={css.MobileNavbar}>
+				<div className={css.MobileWrapper}>
 					<button className={css.MenuButton} onClick={() => toggleMenu(!menu)}>
 						<RxHamburgerMenu />
 					</button>
-					{menu && <div>{createMenuItems()}</div>}
+					{menu && <div className={css.MobileNavbar}>{createMenuItems()}</div>}
 				</div>
 			</div>
 		</Fragment>
