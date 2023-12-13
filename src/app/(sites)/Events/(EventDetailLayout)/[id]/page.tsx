@@ -40,7 +40,7 @@ export default async function EventDetail({ params }: Props) {
 	return (
 		<Fragment>
 			<h1>{event.event_name}</h1>
-			{/* <table>
+			<table>
 				<tbody>
 					<tr>
 						<td>Name:</td>
@@ -93,7 +93,7 @@ export default async function EventDetail({ params }: Props) {
 						</td>
 					</tr>
 				</tbody>
-			</table> */}
+			</table>
 		</Fragment>
 	);
 }
