@@ -41,60 +41,52 @@ export default async function EventDetail({ params }: Props) {
 	return (
 		<Fragment>
 			<h1>{event.event_name}</h1>
-			<form>
-				<table>
-					<tbody>
-						<tr>
-							<td>Name:</td>
-							<td>
-								<input type="text" name="event_album" value={dbEvent.name} />
-							</td>
-						</tr>
-						<tr>
-							<td>Album:</td>
-							<td>
-								<input type="text" name="event_album" value={dbEvent.album} />
-							</td>
-						</tr>
-						<tr>
-							<td>Aktuelles Event:</td>
-							<td>
-								<input
-									type="checkbox"
-									name="event_is_current"
-									checked={dbEvent.currentEvent}
-								/>
-							</td>
-						</tr>
-						<tr>
-							<td>Hauptpost:</td>
-							<td>
-								<input
-									type="text"
-									name="event_mainPost"
-									value={dbEvent.mainPost}
-								/>
-							</td>
-						</tr>
-						<tr>
-							<td>Updatepost:</td>
-							<td>
-								<input
-									type="text"
-									name="event_updatePost"
-									value={dbEvent.updatePost}
-								/>
-							</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<button type="submit">Speichern</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</form>
+			<table>
+				<tbody>
+					<tr>
+						<td>Name:</td>
+						<td>
+							<input type="text" name="event_album" value={dbEvent.name} />
+						</td>
+					</tr>
+					<tr>
+						<td>Album:</td>
+						<td>
+							<input type="text" name="event_album" value={dbEvent.album} />
+						</td>
+					</tr>
+					<tr>
+						<td>Aktuelles Event:</td>
+						<td>
+							<input
+								type="checkbox"
+								name="event_is_current"
+								checked={dbEvent.currentEvent}
+							/>
+						</td>
+					</tr>
+					<tr>
+						<td>Hauptpost:</td>
+						<td>
+							<input
+								type="text"
+								name="event_mainPost"
+								value={dbEvent.mainPost}
+							/>
+						</td>
+					</tr>
+					<tr>
+						<td>Updatepost:</td>
+						<td>
+							<input
+								type="text"
+								name="event_updatePost"
+								value={dbEvent.updatePost}
+							/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</Fragment>
 	);
 }
