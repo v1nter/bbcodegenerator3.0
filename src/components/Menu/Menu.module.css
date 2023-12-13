@@ -65,6 +65,8 @@
 .DesktopNavbar {
 	/* Container */
 
+	display: none;
+
 	width: 20rem;
 	margin: auto;
 
@@ -95,30 +97,17 @@
 		flex-wrap: wrap;
 		margin-right: 5rem;
 	}
-
-	@media (width <= 384px) {
-		/* flex: 1;
-		justify-content: center;
-		flex-wrap: wrap; */
-		display: none;
-	}
 }
 
 .MobileNavbar {
 	/* Container */
 
+	display: none;
+
 	width: 20rem;
 	margin: auto;
 
 	/* Inhalt */
-
-	@media (width >= 1366px) {
-		display: none;
-	}
-
-	@media (384px < width < 1366px) {
-		display: none;
-	}
 
 	@media (width <= 384px) {
 		margin-bottom: 0.5rem;
