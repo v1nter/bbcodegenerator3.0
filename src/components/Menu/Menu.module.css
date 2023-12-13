@@ -15,16 +15,19 @@
 	user-select: none;
 
 	@media (width >= 1366px) {
+		height: 10dvh;
 		flex-direction: row;
 		flex-wrap: nowrap;
 	}
 
 	@media (384px < width < 1366px) {
+		height: 10dvh;
 		flex-direction: row;
 		flex-wrap: nowrap;
 	}
 
 	@media (width <= 384px) {
+		height: auto;
 		flex-direction: column;
 		flex-wrap: wrap;
 	}
@@ -100,6 +103,7 @@
 	}
 
 	> .MenuButton {
+		flex: 1;
 		border: none;
 		background: transparent;
 		color: var(--font);
