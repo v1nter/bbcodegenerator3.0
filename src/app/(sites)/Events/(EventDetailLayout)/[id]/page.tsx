@@ -1,7 +1,6 @@
-import getEvent from '@/lib/db/getEvent';
 import prisma from '@/prisma/prisma';
 import { notFound } from 'next/navigation';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 
 type Props = {
 	params: {
@@ -45,45 +44,53 @@ export default async function EventDetail({ params }: Props) {
 				<tbody>
 					<tr>
 						<td>Name:</td>
-						{/* <td>
-							<input type="text" name="event_album" value={dbEvent.name} />
-						</td> */}
+						<td>
+							<input
+								type="text"
+								name="event_album"
+								defaultValue={dbEvent.name}
+							/>
+						</td>
 					</tr>
 					<tr>
 						<td>Album:</td>
-						{/* <td>
-							<input type="text" name="event_album" value={dbEvent.album} />
-						</td> */}
+						<td>
+							<input
+								type="text"
+								name="event_album"
+								defaultValue={dbEvent.album}
+							/>
+						</td>
 					</tr>
 					<tr>
 						<td>Aktuelles Event:</td>
-						{/* <td>
+						<td>
 							<input
 								type="checkbox"
 								name="event_is_current"
-								checked={dbEvent.currentEvent}
+								defaultChecked={dbEvent.currentEvent}
 							/>
-						</td> */}
+						</td>
 					</tr>
 					<tr>
 						<td>Hauptpost:</td>
-						{/* <td>
+						<td>
 							<input
 								type="text"
 								name="event_mainPost"
-								value={dbEvent.mainPost}
+								defaultValue={dbEvent.mainPost}
 							/>
-						</td> */}
+						</td>
 					</tr>
 					<tr>
 						<td>Updatepost:</td>
-						{/* <td>
+						<td>
 							<input
 								type="text"
 								name="event_updatePost"
-								value={dbEvent.updatePost}
+								defaultValue={dbEvent.updatePost}
 							/>
-						</td> */}
+						</td>
 					</tr>
 				</tbody>
 			</table>
