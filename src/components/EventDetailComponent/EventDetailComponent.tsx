@@ -1,7 +1,9 @@
 'use client';
 
-import { Fragment, useState } from 'react';
-import type { Event } from '@prisma/client';
+import { FormEvent, Fragment, useState } from 'react';
+import { type Event } from '@prisma/client';
+import css from './EventDetailComponent.module.css';
+import { UpdateOrCreateEvent } from '@/prisma/UpdateOrCreateEvent';
 
 type Props = {
 	event: Event;
@@ -13,7 +15,7 @@ export default function EventDetail({ event }: Props) {
 	return (
 		<Fragment>
 			<h1>{eventData.event_name}</h1>
-			<form>
+			<form onSubmit={(e) => handleSave(eventData, e)}>
 				<table>
 					<tbody>
 						<tr>
@@ -54,7 +56,7 @@ export default function EventDetail({ event }: Props) {
 						</tr>
 						<tr>
 							<td>Aktuelles Event:</td>
-							<td>
+							<td className={css.tdCentered}>
 								<input
 									type="checkbox"
 									name="event_is_current"
@@ -117,4 +119,20 @@ export default function EventDetail({ event }: Props) {
 			</form>
 		</Fragment>
 	);
+}
+
+async function handleSave(event: Event, e: FormEvent) {
+	e.preventDefault();
+
+	try {
+		fetch('/api/Events/UpdateOrCreateEvent', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(event),
+		});
+	} catch (error) {
+		console.log('catch');
+
+		console.error(error);
+	}
 }
