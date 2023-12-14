@@ -3,6 +3,7 @@
 import { FormEvent, Fragment, useState } from 'react';
 import { type Event } from '@prisma/client';
 import css from './EventDetailComponent.module.css';
+import prisma from '@/prisma/prisma';
 
 type Props = {
 	event: Event;
@@ -10,6 +11,32 @@ type Props = {
 
 export default function EventDetail({ event }: Props) {
 	const [eventData, setEventData] = useState(event);
+
+	// const UpdateOrCreateEvent = async (formData: FormData) => {
+	// 	'use server';
+
+	// 	formData.get('event_name');
+
+	// 	prisma.event.upsert({
+	// 		where: {
+	// 			event_id: event.event_id,
+	// 		},
+	// 		update: {
+	// 			event_name: event.event_name,
+	// 			event_album: event.event_album,
+	// 			event_is_current: event.event_is_current,
+	// 			event_mainPost: event.event_mainPost,
+	// 			event_updatePost: event.event_updatePost,
+	// 		},
+	// 		create: {
+	// 			event_name: event.event_name,
+	// 			event_album: event.event_album,
+	// 			event_is_current: event.event_is_current,
+	// 			event_mainPost: event.event_mainPost,
+	// 			event_updatePost: event.event_updatePost,
+	// 		},
+	// 	});
+	// };
 
 	return (
 		<Fragment>
@@ -19,6 +46,7 @@ export default function EventDetail({ event }: Props) {
 					handleSave(eventData, e);
 				}}
 			>
+				{/* <form action={UpdateOrCreateEvent}> */}
 				<table>
 					<tbody>
 						<tr>
@@ -26,7 +54,7 @@ export default function EventDetail({ event }: Props) {
 							<td>
 								<input
 									type="text"
-									name="event_album"
+									name="event_name"
 									value={eventData.event_name}
 									onChange={(e) => {
 										const newEvent = {

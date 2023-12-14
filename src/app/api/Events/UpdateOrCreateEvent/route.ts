@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/prisma/prisma';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 
 export async function POST(request: Request) {
 	const res = await request.json();
@@ -25,7 +25,8 @@ export async function POST(request: Request) {
 		},
 	});
 
-	revalidateTag('Events');
+	revalidatePath('/Events');
+	revalidatePath('/Events/(EventDetailLayout)/[id]');
 
 	return NextResponse.json({ result });
 }

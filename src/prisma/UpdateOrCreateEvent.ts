@@ -1,7 +1,9 @@
 import type { Event } from '@prisma/client';
 import prisma from './prisma';
+import { NextResponse } from 'next/server';
 
 export async function UpdateOrCreateEvent(event: Event) {
+	'use server';
 	console.log('???');
 
 	const update = await prisma.event.upsert({
@@ -23,4 +25,6 @@ export async function UpdateOrCreateEvent(event: Event) {
 			event_updatePost: event.event_updatePost,
 		},
 	});
+
+	return NextResponse.json({ update });
 }
