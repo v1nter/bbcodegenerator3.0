@@ -136,17 +136,12 @@ export default function EventDetail({ event }: Props) {
 async function handleSave(event: Event, e: FormEvent) {
 	e.preventDefault();
 
-	const pathFromEnvironment: string = checkEnvironment();
-
 	try {
-		const result = await fetch(
-			`${pathFromEnvironment}/api/Events/UpdateOrCreateEvent`,
-			{
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(event),
-			}
-		);
+		const result = await fetch(`/api/Events/UpdateOrCreateEvent`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(event),
+		});
 
 		alert(result.status);
 	} catch (error) {

@@ -2,6 +2,7 @@ import prisma from '@/prisma/prisma';
 import { notFound } from 'next/navigation';
 import EventDetailComponent from '@/components/EventDetailComponent/EventDetailComponent';
 import type { Event } from '@prisma/client';
+import { checkEnvironment } from '@/app/lib/checkEnvironment';
 
 type Props = {
 	params: {
@@ -16,8 +17,10 @@ export const fetchCache = 'force-no-store';
 export default async function EventDetail({ params }: Props) {
 	// const event: Event = (await getEventDetail(params.id)) as Event;
 
+	const pathFromEnvironment: string = checkEnvironment();
+
 	const response = await fetch(
-		`http://localhost:3000/api/Events/GetEventDetail/${params.id}`,
+		`${pathFromEnvironment}/api/Events/GetEventDetail/${params.id}`,
 		{
 			method: 'GET',
 		}
