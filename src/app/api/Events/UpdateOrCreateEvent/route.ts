@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import { NextApiRequest } from 'next';
-import { NextApiResponse } from 'next';
 import prisma from '@/prisma/prisma';
+import { revalidateTag } from 'next/cache';
 
 export async function POST(request: Request) {
 	const res = await request.json();
@@ -25,6 +24,8 @@ export async function POST(request: Request) {
 			event_updatePost: res.event_updatePost,
 		},
 	});
+
+	revalidateTag('Events');
 
 	return NextResponse.json({ result });
 }
