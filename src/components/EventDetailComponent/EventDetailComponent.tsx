@@ -3,7 +3,6 @@
 import { FormEvent, Fragment, useState } from 'react';
 import { type Event } from '@prisma/client';
 import css from './EventDetailComponent.module.css';
-import { useRouter } from 'next/navigation';
 
 type Props = {
 	event: Event;
@@ -11,7 +10,6 @@ type Props = {
 
 export default function EventDetail({ event }: Props) {
 	const [eventData, setEventData] = useState(event);
-	const router = useRouter();
 
 	return (
 		<Fragment>
@@ -19,7 +17,6 @@ export default function EventDetail({ event }: Props) {
 			<form
 				onSubmit={(e) => {
 					handleSave(eventData, e);
-					router.refresh();
 				}}
 			>
 				<table>
@@ -135,7 +132,7 @@ async function handleSave(event: Event, e: FormEvent) {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(event),
-			next: { tags: ['Events'] },
+			next: { revalidate: 10 },
 		});
 	} catch (error) {
 		console.log('catch');
