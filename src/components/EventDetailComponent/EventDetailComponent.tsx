@@ -19,7 +19,7 @@ export default function EventDetail({ event }: Props) {
 			<form
 				onSubmit={(e) => {
 					handleSave(eventData, e);
-					router.refresh;
+					router.refresh();
 				}}
 			>
 				<table>
