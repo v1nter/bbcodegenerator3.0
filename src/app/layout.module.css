@@ -9,4 +9,5 @@
 	flex-direction: column;
 	flex: 1;
 	background-color: var(--primary-bg);
+	margin: 0;
 }

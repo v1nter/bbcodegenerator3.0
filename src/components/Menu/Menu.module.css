@@ -2,6 +2,8 @@
 	/* Container */
 	flex: 1;
 
+	height: auto;
+
 	/* Inhalt */
 	display: flex;
 
@@ -15,19 +17,18 @@
 	user-select: none;
 
 	@media (width >= 1366px) {
-		height: 10dvh;
+		min-height: 10dvh;
 		flex-direction: row;
 		flex-wrap: nowrap;
 	}
 
-	@media (384px < width < 1366px) {
-		height: 10dvh;
+	@media (876px < width < 1366px) {
+		min-height: 10dvh;
 		flex-direction: row;
 		flex-wrap: nowrap;
 	}
 
-	@media (width <= 384px) {
-		height: auto;
+	@media (width <= 876px) {
 		flex-direction: column;
 		flex-wrap: wrap;
 	}
@@ -39,6 +40,8 @@
 	margin: auto;
 	margin-top: 0.5rem;
 	margin-bottom: 0.5rem;
+	margin-right: 1rem;
+	margin-left: 1rem;
 	gap: 0.5rem;
 
 	/* Inhalt */
@@ -53,12 +56,16 @@
 		font-size: 2.2rem;
 	}
 
-	@media (384px < width < 1366px) {
+	@media (876px < width < 1366px) {
 		font-size: 2.2rem;
 	}
 
-	@media (width <= 384px) {
+	@media (366px <= width <= 876px) {
 		font-size: 1.8rem;
+	}
+
+	@media (width < 366px) {
+		font-size: 1rem;
 	}
 }
 
@@ -66,8 +73,11 @@
 	display: flex;
 	flex-direction: row;
 	flex: 2;
+	/* flex-wrap: wrap; */
 
-	@media (width <= 384px) {
+	/* border: solid; */
+
+	@media (width <= 876px) {
 		display: none;
 	}
 }
@@ -75,17 +85,18 @@
 .DesktopNavbar {
 	/* Container */
 	display: flex;
-	flex: 2;
+	flex: 1;
+	height: auto;
 
 	/* Inhalt */
-	margin: auto;
+	/* margin: auto; */
 	gap: 1rem;
 	align-items: center;
 	margin-bottom: 0.5rem;
 	margin-top: 0.5rem;
 
-	justify-content: flex-start;
-	flex-wrap: nowrap;
+	justify-content: center;
+	flex-wrap: wrap;
 	margin-right: 5rem;
 }
 
@@ -98,12 +109,13 @@
 		display: none;
 	}
 
-	@media (384px < width < 1366px) {
+	@media (876px < width < 1366px) {
 		display: none;
 	}
 
 	> .MenuButton {
 		flex: 1;
+		font-size: 40px;
 		border: none;
 		background: transparent;
 		color: var(--font);
@@ -117,7 +129,7 @@
 
 	/* Inhalt */
 
-	@media (width <= 384px) {
+	@media (width <= 876px) {
 		display: flex;
 
 		width: 90%;
@@ -138,6 +150,7 @@
 
 	/* Inhalt */
 	display: flex;
+	flex: 1;
 	justify-content: center;
 	align-items: center;
 	padding-left: 0.5rem;
@@ -168,15 +181,7 @@
 	display: flex;
 	flex: 1;
 
-	@media (width >= 1366px) {
-		width: 10%;
-	}
-
-	@media (384px < width < 1366px) {
-		width: 45%;
-	}
-
-	@media (width <= 384px) {
-		width: 70%;
+	@media (width <= 876px) {
+		width: 60%;
 	}
 }

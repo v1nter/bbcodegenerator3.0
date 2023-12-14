@@ -6,11 +6,11 @@
 		font-size: 24px;
 	}
 
-	@media (384px < width < 1366px) {
+	@media (876px < width < 1366px) {
 		font-size: 24px;
 	}
 
-	@media (width <= 384px) {
+	@media (width <= 876px) {
 		width: 80dvw;
 		font-size: 18px;
 	}
