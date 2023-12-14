@@ -3,15 +3,27 @@ import { Fragment } from 'react';
 import css from './page.module.css';
 import { FaCheck } from 'react-icons/fa6';
 import Link from 'next/link';
-import { GetStaticProps } from 'next';
+import type { Event } from '@prisma/client';
+import { checkEnvironment } from '@/app/lib/checkEnvironment';
 
 export const dynamic = 'force-dynamic';
 // export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 export default async function Events() {
-	const events = await prisma.event.findMany({
-		orderBy: [{ event_is_current: 'desc' }],
+	// const events = await prisma.event.findMany({
+	// 	orderBy: [{ event_is_current: 'desc' }],
+	// });
+
+	const pathFromEnvironment: string = checkEnvironment();
+
+	const response = await fetch(`${pathFromEnvironment}/api/Events/GetEvents`, {
+		cache: 'no-store',
 	});
+
+	const events = (await response.json()) as Event[];
+
+	// console.log(data);
 
 	return (
 		<Fragment>
@@ -43,18 +55,3 @@ export default async function Events() {
 		</Fragment>
 	);
 }
-
-// export const getStaticProps: GetStaticProps = async () => {
-
-// 	// On-Demand-Revalidation
-// 	// export const dynamic = "force-dynamic";
-
-// 	const events = await prisma.event.findMany({
-// 		orderBy: [{ event_is_current: 'desc' }],
-// 	});
-
-// 	return {
-// 		props: { events },
-// 		revalidate:
-// 	}
-// }

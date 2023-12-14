@@ -3,50 +3,31 @@
 import { FormEvent, Fragment, useState } from 'react';
 import { type Event } from '@prisma/client';
 import css from './EventDetailComponent.module.css';
-import prisma from '@/prisma/prisma';
+import { useRouter } from 'next/navigation';
+import { checkEnvironment } from '@/app/lib/checkEnvironment';
 
 type Props = {
 	event: Event;
 };
 
+// export const dynamicParams = true;
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+// export const revalidate = 0;
+
 export default function EventDetail({ event }: Props) {
 	const [eventData, setEventData] = useState(event);
-
-	// const UpdateOrCreateEvent = async (formData: FormData) => {
-	// 	'use server';
-
-	// 	formData.get('event_name');
-
-	// 	prisma.event.upsert({
-	// 		where: {
-	// 			event_id: event.event_id,
-	// 		},
-	// 		update: {
-	// 			event_name: event.event_name,
-	// 			event_album: event.event_album,
-	// 			event_is_current: event.event_is_current,
-	// 			event_mainPost: event.event_mainPost,
-	// 			event_updatePost: event.event_updatePost,
-	// 		},
-	// 		create: {
-	// 			event_name: event.event_name,
-	// 			event_album: event.event_album,
-	// 			event_is_current: event.event_is_current,
-	// 			event_mainPost: event.event_mainPost,
-	// 			event_updatePost: event.event_updatePost,
-	// 		},
-	// 	});
-	// };
+	// const router = useRouter();
 
 	return (
 		<Fragment>
-			<h1>{eventData.event_name}</h1>
+			<h1>{event.event_name}</h1>
 			<form
 				onSubmit={(e) => {
 					handleSave(eventData, e);
+					// router.push('/Events');
 				}}
 			>
-				{/* <form action={UpdateOrCreateEvent}> */}
 				<table>
 					<tbody>
 						<tr>
@@ -155,16 +136,20 @@ export default function EventDetail({ event }: Props) {
 async function handleSave(event: Event, e: FormEvent) {
 	e.preventDefault();
 
-	try {
-		await fetch('/api/Events/UpdateOrCreateEvent', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(event),
-			next: { revalidate: 10 },
-		});
-	} catch (error) {
-		console.log('catch');
+	const pathFromEnvironment: string = checkEnvironment();
 
-		console.error(error);
+	try {
+		const result = await fetch(
+			`${pathFromEnvironment}/api/Events/UpdateOrCreateEvent`,
+			{
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(event),
+			}
+		);
+
+		alert(result.status);
+	} catch (error) {
+		alert(error);
 	}
 }

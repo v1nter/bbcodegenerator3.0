@@ -10,9 +10,20 @@ type Props = {
 };
 
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+// export const revalidate = 0;
 
 export default async function EventDetail({ params }: Props) {
-	const event: Event = (await getEventDetail(params.id)) as Event;
+	// const event: Event = (await getEventDetail(params.id)) as Event;
+
+	const response = await fetch(
+		`http://localhost:3000/api/Events/GetEventDetail/${params.id}`,
+		{
+			method: 'GET',
+		}
+	);
+
+	const event = (await response.json()) as Event;
 
 	if (event === null || event == undefined) {
 		notFound();
