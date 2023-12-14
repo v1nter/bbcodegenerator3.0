@@ -9,6 +9,8 @@ type Props = {
 	};
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function EventDetail({ params }: Props) {
 	const event: Event = (await getEventDetail(params.id)) as Event;
 

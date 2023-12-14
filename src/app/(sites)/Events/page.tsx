@@ -5,8 +5,8 @@ import { FaCheck } from 'react-icons/fa6';
 import Link from 'next/link';
 import { GetStaticProps } from 'next';
 
-// export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
+// export const revalidate = 0;
 
 export default async function Events() {
 	const events = await prisma.event.findMany({
