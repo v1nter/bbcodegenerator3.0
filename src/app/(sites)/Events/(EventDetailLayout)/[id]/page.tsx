@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
+// export const fetchCache = 'force-no-store';
 // export const revalidate = 0;
 
 export default async function EventDetail({ params }: Props) {
@@ -20,10 +20,7 @@ export default async function EventDetail({ params }: Props) {
 	const pathFromEnvironment: string = checkEnvironment();
 
 	const response = await fetch(
-		`${pathFromEnvironment}/api/Events/GetEventDetail/${params.id}`,
-		{
-			method: 'GET',
-		}
+		`${pathFromEnvironment}/api/Events/GetEventDetail/${params.id}`
 	);
 
 	const event = (await response.json()) as Event;
