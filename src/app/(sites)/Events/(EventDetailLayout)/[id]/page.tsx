@@ -19,7 +19,7 @@ export default async function EventDetail({ params }: Props) {
 	return <EventDetailComponent event={event} />;
 }
 
-export async function getEventDetail(id: string) {
+async function getEventDetail(id: string) {
 	const event = await prisma.event.findUnique({
 		where: { event_id: parseInt(id) },
 	});
