@@ -39,3 +39,7 @@
 .Link:hover {
 	color: var(--hover);
 }
+
+.newEvent {
+	margin-bottom: 1rem;
+}

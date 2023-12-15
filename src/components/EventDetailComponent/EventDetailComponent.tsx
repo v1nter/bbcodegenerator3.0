@@ -1,27 +1,44 @@
 'use client';
 
-import { FormEvent, Fragment, useState } from 'react';
+import { FormEvent, Fragment, useEffect, useState } from 'react';
 import { type Event } from '@prisma/client';
 import css from './EventDetailComponent.module.css';
 import { useRouter } from 'next/navigation';
-import { checkEnvironment } from '@/app/lib/checkEnvironment';
 
 type Props = {
 	event: Event;
 };
 
-// export const dynamicParams = true;
 export const dynamic = 'force-dynamic';
-// export const fetchCache = 'force-no-store';
-// export const revalidate = 0;
 
 export default function EventDetail({ event }: Props) {
 	const [eventData, setEventData] = useState(event);
 	const router = useRouter();
 
+	useEffect(() => {
+		if (!event.event_id) {
+			console.log('Keine Event ID');
+
+			const newEvent: Event = {
+				event_name: '',
+				event_album: '',
+				event_is_current: true,
+				event_mainPost: '',
+				event_updatePost: '',
+				event_id: 0,
+			};
+
+			setEventData(newEvent);
+		}
+	}, []);
+
 	return (
 		<Fragment>
-			<h1>{event.event_name}</h1>
+			{event.event_id ? (
+				<h1>{event.event_name}</h1>
+			) : (
+				<h1>Neues Event anlegen</h1>
+			)}
 			<form
 				onSubmit={(e) => {
 					handleSave(eventData, e);
@@ -36,7 +53,7 @@ export default function EventDetail({ event }: Props) {
 								<input
 									type="text"
 									name="event_name"
-									value={eventData.event_name}
+									value={eventData.event_name || ''}
 									onChange={(e) => {
 										const newEvent = {
 											...eventData,
@@ -54,7 +71,7 @@ export default function EventDetail({ event }: Props) {
 								<input
 									type="text"
 									name="event_album"
-									value={eventData.event_album}
+									value={eventData.event_album || ''}
 									onChange={(e) => {
 										const newEvent = {
 											...eventData,
@@ -72,7 +89,7 @@ export default function EventDetail({ event }: Props) {
 								<input
 									type="checkbox"
 									name="event_is_current"
-									checked={eventData.event_is_current}
+									checked={eventData.event_is_current || false}
 									onChange={(e) => {
 										const newEvent = {
 											...eventData,
@@ -90,7 +107,7 @@ export default function EventDetail({ event }: Props) {
 								<input
 									type="text"
 									name="event_mainPost"
-									value={eventData.event_mainPost}
+									value={eventData.event_mainPost || ''}
 									onChange={(e) => {
 										const newEvent = {
 											...eventData,
@@ -108,7 +125,7 @@ export default function EventDetail({ event }: Props) {
 								<input
 									type="text"
 									name="event_updatePost"
-									value={eventData.event_updatePost}
+									value={eventData.event_updatePost || ''}
 									onChange={(e) => {
 										const newEvent = {
 											...eventData,
@@ -146,8 +163,4 @@ async function handleSave(event: Event, e: FormEvent) {
 	} catch (error) {
 		alert(error);
 	}
-}
-
-function test() {
-	console.log('test');
 }

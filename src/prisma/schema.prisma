@@ -21,7 +21,7 @@ datasource db {
 // #############################################################################
 
 model Event {
-    event_id         Int         @id @default(autoincrement())
+    event_id         Int         @id @unique @default(autoincrement())
     event_name       String      @unique
     event_is_current Boolean
     event_album      String

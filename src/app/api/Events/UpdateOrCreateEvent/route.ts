@@ -5,6 +5,9 @@ import { revalidatePath } from 'next/cache';
 export async function POST(request: Request) {
 	revalidatePath('/Events');
 	revalidatePath('/Events/[id]', 'page');
+
+	console.log('???');
+
 	try {
 		const res = await request.json();
 
@@ -29,5 +32,7 @@ export async function POST(request: Request) {
 		});
 
 		return NextResponse.json({ result });
-	} catch (error) {}
+	} catch (error) {
+		console.log(error);
+	}
 }
