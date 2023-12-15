@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import EventDetailComponent from '@/components/EventDetailComponent/EventDetailComponent';
 import type { Event } from '@prisma/client';
 import { checkEnvironment } from '@/app/lib/checkEnvironment';
+import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
 
 type Props = {
 	params: {
@@ -19,12 +20,14 @@ export default async function EventDetail({ params }: Props) {
 
 	const pathFromEnvironment: string = checkEnvironment();
 
+	noStore();
 	const response = await fetch(
 		`${pathFromEnvironment}/api/Events/GetEventDetail/${params.id}`,
 		{
 			next: { revalidate: 0 },
 		}
 	);
+	revalidatePath('/');
 
 	const event = (await response.json()) as Event;
 

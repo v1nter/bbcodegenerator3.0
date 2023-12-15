@@ -5,6 +5,7 @@ import { FaCheck } from 'react-icons/fa6';
 import Link from 'next/link';
 import type { Event } from '@prisma/client';
 import { checkEnvironment } from '@/app/lib/checkEnvironment';
+import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -17,9 +18,11 @@ export default async function Events() {
 
 	const pathFromEnvironment: string = checkEnvironment();
 
+	noStore();
 	const response = await fetch(`${pathFromEnvironment}/api/Events/GetEvents`, {
 		next: { revalidate: 0 },
 	});
+	revalidatePath('/');
 
 	const events = (await response.json()) as Event[];
 
