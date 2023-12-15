@@ -8,7 +8,7 @@ import { checkEnvironment } from '@/app/lib/checkEnvironment';
 import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// export const revalidate = 0;
 // export const fetchCache = 'force-no-store';
 
 export default async function Events() {
@@ -19,11 +19,11 @@ export default async function Events() {
 	const pathFromEnvironment: string = checkEnvironment();
 
 	noStore();
+	revalidatePath('/');
 	const response = await fetch(`${pathFromEnvironment}/api/Events/GetEvents`, {
 		cache: 'reload',
 		next: { revalidate: 0 },
 	});
-	revalidatePath('/');
 
 	const events = (await response.json()) as Event[];
 

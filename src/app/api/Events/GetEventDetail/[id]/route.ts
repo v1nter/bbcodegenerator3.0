@@ -1,5 +1,5 @@
 import prisma from '@/prisma/prisma';
-import { NextResponse } from 'next/server';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 type Props = {
 	params: {
@@ -7,7 +7,13 @@ type Props = {
 	};
 };
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request, { params }: Props) {
+	revalidatePath('/Events');
+	revalidatePath(`/Events/${params.id}`, 'page');
+	revalidateTag('Events');
+
 	const event = await prisma.event.findUnique({
 		where: { event_id: parseInt(params.id) },
 	});

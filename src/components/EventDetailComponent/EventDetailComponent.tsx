@@ -141,6 +141,7 @@ async function handleSave(event: Event, e: FormEvent) {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(event),
+			next: { tags: ['Events'] },
 		});
 
 		alert(result.status);
