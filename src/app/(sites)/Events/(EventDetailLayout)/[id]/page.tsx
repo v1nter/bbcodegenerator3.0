@@ -4,7 +4,6 @@ import EventDetailComponent from '@/components/EventDetailComponent/EventDetailC
 import type { Event } from '@prisma/client';
 import { checkEnvironment } from '@/app/lib/checkEnvironment';
 import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
-
 type Props = {
 	params: {
 		id: string;
@@ -20,12 +19,16 @@ export default async function EventDetail({ params }: Props) {
 
 	const pathFromEnvironment: string = checkEnvironment();
 
+	const revalidate = await fetch(
+		`${pathFromEnvironment}/api/revalidate?path=/Events/${params.id}&secret=${process.env.REVALIDATE_SECRET}`
+	);
+
 	noStore();
 	const response = await fetch(
 		`${pathFromEnvironment}/api/Events/GetEventDetail/${params.id}`,
 		{
 			cache: 'reload',
-			next: { revalidate: 0 },
+			// next: { revalidate: 0 },
 		}
 	);
 	revalidatePath('/');

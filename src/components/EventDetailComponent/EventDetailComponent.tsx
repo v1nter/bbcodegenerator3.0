@@ -17,7 +17,7 @@ export const dynamic = 'force-dynamic';
 
 export default function EventDetail({ event }: Props) {
 	const [eventData, setEventData] = useState(event);
-	// const router = useRouter();
+	const router = useRouter();
 
 	return (
 		<Fragment>
@@ -25,7 +25,7 @@ export default function EventDetail({ event }: Props) {
 			<form
 				onSubmit={(e) => {
 					handleSave(eventData, e);
-					// router.push('/Events');
+					router.refresh();
 				}}
 			>
 				<table>
@@ -141,11 +141,13 @@ async function handleSave(event: Event, e: FormEvent) {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(event),
-			next: { tags: ['Events'] },
+			next: { tags: ['Events'], revalidate: 0 },
 		});
-
-		alert(result.status);
 	} catch (error) {
 		alert(error);
 	}
+}
+
+function test() {
+	console.log('test');
 }

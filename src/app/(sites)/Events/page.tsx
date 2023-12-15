@@ -18,11 +18,15 @@ export default async function Events() {
 
 	const pathFromEnvironment: string = checkEnvironment();
 
+	const revalidate = await fetch(
+		`${pathFromEnvironment}/api/revalidate?path=/Events&secret=${process.env.REVALIDATE_SECRET}`
+	);
+
 	noStore();
 	revalidatePath('/');
 	const response = await fetch(`${pathFromEnvironment}/api/Events/GetEvents`, {
 		cache: 'reload',
-		next: { revalidate: 0 },
+		// next: { revalidate: 0 },
 	});
 
 	const events = (await response.json()) as Event[];
