@@ -20,6 +20,7 @@ export default async function Events() {
 
 	noStore();
 	const response = await fetch(`${pathFromEnvironment}/api/Events/GetEvents`, {
+		cache: 'reload',
 		next: { revalidate: 0 },
 	});
 	revalidatePath('/');

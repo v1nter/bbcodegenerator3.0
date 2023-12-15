@@ -6,5 +6,5 @@ export async function GET(request: Request) {
 		orderBy: [{ event_is_current: 'desc' }],
 	});
 
-	return NextResponse.json(events);
+	return Response.json(events);
 }

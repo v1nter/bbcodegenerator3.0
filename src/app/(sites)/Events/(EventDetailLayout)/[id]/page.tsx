@@ -24,6 +24,7 @@ export default async function EventDetail({ params }: Props) {
 	const response = await fetch(
 		`${pathFromEnvironment}/api/Events/GetEventDetail/${params.id}`,
 		{
+			cache: 'reload',
 			next: { revalidate: 0 },
 		}
 	);

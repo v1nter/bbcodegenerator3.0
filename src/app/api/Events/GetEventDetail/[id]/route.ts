@@ -12,5 +12,5 @@ export async function GET(request: Request, { params }: Props) {
 		where: { event_id: parseInt(params.id) },
 	});
 
-	return NextResponse.json(event);
+	return Response.json(event);
 }
