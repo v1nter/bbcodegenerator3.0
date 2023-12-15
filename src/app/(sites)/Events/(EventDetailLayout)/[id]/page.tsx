@@ -20,7 +20,10 @@ export default async function EventDetail({ params }: Props) {
 	const pathFromEnvironment: string = checkEnvironment();
 
 	const response = await fetch(
-		`${pathFromEnvironment}/api/Events/GetEventDetail/${params.id}`
+		`${pathFromEnvironment}/api/Events/GetEventDetail/${params.id}`,
+		{
+			next: { revalidate: 0 },
+		}
 	);
 
 	const event = (await response.json()) as Event;

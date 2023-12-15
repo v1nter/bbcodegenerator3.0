@@ -7,7 +7,7 @@ import type { Event } from '@prisma/client';
 import { checkEnvironment } from '@/app/lib/checkEnvironment';
 
 export const dynamic = 'force-dynamic';
-// export const revalidate = 0;
+export const revalidate = 0;
 // export const fetchCache = 'force-no-store';
 
 export default async function Events() {
@@ -17,7 +17,9 @@ export default async function Events() {
 
 	const pathFromEnvironment: string = checkEnvironment();
 
-	const response = await fetch(`${pathFromEnvironment}/api/Events/GetEvents`);
+	const response = await fetch(`${pathFromEnvironment}/api/Events/GetEvents`, {
+		next: { revalidate: 0 },
+	});
 
 	const events = (await response.json()) as Event[];
 
