@@ -7,15 +7,12 @@ import { checkEnvironment } from '@/app/lib/checkEnvironment';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
 
 export const dynamic = 'force-dynamic';
+const host: string = checkEnvironment();
 
 export default async function Events() {
-	const host: string = checkEnvironment();
-
 	triggerRevalidate('/(sites)/Events/');
 
-	const response = await fetch(`${host}/api/Events/GetEvents`, {
-		cache: 'reload',
-	});
+	const response = await fetch(`${host}/api/Events/GetEvents`);
 
 	const events = (await response.json()) as Event[];
 

@@ -15,3 +15,31 @@
 		font-size: 18px;
 	}
 }
+
+.Link {
+	text-decoration: none;
+	color: var(--secondary-font);
+}
+
+.Link:hover {
+	color: var(--hover);
+}
+
+.newPlatform {
+	margin-bottom: 1rem;
+}
+
+.PlatformTableHeader {
+	border-bottom: 2px solid;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+
+.PlatformTable {
+	/* border: solid; */
+	width: 100%;
+}
+
+.tdCentered {
+	text-align: center;
+}

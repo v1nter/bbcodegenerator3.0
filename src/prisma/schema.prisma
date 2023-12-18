@@ -2,6 +2,7 @@
 
 // Kommando um Tabellen zu erzeugen: npx prisma db push
 // Bei Änderungen am Schema: npx prisma generate
+// Prisma Studio: npx prisma studio
 
 generator client {
     provider = "prisma-client-js"
@@ -40,8 +41,15 @@ model Platform {
     platform_id    Int            @id @default(autoincrement())
     platform_name  String         @unique
     platform_image String
-    platform_type  String
+    platform_type  PlatformType
     GamePlatform   GamePlatform[]
+}
+
+enum PlatformType {
+    PC
+    Console
+    Mobile
+    VR
 }
 
 // #############################################################################
