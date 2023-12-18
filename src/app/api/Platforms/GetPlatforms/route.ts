@@ -7,8 +7,5 @@ export async function GET(request: Request) {
 		orderBy: [{ platform_name: 'asc' }],
 	});
 
-	console.log('===');
-	console.log(platforms);
-
 	return Response.json(platforms);
 }

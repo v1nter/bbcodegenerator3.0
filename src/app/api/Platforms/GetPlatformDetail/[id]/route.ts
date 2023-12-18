@@ -12,8 +12,6 @@ type Props = {
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request, { params }: Props) {
-	console.log(params.id);
-
 	triggerRevalidate('/Plattformen/[id]');
 	triggerRevalidate('/api/Platforms/GetPlatformsDetail/[id]');
 

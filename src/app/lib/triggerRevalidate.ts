@@ -7,7 +7,5 @@ export default async function triggerRevalidate(path: string) {
 		`${host}/api/Revalidate/?secret=${process.env.REVALIDATE_SECRET}&path=${path}`
 	);
 
-	console.log(revalidate.status);
-
 	return;
 }
