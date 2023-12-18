@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/prisma/prisma';
-import { revalidatePath } from 'next/cache';
+import { checkEnvironment } from '@/app/lib/checkEnvironment';
+// import { revalidatePath } from 'next/cache';
 
 export async function POST(request: Request) {
 	try {
@@ -26,9 +27,15 @@ export async function POST(request: Request) {
 			},
 		});
 
-		revalidatePath('/Events');
+		// revalidatePath('/Events');
 		// revalidatePath('/Events/[id]', 'page');
-		revalidatePath(`/Events/${res.event_id}`, 'page');
+		// revalidatePath(`/Events/${res.event_id}`, 'page');
+
+		const pathFromEnvironment: string = checkEnvironment();
+
+		const revalidate = await fetch(
+			`${pathFromEnvironment}/api/revalidate?path=/Events&secret=${process.env.REVALIDATE_SECRET}`
+		);
 
 		return NextResponse.json({ result });
 	} catch (error) {
