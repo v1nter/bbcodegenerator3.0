@@ -3,11 +3,6 @@ import prisma from '@/prisma/prisma';
 import { revalidatePath } from 'next/cache';
 
 export async function POST(request: Request) {
-	revalidatePath('/Events');
-	revalidatePath('/Events/[id]', 'page');
-
-	console.log('???');
-
 	try {
 		const res = await request.json();
 
@@ -30,6 +25,10 @@ export async function POST(request: Request) {
 				event_updatePost: res.event_updatePost,
 			},
 		});
+
+		revalidatePath('/Events');
+		// revalidatePath('/Events/[id]', 'page');
+		revalidatePath(`/Events/${res.event_id}`, 'page');
 
 		return NextResponse.json({ result });
 	} catch (error) {

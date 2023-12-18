@@ -34,11 +34,7 @@ export default function EventDetail({ event }: Props) {
 
 	return (
 		<Fragment>
-			{event.event_id ? (
-				<h1>{event.event_name}</h1>
-			) : (
-				<h1>Neues Event anlegen</h1>
-			)}
+			{<h1>{event.event_id ? event.event_name : 'Neues Event anlegen'}</h1>}
 			<form
 				onSubmit={(e) => {
 					handleSave(eventData, e);
@@ -141,6 +137,14 @@ export default function EventDetail({ event }: Props) {
 							<td></td>
 							<td>
 								<button type="submit">Speichern</button>
+								<button
+									onClick={() => {
+										handleDelete(eventData);
+										router.replace('/Events');
+									}}
+								>
+									Löschen
+								</button>
 							</td>
 						</tr>
 					</tbody>
@@ -163,4 +167,13 @@ async function handleSave(event: Event, e: FormEvent) {
 	} catch (error) {
 		alert(error);
 	}
+}
+
+async function handleDelete(event: Event) {
+	const result = await fetch(`/api/Events/DeleteEvent`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(event),
+		next: { tags: ['Events'], revalidate: 0 },
+	});
 }
