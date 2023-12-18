@@ -4,18 +4,16 @@ import { FaCheck } from 'react-icons/fa6';
 import Link from 'next/link';
 import type { Event } from '@prisma/client';
 import { checkEnvironment } from '@/app/lib/checkEnvironment';
-// import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
+import triggerRevalidate from '@/app/lib/triggerRevalidate';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Events() {
-	const pathFromEnvironment: string = checkEnvironment();
+	const host: string = checkEnvironment();
 
-	const revalidate = await fetch(
-		`${pathFromEnvironment}/api/revalidate?path=/Events&secret=${process.env.REVALIDATE_SECRET}`
-	);
+	triggerRevalidate('/(sites)/Events/');
 
-	const response = await fetch(`${pathFromEnvironment}/api/Events/GetEvents`, {
+	const response = await fetch(`${host}/api/Events/GetEvents`, {
 		cache: 'reload',
 	});
 

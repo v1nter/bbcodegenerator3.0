@@ -1,0 +1,17 @@
+.TableWrapper {
+	display: flex;
+
+	@media (width >= 1366px) {
+		width: 40dvw;
+		font-size: 24px;
+	}
+
+	@media (876px < width < 1366px) {
+		font-size: 24px;
+	}
+
+	@media (width <= 876px) {
+		width: 80dvw;
+		font-size: 18px;
+	}
+}

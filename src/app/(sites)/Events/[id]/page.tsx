@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation';
 import EventDetailComponent from '@/components/EventDetailComponent/EventDetailComponent';
 import type { Event } from '@prisma/client';
 import { checkEnvironment } from '@/app/lib/checkEnvironment';
-import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
+import triggerRevalidate from '@/app/lib/triggerRevalidate';
+
 type Props = {
 	params: {
 		id: string;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export const dynamic = 'force-dynamic';
+const host = checkEnvironment();
 
 export default async function EventDetail({ params }: Props) {
 	if (params.id === 'neu') {
@@ -17,20 +19,11 @@ export default async function EventDetail({ params }: Props) {
 
 		return <EventDetailComponent event={event} />;
 	} else {
-		const pathFromEnvironment: string = checkEnvironment();
+		triggerRevalidate('/(sites)/Events/[id]');
 
-		const revalidate = await fetch(
-			`${pathFromEnvironment}/api/revalidate?path=/Events/${params.id}&secret=${process.env.REVALIDATE_SECRET}`
-		);
-
-		noStore();
 		const response = await fetch(
-			`${pathFromEnvironment}/api/Events/GetEventDetail/${params.id}`,
-			{
-				cache: 'reload',
-			}
+			`${host}/api/Events/GetEventDetail/${params.id}`
 		);
-		revalidatePath('/');
 
 		const event = (await response.json()) as Event;
 

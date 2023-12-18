@@ -4,6 +4,7 @@ import { FormEvent, Fragment, useEffect, useState } from 'react';
 import { type Event } from '@prisma/client';
 import css from './EventDetailComponent.module.css';
 import { useRouter } from 'next/navigation';
+import triggerRevalidate from '@/app/lib/triggerRevalidate';
 
 type Props = {
 	event: Event;
@@ -162,11 +163,12 @@ async function handleSave(event: Event, e: FormEvent) {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(event),
-			next: { tags: ['Events'], revalidate: 0 },
 		});
 	} catch (error) {
 		alert(error);
 	}
+
+	triggerRevalidate('/(sites)/Events/[id]');
 }
 
 async function handleDelete(event: Event) {
@@ -174,6 +176,7 @@ async function handleDelete(event: Event) {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(event),
-		next: { tags: ['Events'], revalidate: 0 },
 	});
+
+	triggerRevalidate('/(sites)/Events/[id]');
 }
