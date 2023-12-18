@@ -1,8 +1,8 @@
 import { checkEnvironment } from '@/app/lib/checkEnvironment';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const pathFromEnvironment: string = checkEnvironment();
-// ${pathFromEnvironment}/api/revalidate?path=/&secret=#ZzppmA9@AdW386iALps
+// const pathFromEnvironment: string = checkEnvironment();
+//${pathFromEnvironment}/api/revalidate?path=/&secret=#ZzppmA9@AdW386iALps
 
 export default async function handler(
 	req: NextApiRequest,
@@ -15,6 +15,9 @@ export default async function handler(
 	}
 
 	const path = req.query.path as string;
+
+	console.log(path);
+
 	await res.revalidate(path);
 
 	return res.json({ revalidated: true });
