@@ -5,23 +5,29 @@ export async function POST(request: Request) {
 	try {
 		const res = await request.json();
 
-		const result = await prisma.platform.upsert({
-			where: {
-				platform_id: res.platform_id,
-			},
-			update: {
-				platform_name: res.platform_name,
-				platform_image: res.platform_image,
-				platform_type: res.platform_type,
-			},
-			create: {
-				platform_name: res.platform_name,
-				platform_image: res.platform_image,
-				platform_type: res.platform_type,
-			},
-		});
+		if (res.platform_id == 0) {
+			const result = await prisma.platform.create({
+				data: {
+					platform_name: res.platform_name,
+					platform_image: res.platform_image,
+					platform_type: res.platform_type,
+				},
+			});
 
-		return NextResponse.json({ result });
+			return NextResponse.json({ result });
+		} else {
+			const result = await prisma.platform.update({
+				where: {
+					platform_id: res.platform_id,
+				},
+				data: {
+					platform_name: res.platform_name,
+					platform_image: res.platform_image,
+					platform_type: res.platform_type,
+				},
+			});
+			return NextResponse.json({ result });
+		}
 	} catch (error) {
 		console.log(error);
 	}

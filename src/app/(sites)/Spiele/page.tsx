@@ -1,6 +1,6 @@
 import { checkEnvironment } from '@/app/lib/checkEnvironment';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
-import { Game, Platform, GamePlatform } from '@prisma/client';
+import { Game } from '@prisma/client';
 import { Fragment } from 'react';
 import css from './page.module.css';
 import Link from 'next/link';

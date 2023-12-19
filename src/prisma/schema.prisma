@@ -22,13 +22,14 @@ datasource db {
 // #############################################################################
 
 model Event {
-    event_id         Int         @id @unique @default(autoincrement())
-    event_name       String      @unique
+    event_id         Int     @id @unique @default(autoincrement())
+    event_name       String  @unique
     event_is_current Boolean
     event_album      String
     event_mainPost   String
     event_updatePost String
-    GameEvent        GameEvent[]
+    game             Game[]
+    // GameEvent        GameEvent[]
 }
 
 // #############################################################################
@@ -38,11 +39,12 @@ model Event {
 // #############################################################################
 
 model Platform {
-    platform_id    Int            @id @default(autoincrement())
-    platform_name  String         @unique
+    platform_id    Int          @id @default(autoincrement())
+    platform_name  String       @unique
     platform_image String
     platform_type  PlatformType
-    GamePlatform   GamePlatform[]
+    game           Game[]
+    // GamePlatform   GamePlatform[]
 }
 
 enum PlatformType {
@@ -59,8 +61,8 @@ enum PlatformType {
 // #############################################################################
 
 model Game {
-    game_id           Int            @id @default(autoincrement())
-    game_name         String         @unique
+    game_id           Int        @id @default(autoincrement())
+    game_name         String     @unique
     game_release_date String
     game_keyart       String
     game_description  String
@@ -68,9 +70,16 @@ model Game {
     game_hidden       Boolean
     game_update       Boolean
     game_no_export    Boolean //Falls ein Spiel geupdated werden muss, aber noch keine aktuellen Daten verfügbar sind => Halte Spiel im Reihenupdate
-    GamePlatform      GamePlatform[]
-    GameEvent         GameEvent[]
+    // GamePlatform      GamePlatform[]
+    // GameEvent         GameEvent[]
     Trailer           Trailer[]
+    Event             Event      @relation(fields: [eventEvent_id], references: [event_id])
+    Platform          Platform[]
+    // Event               Event?    @relation(fields: [eventEvent_id], references: [event_id])
+    // eventEvent_id       Int?
+    // Platform            Platform? @relation(fields: [platformPlatform_id], references: [platform_id])
+    // platformPlatform_id Int?
+    eventEvent_id     Int
 }
 
 // #############################################################################
@@ -86,8 +95,10 @@ model Trailer {
     trailer_url   String
     trailer_delta Boolean
     trailer_date  DateTime @default(now())
-    game          Game     @relation(fields: [game_key], references: [game_id])
-    game_key      Int
+    Game          Game     @relation(fields: [gameGame_id], references: [game_id])
+    // game          Game     @relation(fields: [game_key], references: [game_id])
+    // game_key      Int
+    gameGame_id   Int
 }
 
 // #############################################################################
@@ -96,20 +107,20 @@ model Trailer {
 //
 // #############################################################################
 
-model GamePlatform {
-    game         Game     @relation(fields: [game_key], references: [game_id])
-    game_key     Int
-    platform     Platform @relation(fields: [platform_key], references: [platform_id])
-    platform_key Int
+// model GamePlatform {
+//     game         Game     @relation(fields: [game_key], references: [game_id])
+//     game_key     Int
+//     platform     Platform @relation(fields: [platform_key], references: [platform_id])
+//     platform_key Int
 
-    @@id([game_key, platform_key])
-}
+//     @@id([game_key, platform_key])
+// }
 
-model GameEvent {
-    game      Game  @relation(fields: [game_key], references: [game_id])
-    game_key  Int
-    event     Event @relation(fields: [event_key], references: [event_id])
-    event_key Int
+// model GameEvent {
+//     game      Game  @relation(fields: [game_key], references: [game_id])
+//     game_key  Int
+//     event     Event @relation(fields: [event_key], references: [event_id])
+//     event_key Int
 
-    @@id([game_key, event_key])
-}
+//     @@id([game_key, event_key])
+// }

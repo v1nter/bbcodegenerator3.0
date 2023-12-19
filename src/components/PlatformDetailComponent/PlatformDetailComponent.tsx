@@ -3,15 +3,30 @@
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
 import { Platform, PlatformType } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import { FormEvent, Fragment, useState } from 'react';
+import { FormEvent, Fragment, useEffect, useState } from 'react';
 
 type Props = {
 	platform: Platform;
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function PlatformDetail({ platform }: Props) {
 	const [platformData, setPlatformData] = useState(platform);
 	const router = useRouter();
+
+	useEffect(() => {
+		if (!platform.platform_id) {
+			const newPlatform: Platform = {
+				platform_name: '',
+				platform_image: '',
+				platform_type: 'Console',
+				platform_id: 0,
+			};
+
+			setPlatformData(newPlatform);
+		}
+	}, []);
 
 	return (
 		<Fragment>

@@ -18,8 +18,6 @@ export default function EventDetail({ event }: Props) {
 
 	useEffect(() => {
 		if (!event.event_id) {
-			console.log('Keine Event ID');
-
 			const newEvent: Event = {
 				event_name: '',
 				event_album: '',

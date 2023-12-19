@@ -14,14 +14,20 @@ type Props = {
 export const dynamic = 'force-dynamic';
 const host = checkEnvironment();
 
-export default async function page({ params }: Props) {
-	triggerRevalidate('/(sites)/Plattformen/[id]');
+export default async function PlatformDetail({ params }: Props) {
+	if (params.id === 'neu') {
+		const platform = {} as Platform;
 
-	const response = await fetch(
-		`${host}/api/Platforms/GetPlatformDetail/${params.id}`
-	);
+		return <PlatformDetailComponent platform={platform} />;
+	} else {
+		triggerRevalidate('/(sites)/Plattformen/[id]');
 
-	const platform = (await response.json()) as Platform;
+		const response = await fetch(
+			`${host}/api/Platforms/GetPlatformDetail/${params.id}`
+		);
 
-	return <PlatformDetailComponent platform={platform} />;
+		const platform = (await response.json()) as Platform;
+
+		return <PlatformDetailComponent platform={platform} />;
+	}
 }
