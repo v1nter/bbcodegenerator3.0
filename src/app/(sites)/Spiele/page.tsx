@@ -13,9 +13,9 @@ export default async function Games() {
 	triggerRevalidate('/(sites)/Spiele');
 
 	const response = await fetch(`${host}/api/Games/GetGames`);
-	// const test = await fetch(`${host}/api/Games/GetGames`);
+	const test = await fetch(`${host}/api/Games/GetGames`);
 
-	// console.log(await test.json());
+	console.log(await test.json());
 
 	const games = (await response.json()) as Game[];
 
