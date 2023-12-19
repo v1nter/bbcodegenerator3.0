@@ -1,36 +1,77 @@
+@media (width >= 1366px) {
+}
+
+@media (876px < width < 1366px) {
+}
+
+@media (width <= 876px) {
+}
+
 .GamesWrapper {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 80%;
+	justify-content: flex-start;
+
 	font-size: 28px;
+
+	@media (width >= 1366px) {
+		width: 95%;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: flex-start;
+	}
+
+	@media (876px < width < 1366px) {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: flex-start;
+	}
+
+	@media (width <= 876px) {
+		flex-direction: column;
+		align-items: center;
+		width: 80%;
+	}
 }
 
 .GameInfos {
 	display: flex;
-	flex-direction: column;
+
 	flex: 1;
-	align-items: center;
 	margin-bottom: 2rem;
-	align-items: center;
+
+	@media (width >= 1366px) {
+		flex-direction: row;
+		align-items: flex-start;
+	}
+
+	@media (876px < width < 1366px) {
+		flex-direction: row;
+		align-items: flex-start;
+	}
+
+	@media (width <= 876px) {
+		flex-direction: column;
+		align-items: center;
+	}
 }
 
 .UpdateBtn {
 	background-color: transparent;
 	outline: none;
-	border: none;
+	/* border: none; */
 	align-items: center;
 	text-align: center;
+	width: 100%;
+	/* margin-bottom: 0.5rem; */
 }
 
-.BtnIcon {
-	vertical-align: sub;
-	width: 1.5rem;
-	color: var(--secondary-font);
+.ButtonIcon {
+	vertical-align: middle;
+	font-size: 24px;
 }
 
 .InfoTable {
-	width: 100%;
+	width: 300px;
 	flex: 1;
 	margin-bottom: 1rem;
 }
@@ -38,13 +79,52 @@
 .InfoTableValue {
 	text-align: center;
 	word-wrap: normal;
-	/* border: 2px solid; */
-	/* padding: 1rem; */
+}
+
+.InfoTableValueExtended {
+	@media (width <= 876px) {
+		display: none;
+	}
 }
 
 .GameArtwork {
 	flex: 1;
-	/* border: 2px solid var(--keyArt-border); */
-	/* border-radius: 25px; */
 	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+	/* position: absolute; */
 }
+
+.GameInfoTableContainer {
+	@media (width >= 1366px) {
+		order: 2;
+	}
+
+	@media (876px < width < 1366px) {
+		order: 2;
+	}
+
+	@media (width <= 876px) {
+		order: 1;
+	}
+}
+
+.GameArtworkContainer {
+	display: flex;
+	flex-direction: column;
+
+	@media (width >= 1366px) {
+		order: 1;
+	}
+
+	@media (876px < width < 1366px) {
+		order: 1;
+	}
+
+	@media (width <= 876px) {
+		order: 2;
+	}
+}
+
+/* .GameArtworkContainer:hover {
+	transform: scale(1);
+	transition: 0.5s ease-in-out;
+} */
