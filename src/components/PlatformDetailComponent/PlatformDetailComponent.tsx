@@ -47,7 +47,7 @@ export default function PlatformDetail({ platform }: Props) {
 							</td>
 						</tr>
 						<tr>
-							<td>Bild:</td>
+							<td>Icon:</td>
 							<td>
 								<input
 									type="text"

@@ -1,0 +1,50 @@
+.GamesWrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 80%;
+	font-size: 28px;
+}
+
+.GameInfos {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	align-items: center;
+	margin-bottom: 2rem;
+	align-items: center;
+}
+
+.UpdateBtn {
+	background-color: transparent;
+	outline: none;
+	border: none;
+	align-items: center;
+	text-align: center;
+}
+
+.BtnIcon {
+	vertical-align: sub;
+	width: 1.5rem;
+	color: var(--secondary-font);
+}
+
+.InfoTable {
+	width: 100%;
+	flex: 1;
+	margin-bottom: 1rem;
+}
+
+.InfoTableValue {
+	text-align: center;
+	word-wrap: normal;
+	/* border: 2px solid; */
+	/* padding: 1rem; */
+}
+
+.GameArtwork {
+	flex: 1;
+	/* border: 2px solid var(--keyArt-border); */
+	/* border-radius: 25px; */
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+}
