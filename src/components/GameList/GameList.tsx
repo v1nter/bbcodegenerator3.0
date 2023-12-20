@@ -76,7 +76,9 @@ export default function GameList({ games }: Props) {
 					<button
 						className={css.SaveBtn}
 						onClick={() => {
-							handleNewGame(newGame).then(() => setTrigger(trigger + 1));
+							handleNewGame(newGame)
+								.then(() => setTrigger(trigger + 1))
+								.then(() => setNewGame(''));
 						}}
 					>
 						Speichern
