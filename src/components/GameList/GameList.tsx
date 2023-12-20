@@ -4,7 +4,7 @@
 
 import { Fragment, useEffect, useState } from 'react';
 import css from './GameList.module.css';
-import { Game, Platform } from '@prisma/client';
+import { Game, Platform, Event } from '@prisma/client';
 import { RxUpdate } from 'react-icons/rx';
 import Link from 'next/link';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
@@ -21,6 +21,8 @@ export const dynamic = 'force-dynamic';
 export default function GameList({ games }: Props) {
 	const [gameState, setGameState] = useState(games);
 	const [filter, setFilter] = useState('');
+	const [newGame, setNewGame] = useState('');
+	const [trigger, setTrigger] = useState(0);
 	const debouncedFilter = useDebouncedValue(filter, 600);
 
 	// triggerRevalidate('/(sites)/Spiele/');
@@ -41,7 +43,7 @@ export default function GameList({ games }: Props) {
 		}
 
 		fetchGames();
-	}, [debouncedFilter]);
+	}, [debouncedFilter, trigger]);
 
 	return (
 		<Fragment>
@@ -55,13 +57,31 @@ export default function GameList({ games }: Props) {
 						className={css.Filter}
 						placeholder={'Filter...'}
 						value={filter}
+						spellCheck={false}
 						onChange={(e) => setFilter(e.target.value)}
 					></input>
 					<button className={css.ResetBtn} onClick={() => setFilter('')}>
 						Reset
 					</button>
 				</div>
-				<div className={css.EmptyContainer}></div>
+				<div className={css.NewGameContainer}>
+					<input
+						type="text"
+						className={css.NewGame}
+						placeholder={'Spiel anlegen...'}
+						value={newGame}
+						spellCheck={false}
+						onChange={(e) => setNewGame(e.target.value)}
+					></input>
+					<button
+						className={css.SaveBtn}
+						onClick={() => {
+							handleNewGame(newGame).then(() => setTrigger(trigger + 1));
+						}}
+					>
+						Speichern
+					</button>
+				</div>
 			</div>
 			<div className={css.GamesWrapper}>
 				{gameState.map((game) => (
@@ -149,4 +169,37 @@ function changeUpdateFlag(game: GameData, gameState: GameData[]) {
 	);
 
 	return updateGameState;
+}
+
+async function handleNewGame(newGame: string) {
+	const event = getCurrentEvent();
+
+	const game: Game = {
+		game_id: 0,
+		game_name: newGame,
+		game_description: '',
+		game_delta: true,
+		game_hidden: false,
+		game_no_export: false,
+		game_release_date: '',
+		game_update: true,
+		game_keyart:
+			'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
+		eventEvent_id: (await event).event_id,
+	};
+
+	const result = await fetch(`/api/Games/UpdateOrCreateGame`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(game),
+	});
+
+	return result;
+}
+
+async function getCurrentEvent() {
+	const result = await fetch(`/api/Events/GetCurrentEvent`);
+	const event = (await result.json()) as Event;
+
+	return event;
 }
