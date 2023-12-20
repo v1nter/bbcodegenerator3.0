@@ -11,7 +11,7 @@
 	/* Layout-Farben */
 	--dark-grey: rgb(34, 34, 34);
 	--light-grey: rgb(50, 50, 50);
-	--moss-green: rgb(0, 90, 55);
+	--moss-green: rgba(0, 255, 21, 0.603);
 	--dark-blue: rgba(9, 9, 121, 1);
 	--sun-yellow: rgba(127, 199, 218, 0.301);
 	--white: rgb(255, 255, 255);
@@ -29,4 +29,5 @@
 	--accent-pink: var(--neon-pink);
 	--accent-green: var(--neon-green);
 	--border: var(--dark-blue);
+	--updateButton: var(--moss-green);
 }

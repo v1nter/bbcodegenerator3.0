@@ -144,10 +144,19 @@
 	}
 }
 
-.UpdateBtn {
+.UpdateBtnInactive {
 	background-color: transparent;
 	outline: none;
-	/* border: none; */
+	border: 1px solid;
+	align-items: center;
+	text-align: center;
+	width: 100%;
+
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+}
+.UpdateBtnActive {
+	background-color: var(--updateButton);
+	outline: none;
 	border: 1px solid;
 	align-items: center;
 	text-align: center;
