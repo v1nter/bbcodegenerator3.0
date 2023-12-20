@@ -25,7 +25,8 @@ export default async function Games() {
 	// 	platforms[0].Platform.map((obj: Platform) => console.log(obj.platform_name))
 	// );
 
-	const data = (await response.json()) as (Game | Platform)[];
+	const data = (await response.json()) as Game[];
+	// const data = (await response.json()) as (Game | Platform)[];
 
 	return <GameList games={data} />;
 }
