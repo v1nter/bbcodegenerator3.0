@@ -10,12 +10,12 @@ type Props = {
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request, { params }: Props) {
-	triggerRevalidate('/Plattformen/[id]');
-	triggerRevalidate('/api/Platforms/GetPlatformsDetail/[id]');
+	triggerRevalidate('/Spiele/[id]');
+	triggerRevalidate('/api/Games/GetGameDetail/[id]');
 
-	const platform = await prisma.platform.findUnique({
-		where: { platform_id: parseInt(params.id) },
+	const game = await prisma.game.findUnique({
+		where: { game_id: parseInt(params.id) },
 	});
 
-	return Response.json(platform);
+	return Response.json(game);
 }

@@ -14,11 +14,18 @@ export default async function Games() {
 	triggerRevalidate('/(sites)/Spiele');
 
 	const response = await fetch(`${host}/api/Games/GetGames`);
-	const test = await fetch(`${host}/api/Games/GetGames`);
 
-	console.log(await test.json());
+	const response2 = await fetch(`${host}/api/Games/GetGames`);
+	console.log(await response2.json());
 
-	const games = (await response.json()) as Game[];
+	// const response3 = await fetch(`${host}/api/Games/GetGames`);
+	// const platforms = await response3.json();
 
-	return <GameList games={games} />;
+	// console.log(
+	// 	platforms[0].Platform.map((obj: Platform) => console.log(obj.platform_name))
+	// );
+
+	const data = (await response.json()) as (Game | Platform)[];
+
+	return <GameList games={data} />;
 }

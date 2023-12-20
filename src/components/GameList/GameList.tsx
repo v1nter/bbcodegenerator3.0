@@ -2,12 +2,12 @@
 
 import { Fragment } from 'react';
 import css from './GameList.module.css';
-import { Game } from '@prisma/client';
+import { Game, Platform } from '@prisma/client';
 import { RxUpdate } from 'react-icons/rx';
 import Link from 'next/link';
 
 type Props = {
-	games: Game[];
+	games: (Game | Platform)[];
 };
 export default function GameList({ games }: Props) {
 	return (
@@ -27,7 +27,7 @@ export default function GameList({ games }: Props) {
 				<div className={css.EmptyContainer}></div>
 			</div>
 			<div className={css.GamesWrapper}>
-				{games.map((game) => (
+				{games.map((game: Game | Platform) => (
 					<div className={css.GameInfos} key={game.game_id}>
 						<div className={css.GameInfoTableContainer}>
 							<table className={css.InfoTable}>
@@ -40,6 +40,9 @@ export default function GameList({ games }: Props) {
 											{game.game_release_date}
 										</td>
 									</tr>
+									<tr className={css.Extended}>
+										<td>Plattformen 1, 2, 3...</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -47,7 +50,10 @@ export default function GameList({ games }: Props) {
 							<button className={css.UpdateBtn}>
 								<RxUpdate className={css.ButtonIcon} /> Update
 							</button>
-							<Link className={css.GameArtWorkLink} href="/Spiele">
+							<Link
+								className={css.GameArtWorkLink}
+								href={`/Spiele/${game.game_id}`}
+							>
 								<img src={game.game_keyart} className={css.GameArtwork} />
 							</Link>
 						</div>
