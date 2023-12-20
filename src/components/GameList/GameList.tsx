@@ -72,11 +72,9 @@ export default function GameList({ games }: Props) {
 									game.game_update ? css.UpdateBtnActive : css.UpdateBtnInactive
 								}
 								onClick={() => {
+									handleUpdateFlag(game);
 									const updateGameState = changeUpdateFlag(game, gameState);
 									setGameState(updateGameState);
-
-									handleUpdateFlag(game);
-									// router.refresh();
 								}}
 							>
 								<RxUpdate className={css.ButtonIcon} /> Update
@@ -110,6 +108,7 @@ async function handleUpdateFlag(game: GameData) {
 	});
 
 	triggerRevalidate('/(sites)/Spiele/');
+	return;
 }
 
 function changeUpdateFlag(game: GameData, gameState: GameData[]) {
