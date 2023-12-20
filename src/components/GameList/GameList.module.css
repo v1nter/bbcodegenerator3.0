@@ -176,13 +176,14 @@
 	}
 }
 
+.ExtendetList {
+	list-style-type: none;
+	padding-left: 0;
+}
+
 .GameArtwork {
 	flex: 1;
 	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
-	/* box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px 0px; */
-	/* border: 2px solid black; */
-	/* box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px; */
-	/* position: absolute; */
 }
 
 .GameInfoTableContainer {
@@ -216,8 +217,3 @@
 		order: 2;
 	}
 }
-
-/* .GameArtworkContainer:hover {
-	transform: scale(1);
-	transition: 0.5s ease-in-out;
-} */

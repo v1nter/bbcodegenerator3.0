@@ -7,8 +7,7 @@ import { RxUpdate } from 'react-icons/rx';
 import Link from 'next/link';
 
 type Props = {
-	games: Game[];
-	// games: (Game | Platform)[];
+	games: (Game & { Platform: Platform[] })[];
 };
 export default function GameList({ games }: Props) {
 	return (
@@ -29,7 +28,6 @@ export default function GameList({ games }: Props) {
 			</div>
 			<div className={css.GamesWrapper}>
 				{games.map((game) => (
-					// {games.map((game: Game | Platform) => (
 					<div className={css.GameInfos} key={game.game_id}>
 						<div className={css.GameInfoTableContainer}>
 							<table className={css.InfoTable}>
@@ -38,12 +36,16 @@ export default function GameList({ games }: Props) {
 										<td className={css.GameName}>{game.game_name}</td>
 									</tr>
 									<tr className={css.Extended}>
-										<td className={css.InfoTableValue}>
-											{game.game_release_date}
+										<td className={css.ExtendedCol}>
+											<ul className={css.ExtendetList}>
+												<li>{game.game_release_date}</li>
+											</ul>
+											<ul className={css.ExtendetList}>
+												{game.Platform.map((platform) => (
+													<li>{platform.platform_name}</li>
+												))}
+											</ul>
 										</td>
-									</tr>
-									<tr className={css.Extended}>
-										<td>Plattformen 1, 2, 3...</td>
 									</tr>
 								</tbody>
 							</table>
