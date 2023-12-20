@@ -1,12 +1,14 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+// https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png
+
+import { Fragment, useEffect, useState } from 'react';
 import css from './GameList.module.css';
 import { Game, Platform } from '@prisma/client';
 import { RxUpdate } from 'react-icons/rx';
 import Link from 'next/link';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
-import { useRouter } from 'next/navigation';
+import { useDebouncedValue } from '@/app/lib/useDebouncedValue';
 
 type GameData = Game & { Platform: Platform[] };
 
@@ -18,11 +20,28 @@ export const dynamic = 'force-dynamic';
 
 export default function GameList({ games }: Props) {
 	const [gameState, setGameState] = useState(games);
-	const router = useRouter();
+	const [filter, setFilter] = useState('');
+	const debouncedFilter = useDebouncedValue(filter, 600);
 
-	// console.log(JSON.stringify(gameState));
+	// triggerRevalidate('/(sites)/Spiele/');
 
-	triggerRevalidate('/(sites)/Spiele/');
+	useEffect(() => {
+		async function fetchGames() {
+			if (!debouncedFilter) {
+				const response = await fetch(`/api/Games/GetGames?filter=`);
+				const data = (await response.json()) as GameData[];
+				setGameState(data);
+			} else {
+				const response = await fetch(
+					`/api/Games/GetGames?filter=${debouncedFilter}`
+				);
+				const data = (await response.json()) as GameData[];
+				setGameState(data);
+			}
+		}
+
+		fetchGames();
+	}, [debouncedFilter]);
 
 	return (
 		<Fragment>
@@ -35,8 +54,12 @@ export default function GameList({ games }: Props) {
 						type="text"
 						className={css.Filter}
 						placeholder={'Filter...'}
+						value={filter}
+						onChange={(e) => setFilter(e.target.value)}
 					></input>
-					<button className={css.ResetBtn}>Reset</button>
+					<button className={css.ResetBtn} onClick={() => setFilter('')}>
+						Reset
+					</button>
 				</div>
 				<div className={css.EmptyContainer}></div>
 			</div>
