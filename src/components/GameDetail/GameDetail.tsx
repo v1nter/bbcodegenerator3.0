@@ -23,9 +23,13 @@ export default function GameDetail({ game }: Props) {
 
 				const gameData = await response.json();
 
+				const keyartURL = handleKeyartURL(gameData[0].cover.url);
+				const releaseDate = handleDate(gameData[0].release_dates[0].human);
+
 				const newGame = {
 					...gameDetail,
-					game_keyart: gameData[0].cover.url,
+					game_keyart: keyartURL,
+					game_release_date: releaseDate,
 				};
 
 				setGameDetail(newGame);
@@ -40,9 +44,21 @@ export default function GameDetail({ game }: Props) {
 			<div className={css.GameDetailWrapper}>
 				<div className={css.TitleContainer}>
 					<h1 className={css.Title}>{gameDetail.game_name}</h1>
+					<button
+						className={css.Savebtn}
+						onClick={() => handleSave(gameDetail)}
+					>
+						Speichern
+					</button>
 				</div>
 				<div className={css.GameInfoWrapper}>
 					<div className={css.ArtworkContainer}>
+						<button
+							className={css.IGDBbtn}
+							onClick={() => setTrigger(trigger + 1)}
+						>
+							IGDB
+						</button>
 						<img src={gameDetail.game_keyart} className={css.Artwork} />
 					</div>
 					<div className={css.GameInfoTable}>
@@ -119,13 +135,6 @@ export default function GameDetail({ game }: Props) {
 										></input>
 									</td>
 								</tr>
-								<tr>
-									<td>
-										<button onClick={() => setTrigger(trigger + 1)}>
-											Update
-										</button>
-									</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -135,4 +144,31 @@ export default function GameDetail({ game }: Props) {
 	);
 }
 
-function handleCoverURL(url: string) {}
+function handleKeyartURL(url: string) {
+	const remove = 't_thumb';
+	const insert = 't_cover_big_2x';
+
+	const newURL = url.replace(remove, insert);
+
+	return newURL;
+}
+
+function handleDate(date: string) {
+	try {
+		const newDate = new Date(date);
+
+		return newDate.toLocaleDateString('de-DE');
+	} catch {
+		return date;
+	}
+}
+
+async function handleSave(game: Game) {
+	const result = await fetch(`/api/Games/UpdateOrCreateGame`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(game),
+	});
+
+	return result;
+}

@@ -66,12 +66,16 @@
 }
 
 .ResetBtn {
-	background-color: transparent;
+	/* background-color: transparent; */
 	border: 1px solid;
 
 	@media (width <= 876px) {
 		width: 6rem;
 	}
+}
+
+.ResetBtn:active {
+	transform: translateY(1px);
 }
 
 .NewGameContainer {
@@ -102,7 +106,7 @@
 }
 
 .SaveBtn {
-	background-color: transparent;
+	/* background-color: transparent; */
 	border: 1px solid;
 
 	@media (width >= 1366px) {
@@ -117,6 +121,10 @@
 		order: 2;
 		width: 6rem;
 	}
+}
+
+.SaveBtn:active {
+	transform: translateY(1px);
 }
 
 .GamesWrapper {
@@ -188,7 +196,7 @@
 }
 
 .UpdateBtnInactive {
-	background-color: transparent;
+	/* background-color: transparent; */
 	outline: none;
 	border: 1px solid;
 	align-items: center;
@@ -196,6 +204,10 @@
 	width: 100%;
 
 	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+}
+
+.UpdateBtnInactive:active {
+	transform: translateY(1px);
 }
 .UpdateBtnActive {
 	background-color: var(--updateButton);
@@ -206,6 +218,10 @@
 	width: 100%;
 
 	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+}
+
+.UpdateBtnActive:active {
+	transform: translateY(1px);
 }
 
 .ButtonIcon {

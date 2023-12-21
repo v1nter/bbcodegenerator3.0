@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 					game_release_date: res.game_release_date,
 					game_delta: res.game_delta,
 					game_hidden: res.game_hidden,
-					game_update: res.game_update,
+					game_update: false,
 					game_no_export: res.game_no_export,
 				},
 			});
