@@ -63,7 +63,7 @@ export default function GameDetail({ game }: Props) {
 				<div className={css.SaveContainer}>
 					<button
 						className={css.Savebtn}
-						onClick={() => handleDelete(gameDetail)}
+						onClick={() => handleSave(gameDetail)}
 					>
 						Speichern
 					</button>

@@ -36,8 +36,7 @@ export default function EventDetail({ event }: Props) {
 			{<h1>{event.event_id ? event.event_name : 'Neues Event anlegen'}</h1>}
 			<form
 				onSubmit={(e) => {
-					handleSave(eventData, e);
-					router.refresh();
+					handleSave(eventData, e).then(() => router.refresh());
 				}}
 			>
 				<table>
@@ -138,8 +137,9 @@ export default function EventDetail({ event }: Props) {
 								<button type="submit">Speichern</button>
 								<button
 									onClick={() => {
-										handleDelete(eventData);
-										router.replace('/Events');
+										handleDelete(eventData).then(() =>
+											router.replace('/Events')
+										);
 									}}
 								>
 									Löschen

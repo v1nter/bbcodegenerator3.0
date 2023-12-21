@@ -107,8 +107,9 @@ export default function PlatformDetail({ platform }: Props) {
 								<button type="submit">Speichern</button>
 								<button
 									onClick={() => {
-										handleDelete(platformData);
-										router.replace('/Plattformen');
+										handleDelete(platformData).then(() =>
+											router.replace('/Plattformen')
+										);
 									}}
 								>
 									Löschen
