@@ -15,6 +15,11 @@ export async function GET(request: Request, { params }: Props) {
 
 	const game = await prisma.game.findUnique({
 		where: { game_id: parseInt(params.id) },
+		include: {
+			Platform: true,
+			Trailer: true,
+			Event: true,
+		},
 	});
 
 	return Response.json(game);

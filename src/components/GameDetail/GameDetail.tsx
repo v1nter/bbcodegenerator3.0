@@ -3,35 +3,39 @@ import { Fragment, useEffect, useState } from 'react';
 import css from './GameDetail.module.css';
 import { useRouter } from 'next/navigation';
 
-import { Game } from '@prisma/client';
+import { Game, Platform, Trailer, Event } from '@prisma/client';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
 
-type combinedGame = GameData & { videos: Video[] } & {
-	release_dates: ReleaseDate[];
-} & { platforms: Platform[] } & { cover: Cover };
+type combinedGame = APIGameData & { videos: APIVideo[] } & {
+	release_dates: APIReleaseDate[];
+} & { platforms: Platform[] } & { cover: APICover };
+
+type GameData = Game & { Platform: Platform[] } & {
+	Trailer: Trailer[];
+} & { Event: Event };
 
 type Props = {
-	game: Game;
+	game: GameData;
 };
 
-type Video = {
+type APIVideo = {
 	name: string;
 	video_id: string;
 };
 
-type ReleaseDate = {
+type APIReleaseDate = {
 	human: string;
 };
 
-type Platform = {
+type APIPlatform = {
 	name: string;
 };
 
-type Cover = {
+type APICover = {
 	url: string;
 };
 
-type GameData = {
+type APIGameData = {
 	name: string;
 };
 
@@ -39,7 +43,8 @@ export const dynamic = 'force-dynamic';
 
 export default function GameDetail({ game }: Props) {
 	const [gameDetail, setGameDetail] = useState(game);
-	const [trailerState, setTrailerState] = useState<Array<Video>>([]);
+	// const [trailerState, setTrailerState] = useState<Array<Video>>([]);
+	const [trailerState, setTrailerState] = useState<Array<APIVideo>>([]);
 	const [trigger, setTrigger] = useState(0);
 	const router = useRouter();
 
@@ -57,17 +62,17 @@ export default function GameDetail({ game }: Props) {
 
 				const gameData = (await response.json()) as combinedGame[];
 
-				gameData[0].videos.map((video: Video) => {
-					const newVideo: Video = {
-						name: video.name,
-						video_id: video.video_id,
-					};
+				// const emptyState: Video[] = [];
 
-					console.log(newVideo);
+				// const updatedTrailerState: Video[] = [
+				// 	...(trailerState as Video[]),
+				// 	...gameData[0].videos.map((video) => ({
+				// 		name: video.name,
+				// 		video_id: video.video_id,
+				// 	})),
+				// ];
 
-					setTrailerState([...trailerState, newVideo]);
-					console.log(trailerState);
-				});
+				// console.log(updatedTrailerState);
 
 				const keyartURL = handleKeyartURL(gameData[0].cover.url);
 				const releaseDate = handleDate(gameData[0].release_dates[0].human);
@@ -77,13 +82,17 @@ export default function GameDetail({ game }: Props) {
 					game_keyart: keyartURL,
 					game_release_date: releaseDate,
 				};
-
+				// setTrailerState(emptyState);
+				// setTrailerState(updatedTrailerState);
 				setGameDetail(newGame);
 			}
 		}
 
 		fetchGameDetails();
 	}, [trigger]);
+
+	// console.log(gameDetail);
+	// console.log(trailerState);
 
 	return (
 		<Fragment>
@@ -200,6 +209,19 @@ export default function GameDetail({ game }: Props) {
 							</tbody>
 						</table>
 					</div>
+				</div>
+				<div className={css.TrailerWrapper}>
+					{gameDetail.Trailer.map((trailer: Trailer) => (
+						<div key={trailer.trailer_id}>
+							<iframe
+								width="280"
+								height="157"
+								src={`https://www.youtube.com/embed/${trailer.trailer_url}`}
+								title="YouTube video player"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+							></iframe>
+						</div>
+					))}
 				</div>
 			</div>
 		</Fragment>

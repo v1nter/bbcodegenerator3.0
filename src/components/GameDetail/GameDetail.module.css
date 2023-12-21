@@ -163,3 +163,26 @@
 .tdCentered {
 	text-align: center;
 }
+
+.TrailerWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+
+	@media (width >= 1366px) {
+		flex-direction: row;
+	}
+
+	@media (876px < width < 1366px) {
+		flex-direction: row;
+	}
+
+	@media (width <= 876px) {
+		flex-direction: column;
+	}
+}
+
+.cssTrailer {
+	border: solid;
+}

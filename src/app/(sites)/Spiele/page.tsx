@@ -10,14 +10,8 @@ const host: string = checkEnvironment();
 export default async function Games() {
 	triggerRevalidate('/(sites)/Spiele');
 
-	// const [state, dispatch] = useReducer(filterReducer, '');
-
 	const response = await fetch(`${host}/api/Games/GetGames`);
 	const data = (await response.json()) as (Game & { Platform: Platform[] })[];
 
 	return <GameList games={data} />;
 }
-
-// function filterReducer(state: string, message: string) {
-// 	return state;
-// }
