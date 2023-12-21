@@ -101,6 +101,11 @@ model Trailer {
     gameGame_id   Int
 }
 
+model IGDB {
+    id          Int    @id @default(autoincrement())
+    accessToken String
+}
+
 // #############################################################################
 //
 // n-zu-n Beziehungen

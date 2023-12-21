@@ -1,4 +1,5 @@
 import { checkEnvironment } from '@/app/lib/checkEnvironment';
+import { igdb_getAccessToken } from '@/app/lib/fetchIGDB';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
 import GameDetail from '@/components/GameDetail/GameDetail';
 import { Game } from '@prisma/client';
@@ -17,6 +18,8 @@ export default async function GameDetails({ params }: Props) {
 
 	const response = await fetch(`${host}/api/Games/GetGameDetail/${params.id}`);
 	const data = (await response.json()) as Game;
+
+	// igdb_getAccessToken();
 
 	return <GameDetail game={data} />;
 }

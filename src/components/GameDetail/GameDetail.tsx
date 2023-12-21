@@ -1,8 +1,9 @@
 'use client';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import css from './GameDetail.module.css';
 
 import { Game } from '@prisma/client';
+import { igdb_getAccessToken } from '@/app/lib/fetchIGDB';
 
 type Props = {
 	game: Game;
@@ -10,11 +11,13 @@ type Props = {
 export default function GameDetail({ game }: Props) {
 	const [gameDetail, setGameDetail] = useState(game);
 
+	igdb_getAccessToken();
+
 	return (
 		<Fragment>
 			<div className={css.GameDetailWrapper}>
-				<div className={css.Title}>
-					<h1>{game.game_name}</h1>
+				<div className={css.TitleContainer}>
+					<h1 className={css.Title}>{game.game_name}</h1>
 				</div>
 				<div className={css.GameInfoWrapper}>
 					<div className={css.ArtworkContainer}>
@@ -29,7 +32,7 @@ export default function GameDetail({ game }: Props) {
 										<input
 											type="text"
 											className={css.InfoInput}
-											value={gameDetail.game_release_date}
+											// value={gameDetail.game_release_date}
 										></input>
 									</td>
 								</tr>
@@ -39,7 +42,7 @@ export default function GameDetail({ game }: Props) {
 										<input
 											type="text"
 											className={css.InfoInput}
-											value={gameDetail.game_keyart}
+											// value={gameDetail.game_keyart}
 										></input>
 									</td>
 								</tr>
@@ -49,7 +52,7 @@ export default function GameDetail({ game }: Props) {
 										<input
 											type="text"
 											className={css.InfoInput}
-											value={gameDetail.game_description}
+											// value={gameDetail.game_description}
 										></input>
 									</td>
 								</tr>
@@ -58,7 +61,7 @@ export default function GameDetail({ game }: Props) {
 									<td className={css.tdCentered}>
 										<input
 											type="checkbox"
-											checked={gameDetail.game_no_export}
+											// checked={gameDetail.game_no_export}
 										></input>
 									</td>
 								</tr>

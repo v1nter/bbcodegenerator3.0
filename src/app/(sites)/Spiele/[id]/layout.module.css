@@ -1,0 +1,8 @@
+.Link {
+	text-decoration: none;
+	color: var(--secondary-font);
+}
+
+.Link:hover {
+	color: var(--hover);
+}
