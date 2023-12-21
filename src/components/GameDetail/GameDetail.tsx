@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation';
 import { Game, Platform, Trailer, Event } from '@prisma/client';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
 
-type combinedGame = APIGameData & { videos: APIVideo[] } & {
+type combinedGame = APIGameData & { videos: APITRailer[] } & {
 	release_dates: APIReleaseDate[];
-} & { platforms: Platform[] } & { cover: APICover };
+} & { platforms: APIPlatform[] } & { cover: APICover };
 
 type GameData = Game & { Platform: Platform[] } & {
 	Trailer: Trailer[];
@@ -18,7 +18,7 @@ type Props = {
 	game: GameData;
 };
 
-type APIVideo = {
+type APITRailer = {
 	name: string;
 	video_id: string;
 };
@@ -43,8 +43,7 @@ export const dynamic = 'force-dynamic';
 
 export default function GameDetail({ game }: Props) {
 	const [gameDetail, setGameDetail] = useState(game);
-	// const [trailerState, setTrailerState] = useState<Array<Video>>([]);
-	const [trailerState, setTrailerState] = useState<Array<APIVideo>>([]);
+	// const [trailerState, setTrailerState] = useState<Array<APITRailer>>([]);
 	const [trigger, setTrigger] = useState(0);
 	const router = useRouter();
 
@@ -62,37 +61,25 @@ export default function GameDetail({ game }: Props) {
 
 				const gameData = (await response.json()) as combinedGame[];
 
-				// const emptyState: Video[] = [];
-
-				// const updatedTrailerState: Video[] = [
-				// 	...(trailerState as Video[]),
-				// 	...gameData[0].videos.map((video) => ({
-				// 		name: video.name,
-				// 		video_id: video.video_id,
-				// 	})),
-				// ];
-
-				// console.log(updatedTrailerState);
-
 				const keyartURL = handleKeyartURL(gameData[0].cover.url);
 				const releaseDate = handleDate(gameData[0].release_dates[0].human);
+				const newTrailer: Trailer[] = gameData[0].videos.map((trailer) =>
+					handleTrailer(trailer, gameDetail.game_id)
+				);
 
 				const newGame = {
 					...gameDetail,
 					game_keyart: keyartURL,
 					game_release_date: releaseDate,
+					Trailer: newTrailer,
 				};
-				// setTrailerState(emptyState);
-				// setTrailerState(updatedTrailerState);
+
 				setGameDetail(newGame);
 			}
 		}
 
 		fetchGameDetails();
 	}, [trigger]);
-
-	// console.log(gameDetail);
-	// console.log(trailerState);
 
 	return (
 		<Fragment>
@@ -245,6 +232,19 @@ function handleDate(date: string) {
 	} catch {
 		return date;
 	}
+}
+
+function handleTrailer(trailer: APITRailer, game_id: number) {
+	const t = {
+		trailer_id: 0,
+		trailer_name: trailer.name,
+		trailer_url: trailer.video_id,
+		trailer_delta: true,
+		trailer_date: new Date(),
+		gameGame_id: game_id,
+	};
+
+	return t;
 }
 
 async function handleSave(game: Game) {
