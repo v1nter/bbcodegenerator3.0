@@ -4,6 +4,7 @@ import css from './GameDetail.module.css';
 import { useRouter } from 'next/navigation';
 
 import { Game } from '@prisma/client';
+import triggerRevalidate from '@/app/lib/triggerRevalidate';
 
 type Props = {
 	game: Game;
@@ -15,6 +16,8 @@ export default function GameDetail({ game }: Props) {
 	const [gameDetail, setGameDetail] = useState(game);
 	const [trigger, setTrigger] = useState(0);
 	const router = useRouter();
+
+	triggerRevalidate('/Spiele/[id]');
 
 	useEffect(() => {
 		async function fetchGameDetails() {
@@ -63,7 +66,9 @@ export default function GameDetail({ game }: Props) {
 				<div className={css.SaveContainer}>
 					<button
 						className={css.Savebtn}
-						onClick={() => handleSave(gameDetail)}
+						onClick={() =>
+							handleSave(gameDetail).then(() => router.push('/Spiele'))
+						}
 					>
 						Speichern
 					</button>
