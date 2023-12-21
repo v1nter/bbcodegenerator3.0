@@ -169,20 +169,17 @@
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
+	margin-top: 1rem;
 
 	@media (width >= 1366px) {
-		flex-direction: row;
+		flex-direction: column;
 	}
 
 	@media (876px < width < 1366px) {
-		flex-direction: row;
+		flex-direction: column;
 	}
 
 	@media (width <= 876px) {
 		flex-direction: column;
 	}
-}
-
-.cssTrailer {
-	border: solid;
 }

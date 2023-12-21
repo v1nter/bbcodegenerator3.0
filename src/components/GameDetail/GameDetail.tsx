@@ -71,6 +71,7 @@ export default function GameDetail({ game }: Props) {
 					...gameDetail,
 					game_keyart: keyartURL,
 					game_release_date: releaseDate,
+					game_update: false,
 					Trailer: newTrailer,
 				};
 
@@ -193,22 +194,26 @@ export default function GameDetail({ game }: Props) {
 										></input>
 									</td>
 								</tr>
+								<tr>
+									<td colSpan={2} className={css.TrailerCell}>
+										<div className={css.TrailerWrapper}>
+											{gameDetail.Trailer.map((trailer: Trailer) => (
+												<div key={trailer.trailer_url}>
+													<iframe
+														width="280"
+														height="157"
+														src={`https://www.youtube.com/embed/${trailer.trailer_url}`}
+														title="YouTube video player"
+														allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+													></iframe>
+												</div>
+											))}
+										</div>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
-				</div>
-				<div className={css.TrailerWrapper}>
-					{gameDetail.Trailer.map((trailer: Trailer) => (
-						<div key={trailer.trailer_id}>
-							<iframe
-								width="280"
-								height="157"
-								src={`https://www.youtube.com/embed/${trailer.trailer_url}`}
-								title="YouTube video player"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-							></iframe>
-						</div>
-					))}
 				</div>
 			</div>
 		</Fragment>
