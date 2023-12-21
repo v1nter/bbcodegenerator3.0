@@ -6,18 +6,44 @@ import { useRouter } from 'next/navigation';
 import { Game } from '@prisma/client';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
 
+type combinedGame = GameData & { videos: Video[] } & {
+	release_dates: ReleaseDate[];
+} & { platforms: Platform[] } & { cover: Cover };
+
 type Props = {
 	game: Game;
+};
+
+type Video = {
+	name: string;
+	video_id: string;
+};
+
+type ReleaseDate = {
+	human: string;
+};
+
+type Platform = {
+	name: string;
+};
+
+type Cover = {
+	url: string;
+};
+
+type GameData = {
+	name: string;
 };
 
 export const dynamic = 'force-dynamic';
 
 export default function GameDetail({ game }: Props) {
 	const [gameDetail, setGameDetail] = useState(game);
+	const [trailerState, setTrailerState] = useState<Array<Video>>([]);
 	const [trigger, setTrigger] = useState(0);
 	const router = useRouter();
 
-	triggerRevalidate('/Spiele/[id]');
+	// triggerRevalidate('(sites)/Spiele/[id]');
 
 	useEffect(() => {
 		async function fetchGameDetails() {
@@ -29,7 +55,19 @@ export default function GameDetail({ game }: Props) {
 					}
 				);
 
-				const gameData = await response.json();
+				const gameData = (await response.json()) as combinedGame[];
+
+				gameData[0].videos.map((video: Video) => {
+					const newVideo: Video = {
+						name: video.name,
+						video_id: video.video_id,
+					};
+
+					console.log(newVideo);
+
+					setTrailerState([...trailerState, newVideo]);
+					console.log(trailerState);
+				});
 
 				const keyartURL = handleKeyartURL(gameData[0].cover.url);
 				const releaseDate = handleDate(gameData[0].release_dates[0].human);
