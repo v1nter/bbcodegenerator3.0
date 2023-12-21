@@ -19,15 +19,65 @@
 	}
 }
 
+.ControlPanel {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+
+	@media (width >= 1366px) {
+		flex-direction: row;
+	}
+
+	@media (876px < width < 1366px) {
+		flex-direction: row;
+	}
+
+	@media (width <= 876px) {
+		flex-direction: column;
+	}
+}
+
+.DeleteContainer {
+	flex: 1;
+
+	margin: 1rem;
+
+	@media (width <= 876px) {
+		order: 3;
+		display: none;
+	}
+}
+
+.DeleteBtn {
+	border: 1px solid;
+}
+
+.DeleteBtn:active {
+	transform: translateY(1px);
+}
+
 .TitleContainer {
+	flex: 1;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	@media (width <= 876px) {
+		order: 1;
+	}
 }
 
 .Title {
 	text-align: center;
 	margin-right: 1rem;
+}
+
+.SaveContainer {
+	flex: 1;
+	margin: 1rem;
+	@media (width <= 876px) {
+		order: 2;
+	}
 }
 
 .Savebtn {

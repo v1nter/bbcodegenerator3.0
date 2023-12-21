@@ -19,7 +19,5 @@ export default async function GameDetails({ params }: Props) {
 	const response = await fetch(`${host}/api/Games/GetGameDetail/${params.id}`);
 	const data = (await response.json()) as Game;
 
-	// igdb_getAccessToken();
-
 	return <GameDetail game={data} />;
 }

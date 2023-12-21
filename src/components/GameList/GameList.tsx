@@ -1,7 +1,5 @@
 'use client';
 
-// https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png
-
 import { Fragment, useEffect, useState } from 'react';
 import css from './GameList.module.css';
 import { Game, Platform, Event } from '@prisma/client';

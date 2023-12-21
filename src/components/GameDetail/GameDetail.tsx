@@ -1,15 +1,20 @@
 'use client';
 import { Fragment, useEffect, useState } from 'react';
 import css from './GameDetail.module.css';
+import { useRouter } from 'next/navigation';
 
 import { Game } from '@prisma/client';
 
 type Props = {
 	game: Game;
 };
+
+export const dynamic = 'force-dynamic';
+
 export default function GameDetail({ game }: Props) {
 	const [gameDetail, setGameDetail] = useState(game);
 	const [trigger, setTrigger] = useState(0);
+	const router = useRouter();
 
 	useEffect(() => {
 		async function fetchGameDetails() {
@@ -41,16 +46,30 @@ export default function GameDetail({ game }: Props) {
 
 	return (
 		<Fragment>
-			<div className={css.GameDetailWrapper}>
+			<div className={css.ControlPanel}>
+				<div className={css.DeleteContainer}>
+					<button
+						className={css.DeleteBtn}
+						onClick={() =>
+							handleDelete(gameDetail).then(() => router.push('/Spiele'))
+						}
+					>
+						Löschen
+					</button>
+				</div>
 				<div className={css.TitleContainer}>
 					<h1 className={css.Title}>{gameDetail.game_name}</h1>
+				</div>
+				<div className={css.SaveContainer}>
 					<button
 						className={css.Savebtn}
-						onClick={() => handleSave(gameDetail)}
+						onClick={() => handleDelete(gameDetail)}
 					>
 						Speichern
 					</button>
 				</div>
+			</div>
+			<div className={css.GameDetailWrapper}>
 				<div className={css.GameInfoWrapper}>
 					<div className={css.ArtworkContainer}>
 						<button
@@ -165,6 +184,16 @@ function handleDate(date: string) {
 
 async function handleSave(game: Game) {
 	const result = await fetch(`/api/Games/UpdateOrCreateGame`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(game),
+	});
+
+	return result;
+}
+
+async function handleDelete(game: Game) {
+	const result = await fetch(`/api/Games/DeleteGame`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(game),
