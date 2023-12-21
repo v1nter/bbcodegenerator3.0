@@ -1,3 +1,6 @@
+import { access } from 'fs';
+import { checkEnvironment } from './checkEnvironment';
+
 export async function igdb_getAccessToken() {
 	const client_id = process.env.IGDB_CLIENT_ID;
 	const client_secret = process.env.IGDB_CLIENT_SECRET;
@@ -11,5 +14,24 @@ export async function igdb_getAccessToken() {
 
 	const accessToken = await response.json();
 
-	console.log('Access Token: ' + accessToken.access_token);
+	igdb_storeAccessToken(accessToken.access_token);
+}
+
+async function igdb_storeAccessToken(accessToken: string) {
+	const host = checkEnvironment();
+	const response = await fetch(
+		`${host}/api/IGDB/StoreAccessToken?accesstoken=${accessToken}`,
+		{
+			method: 'POST',
+			body: accessToken,
+		}
+	);
+}
+
+export async function igdb_readAccessTokenFromDB() {
+	const host = checkEnvironment();
+
+	const response = await fetch(`${host}/api/IGDB/ReadAccessTokenFromDB`);
+
+	return response;
 }

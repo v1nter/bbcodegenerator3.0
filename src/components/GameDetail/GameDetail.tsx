@@ -3,25 +3,47 @@ import { Fragment, useEffect, useState } from 'react';
 import css from './GameDetail.module.css';
 
 import { Game } from '@prisma/client';
-import { igdb_getAccessToken } from '@/app/lib/fetchIGDB';
 
 type Props = {
 	game: Game;
 };
 export default function GameDetail({ game }: Props) {
 	const [gameDetail, setGameDetail] = useState(game);
+	const [trigger, setTrigger] = useState(0);
 
-	igdb_getAccessToken();
+	useEffect(() => {
+		async function fetchGameDetails() {
+			if (trigger > 0) {
+				const response = await fetch(
+					`/api/IGDB/GetGame?game=${gameDetail.game_name}`,
+					{
+						method: 'POST',
+					}
+				);
+
+				const gameData = await response.json();
+
+				const newGame = {
+					...gameDetail,
+					game_keyart: gameData[0].cover.url,
+				};
+
+				setGameDetail(newGame);
+			}
+		}
+
+		fetchGameDetails();
+	}, [trigger]);
 
 	return (
 		<Fragment>
 			<div className={css.GameDetailWrapper}>
 				<div className={css.TitleContainer}>
-					<h1 className={css.Title}>{game.game_name}</h1>
+					<h1 className={css.Title}>{gameDetail.game_name}</h1>
 				</div>
 				<div className={css.GameInfoWrapper}>
 					<div className={css.ArtworkContainer}>
-						<img src={game.game_keyart} className={css.Artwork} />
+						<img src={gameDetail.game_keyart} className={css.Artwork} />
 					</div>
 					<div className={css.GameInfoTable}>
 						<table>
@@ -32,7 +54,15 @@ export default function GameDetail({ game }: Props) {
 										<input
 											type="text"
 											className={css.InfoInput}
-											// value={gameDetail.game_release_date}
+											value={gameDetail.game_release_date}
+											onChange={(e) => {
+												const newGame = {
+													...gameDetail,
+													game_release_date: e.target.value,
+												};
+
+												setGameDetail(newGame);
+											}}
 										></input>
 									</td>
 								</tr>
@@ -42,7 +72,15 @@ export default function GameDetail({ game }: Props) {
 										<input
 											type="text"
 											className={css.InfoInput}
-											// value={gameDetail.game_keyart}
+											value={gameDetail.game_keyart}
+											onChange={(e) => {
+												const newGame = {
+													...gameDetail,
+													game_keyart: e.target.value,
+												};
+
+												setGameDetail(newGame);
+											}}
 										></input>
 									</td>
 								</tr>
@@ -52,7 +90,15 @@ export default function GameDetail({ game }: Props) {
 										<input
 											type="text"
 											className={css.InfoInput}
-											// value={gameDetail.game_description}
+											value={gameDetail.game_description}
+											onChange={(e) => {
+												const newGame = {
+													...gameDetail,
+													game_description: e.target.value,
+												};
+
+												setGameDetail(newGame);
+											}}
 										></input>
 									</td>
 								</tr>
@@ -61,8 +107,23 @@ export default function GameDetail({ game }: Props) {
 									<td className={css.tdCentered}>
 										<input
 											type="checkbox"
-											// checked={gameDetail.game_no_export}
+											checked={gameDetail.game_no_export}
+											onChange={(e) => {
+												const newGame = {
+													...gameDetail,
+													game_no_export: e.target.checked,
+												};
+
+												setGameDetail(newGame);
+											}}
 										></input>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<button onClick={() => setTrigger(trigger + 1)}>
+											Update
+										</button>
 									</td>
 								</tr>
 							</tbody>
@@ -73,3 +134,5 @@ export default function GameDetail({ game }: Props) {
 		</Fragment>
 	);
 }
+
+function handleCoverURL(url: string) {}
