@@ -7,20 +7,71 @@
 @media (width <= 876px) {
 }
 
-/* .GameDetailWrapper {
+.GameDetailWrapper {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	width: 100%;
+
+	font-size: 20px;
+
+	@media (width <= 876px) {
+		font-size: 16px;
+	}
+}
+
+.GameInfoWrapper {
+	display: flex;
+	width: 80%;
+
+	@media (width >= 1366px) {
+		flex-direction: row;
+		/* justify-content: center - 200px; */
+	}
+
+	@media (876px < width < 1366px) {
+		flex-direction: row;
+	}
 
 	@media (width <= 876px) {
 		width: 80%;
+		align-items: center;
+		flex-direction: column;
 	}
-} */
+}
 
 .Artwork {
 	flex: 1;
 	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
-	width: 100%;
-	height: 100%;
+	margin-bottom: 2rem;
+	margin-right: 2rem;
+
+	@media (width >= 1366px) {
+		width: 264px;
+	}
+
+	@media (876px < width < 1366px) {
+		width: 264px;
+	}
+
+	@media (width <= 876px) {
+		width: 200px;
+		align-self: center;
+	}
+
+	/* border: solid; */
+}
+
+.GameInfoTable {
+	align-self: flex-start;
+}
+
+.InfoInput {
+	@media (width <= 876px) {
+		width: 10rem;
+	}
+}
+
+.tdCentered {
+	text-align: center;
 }
