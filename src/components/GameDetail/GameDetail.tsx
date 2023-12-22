@@ -89,7 +89,9 @@ export default function GameDetail({ game }: Props) {
 					<button
 						className={css.DeleteBtn}
 						onClick={() =>
-							handleDelete(gameDetail).then(() => router.push('/Spiele'))
+							handleDeleteTrailer(gameDetail)
+								.then(() => handleDeleteGame(gameDetail))
+								.then(() => router.push('/Spiele'))
 						}
 					>
 						Löschen
@@ -276,7 +278,17 @@ async function saveTrailer(trailer: Trailer) {
 	});
 }
 
-async function handleDelete(game: Game) {
+async function handleDeleteTrailer(game: Game) {
+	const result = await fetch(`/api/Trailer/DeleteTrailer`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(game),
+	});
+
+	return result;
+}
+
+async function handleDeleteGame(game: Game) {
 	const result = await fetch(`/api/Games/DeleteGame`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
