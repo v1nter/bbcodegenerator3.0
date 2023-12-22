@@ -89,9 +89,9 @@ export default function GameDetail({ game }: Props) {
 					<button
 						className={css.DeleteBtn}
 						onClick={() =>
-							handleDeleteTrailer(gameDetail)
-								.then(() => handleDeleteGame(gameDetail))
-								.then(() => router.push('/Spiele'))
+							// handleDeleteTrailer(gameDetail)
+							// .then(() => handleDeleteGame(gameDetail))
+							handleDeleteGame(gameDetail).then(() => router.push('/Spiele'))
 						}
 					>
 						Löschen

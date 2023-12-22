@@ -95,7 +95,7 @@ model Trailer {
     trailer_url   String   @unique
     trailer_delta Boolean
     trailer_date  DateTime @default(now())
-    Game          Game     @relation(fields: [gameGame_id], references: [game_id])
+    Game          Game     @relation(fields: [gameGame_id], references: [game_id], onDelete: Cascade)
     // game          Game     @relation(fields: [game_key], references: [game_id])
     // game_key      Int
     gameGame_id   Int
