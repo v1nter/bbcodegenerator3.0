@@ -255,10 +255,16 @@ function handleTrailer(trailer: APITRailer, game_id: number) {
 }
 
 async function handleSaveGame(game: GameData) {
+	const updateGame: GameData = {
+		...game,
+		game_delta: true,
+		game_update: false,
+	};
+
 	const result = await fetch(`/api/Games/UpdateOrCreateGame`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(game),
+		body: JSON.stringify(updateGame),
 	});
 
 	return result;
