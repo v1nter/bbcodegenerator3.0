@@ -1,0 +1,30 @@
+@media (width >= 1366px) {
+}
+
+@media (876px < width < 1366px) {
+}
+
+@media (width <= 876px) {
+}
+
+.ExportWrapper {
+	display: flex;
+	justify-content: center;
+	width: 95%;
+
+	@media (width >= 1366px) {
+		flex-direction: row;
+	}
+
+	@media (876px < width < 1366px) {
+		flex-direction: row;
+	}
+
+	@media (width <= 876px) {
+		flex-direction: column;
+	}
+}
+
+.Table {
+	border: 1px solid;
+}
