@@ -1,0 +1,19 @@
+.HomeWrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-family: var(--font-1);
+	color: var(--secondary-font);
+	width: 90%;
+
+	user-select: none;
+}
+
+.CoverWrapper {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+}
