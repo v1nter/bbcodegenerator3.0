@@ -6,4 +6,4 @@ export const BBCODE_TABLE_HEADER =
 
 export const BBCODE_TABLE_BOTTOM = '[/tbody][/tblo]\n';
 
-export const BBCODE_EMPTY_ROW = "'                       '";
+export const BBCODE_EMPTY_ROW = '                       ';

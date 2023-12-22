@@ -154,14 +154,15 @@ function createBBCode(games: GameData[], delta = false) {
 			bbCode =
 				bbCode.concat(`[table=0][align=left][u]${game.game_name}[/u][/align][/table]
 			[table=0][align=left] [/align][/table]`);
-
 			game.Trailer.map((trailer) => {
 				bbCode = bbCode.concat(
 					`[table=0][align=left][url=https://www.youtube.com/watch?v=${trailer.trailer_url}]${trailer.trailer_name}[/url]`
 				);
-				// bbCode = bbCode.concat(BBCODE_EMPTY_ROW);
-				bbCode = bbCode.concat('[/align][/table]');
+				bbCode = bbCode.concat(BBCODE_EMPTY_ROW);
+				// bbCode = bbCode.concat('[/align][/table]');
 			});
+
+			bbCode = bbCode.concat('[table=0][align=left] [/align][/table]');
 		});
 
 		bbCode = bbCode.concat(BBCODE_TABLE_BOTTOM);
