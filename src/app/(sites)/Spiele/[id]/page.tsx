@@ -18,7 +18,9 @@ export const dynamic = 'force-dynamic';
 const host = checkEnvironment();
 
 export default async function GameDetails({ params }: Props) {
-	triggerRevalidate('/(sites)/Spiele/[id]');
+	const revalidate = await fetch(
+		`${host}/api/Revalidate/?secret=${process.env.REVALIDATE_SECRET}&path=/(sites)/Spiele/[ID]`
+	);
 
 	const response = await fetch(`${host}/api/Games/GetGameDetail/${params.id}`);
 	const data = (await response.json()) as GameData;

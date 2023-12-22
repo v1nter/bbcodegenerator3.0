@@ -11,8 +11,11 @@ type GameData = Game & { Platform: Platform[] } & {
 } & { Event: Event };
 
 export default async function page() {
-	const response = await fetch(`${host}/api/Games/GetExportGames`);
-	const data = (await response.json()) as GameData[];
+	const responseGames = await fetch(`${host}/api/Games/GetExportGames`);
+	const games = (await responseGames.json()) as GameData[];
 
-	return <ExportComponent games={data} />;
+	const responseEvent = await fetch(`${host}/api/Events/GetCurrentEvent`);
+	const event = (await responseEvent.json()) as Event;
+
+	return <ExportComponent games={games} event={event} />;
 }

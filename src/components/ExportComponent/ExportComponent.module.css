@@ -25,6 +25,20 @@
 	}
 }
 
+.Postbtn {
+	border: 1px solid;
+}
+
+.Postbtn:active {
+	transform: translateY(1px);
+}
+
 .Table {
+	border: 1px solid;
+	border-collapse: collapse;
+	margin: 3rem;
+}
+
+.gameRow {
 	border: 1px solid;
 }

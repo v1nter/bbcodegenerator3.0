@@ -47,8 +47,6 @@ export default function GameDetail({ game }: Props) {
 	const [trigger, setTrigger] = useState(0);
 	const router = useRouter();
 
-	// triggerRevalidate('(sites)/Spiele/[id]');
-
 	useEffect(() => {
 		async function fetchGameDetails() {
 			if (trigger > 0) {
