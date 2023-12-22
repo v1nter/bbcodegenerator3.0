@@ -102,7 +102,9 @@ export default function GameDetail({ game }: Props) {
 					<button
 						className={css.Savebtn}
 						onClick={() =>
-							handleSave(gameDetail).then(() => router.push('/Spiele'))
+							handleSaveGame(gameDetail)
+								.then(() => handleSaveTrailer(gameDetail))
+								.then(() => router.push('/Spiele'))
 						}
 					>
 						Speichern
@@ -252,7 +254,7 @@ function handleTrailer(trailer: APITRailer, game_id: number) {
 	return t;
 }
 
-async function handleSave(game: Game) {
+async function handleSaveGame(game: GameData) {
 	const result = await fetch(`/api/Games/UpdateOrCreateGame`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -260,6 +262,18 @@ async function handleSave(game: Game) {
 	});
 
 	return result;
+}
+
+function handleSaveTrailer(game: GameData) {
+	game.Trailer.map((trailer) => saveTrailer(trailer));
+}
+
+async function saveTrailer(trailer: Trailer) {
+	const result = await fetch(`/api/Trailer/UpdateOrCreateTrailer`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(trailer),
+	});
 }
 
 async function handleDelete(game: Game) {

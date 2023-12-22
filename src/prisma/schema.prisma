@@ -90,9 +90,9 @@ model Game {
 // #############################################################################
 
 model Trailer {
-    trailer_id    Int      @id @default(autoincrement())
+    trailer_id    Int      @id @unique @default(autoincrement())
     trailer_name  String
-    trailer_url   String
+    trailer_url   String   @unique
     trailer_delta Boolean
     trailer_date  DateTime @default(now())
     Game          Game     @relation(fields: [gameGame_id], references: [game_id])
