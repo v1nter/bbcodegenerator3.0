@@ -36,7 +36,7 @@ export default function EventDetail({ event }: Props) {
 			{<h1>{event.event_id ? event.event_name : 'Neues Event anlegen'}</h1>}
 			<form
 				onSubmit={(e) => {
-					handleSave(eventData, e).then(() => router.refresh());
+					handleSave(eventData, e).then(() => router.push('/Events'));
 				}}
 			>
 				<table>

@@ -10,6 +10,10 @@ export async function GET(request: NextRequest) {
 		const games = await prisma.game.findMany({
 			where: {
 				game_name: { contains: filter, mode: 'insensitive' },
+
+				Event: {
+					event_is_current: true,
+				},
 			},
 			include: {
 				Platform: true,
