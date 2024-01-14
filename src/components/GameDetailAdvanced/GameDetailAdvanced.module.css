@@ -26,29 +26,29 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
 
-	.TitleContainer {
-		display: flex;
-		justify-content: center;
+.TitleContainer {
+	display: flex;
+	justify-content: center;
+}
 
-		.Title {
-			text-align: center;
-		}
-	}
+.Title {
+	text-align: center;
+}
 
-	.BtnContainer {
-		/* border: solid red; */
+.BtnContainer {
+	/* border: solid red; */
 
-		width: 100%;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-around;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+}
 
-		.EmptyDiv {
-			flex-grow: 2;
-		}
-	}
+.EmptyDiv {
+	flex-grow: 2;
 }
 
 .DetailContainer {
@@ -80,28 +80,28 @@
 	@media (width <= 876px) {
 		margin-bottom: 1rem;
 	}
+}
 
-	.Artwork {
-		flex: 1;
-		box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
-		flex-grow: 0;
+.Artwork {
+	flex: 1;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+	flex-grow: 0;
 
-		@media (width >= 1366px) {
-			width: 400px;
-		}
-
-		@media (876px < width < 1366px) {
-			width: 264px;
-		}
-
-		@media (width <= 876px) {
-			width: 200px;
-		}
+	@media (width >= 1366px) {
+		width: 400px;
 	}
 
-	.SelectGameBtn {
-		height: 266.66px;
-		margin-left: 1rem;
-		margin-right: 1rem;
+	@media (876px < width < 1366px) {
+		width: 264px;
 	}
+
+	@media (width <= 876px) {
+		width: 200px;
+	}
+}
+
+.SelectGameBtn {
+	height: 266.66px;
+	margin-left: 1rem;
+	margin-right: 1rem;
 }
