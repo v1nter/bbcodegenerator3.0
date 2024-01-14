@@ -179,6 +179,7 @@ async function handleNewGame(newGame: string) {
 		game_name: newGame,
 		game_description: '',
 		game_delta: true,
+		game_igdb_id: 0,
 		game_hidden: false,
 		game_no_export: false,
 		game_release_date: '',
