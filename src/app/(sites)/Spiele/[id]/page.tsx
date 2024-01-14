@@ -1,18 +1,14 @@
 import { checkEnvironment } from '@/app/lib/checkEnvironment';
-import { igdb_getAccessToken } from '@/app/lib/fetchIGDB';
-import triggerRevalidate from '@/app/lib/triggerRevalidate';
+import type { GameData } from '@/app/lib/types';
 import GameDetail from '@/components/GameDetail/GameDetail';
-import { Game, Platform, Event, Trailer } from '@prisma/client';
+import GameDetailAdvanced from '@/components/GameDetailAdvanced/GameDetailAdvanced';
+import { Platform } from '@prisma/client';
 
 type Props = {
 	params: {
 		id: string;
 	};
 };
-
-type GameData = Game & { Platform: Platform[] } & {
-	Trailer: Trailer[];
-} & { Event: Event };
 
 export const dynamic = 'force-dynamic';
 const host = checkEnvironment();
@@ -22,8 +18,19 @@ export default async function GameDetails({ params }: Props) {
 		`${host}/api/Revalidate/?secret=${process.env.REVALIDATE_SECRET}&path=/(sites)/Spiele/[ID]`
 	);
 
-	const response = await fetch(`${host}/api/Games/GetGameDetail/${params.id}`);
-	const data = (await response.json()) as GameData;
+	const gameResponse = await fetch(
+		`${host}/api/Games/GetGameDetail/${params.id}`
+	);
+	const gameData = (await gameResponse.json()) as GameData;
 
-	return <GameDetail game={data} />;
+	const platformResponse = await fetch(`${host}/api/Platforms/GetPlatforms`);
+	const platformData = (await platformResponse.json()) as Platform[];
+
+	// const platforms = platformData.map((platform) => ({
+	// 	value: platform.platform_id,
+	// 	label: platform.platform_name,
+	// }));
+
+	return <GameDetailAdvanced game={gameData} platforms={platformData} />;
+	// return <GameDetail game={data} />;
 }

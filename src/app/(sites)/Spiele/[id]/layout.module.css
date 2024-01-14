@@ -6,3 +6,8 @@
 .Link:hover {
 	color: var(--hover);
 }
+
+.main {
+	/* border: solid green; */
+	width: 100%;
+}

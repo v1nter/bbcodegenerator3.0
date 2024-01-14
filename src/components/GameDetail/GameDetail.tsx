@@ -43,7 +43,6 @@ export const dynamic = 'force-dynamic';
 
 export default function GameDetail({ game }: Props) {
 	const [gameDetail, setGameDetail] = useState(game);
-	// const [trailerState, setTrailerState] = useState<Array<APITRailer>>([]);
 	const [trigger, setTrigger] = useState(0);
 	const router = useRouter();
 
@@ -83,20 +82,18 @@ export default function GameDetail({ game }: Props) {
 	return (
 		<Fragment>
 			<div className={css.ControlPanel}>
+				<div className={css.TitleContainer}>
+					<h1 className={css.Title}>{gameDetail.game_name}</h1>
+				</div>
 				<div className={css.DeleteContainer}>
 					<button
 						className={css.DeleteBtn}
 						onClick={() =>
-							// handleDeleteTrailer(gameDetail)
-							// .then(() => handleDeleteGame(gameDetail))
 							handleDeleteGame(gameDetail).then(() => router.push('/Spiele'))
 						}
 					>
 						Löschen
 					</button>
-				</div>
-				<div className={css.TitleContainer}>
-					<h1 className={css.Title}>{gameDetail.game_name}</h1>
 				</div>
 				<div className={css.SaveContainer}>
 					<button

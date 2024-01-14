@@ -11,8 +11,16 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 100%;
+	justify-content: center;
 	font-size: 20px;
+	/* border: solid yellow; */
+
+	@media (width >= 1366px) {
+		/* width: 50%; */
+	}
+
+	@media (876px < width < 1366px) {
+	}
 
 	@media (width <= 876px) {
 		font-size: 16px;
@@ -40,12 +48,18 @@
 
 .DeleteContainer {
 	flex: 1;
-
 	margin: 1rem;
 
+	@media (width >= 1366px) {
+		order: 1;
+	}
+
+	@media (876px < width < 1366px) {
+		order: 1;
+	}
+
 	@media (width <= 876px) {
-		order: 3;
-		display: none;
+		order: 1;
 	}
 }
 
@@ -62,8 +76,17 @@
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+
+	@media (width >= 1366px) {
+		order: 2;
+	}
+
+	@media (876px < width < 1366px) {
+		order: 2;
+	}
+
 	@media (width <= 876px) {
-		order: 1;
+		order: 2;
 	}
 }
 
@@ -75,8 +98,17 @@
 .SaveContainer {
 	flex: 1;
 	margin: 1rem;
+
+	@media (width >= 1366px) {
+		order: 3;
+	}
+
+	@media (876px < width < 1366px) {
+		order: 3;
+	}
+
 	@media (width <= 876px) {
-		order: 2;
+		order: 3;
 	}
 }
 
@@ -90,7 +122,10 @@
 
 .GameInfoWrapper {
 	display: flex;
-	width: 80%;
+	width: 100%;
+	justify-content: center;
+
+	/* border: solid red; */
 
 	@media (width >= 1366px) {
 		flex-direction: row;
@@ -101,8 +136,6 @@
 	}
 
 	@media (width <= 876px) {
-		width: 80%;
-		/* align-items: center; */
 		flex-direction: column;
 	}
 }
@@ -111,6 +144,8 @@
 	/* background-color: transparent; */
 	border: 1px solid;
 	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+	flex: 1;
+	flex-grow: 0;
 
 	@media (width >= 1366px) {
 		width: 400px;
@@ -129,11 +164,35 @@
 	transform: translateY(1px);
 }
 
+.ArtworkContainer {
+	/* border: solid; */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	@media (width >= 1366px) {
+		margin-right: 2rem;
+	}
+
+	@media (876px < width < 1366px) {
+		margin-right: 2rem;
+	}
+
+	@media (width <= 876px) {
+		margin-bottom: 1rem;
+	}
+}
+
 .Artwork {
 	flex: 1;
 	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
-	margin-bottom: 2rem;
-	margin-right: 2rem;
+	/* align-self: center; */
+	flex-grow: 0;
+	/* margin-bottom: 2rem; */
+	/* margin-right: 2rem; */
+	/* align-self: center; */
+	/* border: solid; */
 
 	@media (width >= 1366px) {
 		width: 400px;
@@ -151,7 +210,15 @@
 }
 
 .GameInfoTable {
-	align-self: flex-start;
+	/* align-self: flex-start; */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	/* border: solid red; */
+
+	@media (876px < width < 1366px) {
+	}
 }
 
 .InfoInput {

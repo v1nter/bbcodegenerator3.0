@@ -2,6 +2,9 @@
 	display: flex;
 	flex-direction: column;
 	min-height: 100dvh;
+	/* width: 100dvw; */
+
+	/* border: solid brown; */
 }
 
 .siteContent {
@@ -10,4 +13,5 @@
 	flex: 1;
 	background-color: var(--primary-bg);
 	margin: 0;
+	/* border: solid green; */
 }

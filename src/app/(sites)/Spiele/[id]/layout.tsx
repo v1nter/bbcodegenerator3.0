@@ -8,7 +8,7 @@ type Props = {
 export default function layout({ children }: Props) {
 	return (
 		<Fragment>
-			<main>{children}</main>
+			<main className={css.main}>{children}</main>
 			<br />
 			<p>
 				<Link className={css.Link} href="\Spiele">

@@ -62,6 +62,7 @@ enum PlatformType {
 
 model Game {
     game_id           Int        @id @default(autoincrement())
+    game_igdb_id      Int        @default(0)
     game_name         String     @unique
     game_release_date String
     game_keyart       String
@@ -70,15 +71,9 @@ model Game {
     game_hidden       Boolean
     game_update       Boolean
     game_no_export    Boolean //Falls ein Spiel geupdated werden muss, aber noch keine aktuellen Daten verfügbar sind => Halte Spiel im Reihenupdate
-    // GamePlatform      GamePlatform[]
-    // GameEvent         GameEvent[]
     Trailer           Trailer[]
     Event             Event      @relation(fields: [eventEvent_id], references: [event_id])
     Platform          Platform[]
-    // Event               Event?    @relation(fields: [eventEvent_id], references: [event_id])
-    // eventEvent_id       Int?
-    // Platform            Platform? @relation(fields: [platformPlatform_id], references: [platform_id])
-    // platformPlatform_id Int?
     eventEvent_id     Int
 }
 
