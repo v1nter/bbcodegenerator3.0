@@ -1,5 +1,5 @@
 'use client';
-import type { GameData, IGDBGameData, IGDBTrailer } from '@/app/lib/types';
+import type { GameData, IGDBGameData, IGDBPlatform } from '@/app/lib/types';
 import { Fragment, useEffect, useState } from 'react';
 import css from './GameDetailAdvanced.module.css';
 import { Platform, Trailer } from '@prisma/client';
@@ -39,7 +39,7 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 			// ############################
 			const fetchGames = async () => {
 				try {
-					const newGames = await fetchGamesFromIGDB(gameDetail);
+					const newGames = await fetchGamesFromIGDB(gameDetail, platforms);
 					setNewGameDetail(newGames);
 
 					if (newGames.length > 0) {
@@ -69,10 +69,13 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 					// Spiels (selectedGame == 0)
 					// => Notwendig, damit beim Speichern OHNE vorheriges durchschalten durch
 					// die geladenen Spiele trotzdem ein Keyart gespeichert wird
+					//
+					// => Gleiches gilt für die IGDB-ID
 					if (startIndex == -1) {
 						const newGame: GameData = {
 							...gameDetail,
 							game_keyart: newGames[selectedGame].game_keyart,
+							game_igdb_id: newGames[selectedGame].game_igdb_id,
 						};
 
 						setGameDetail(newGame);
@@ -102,6 +105,7 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 	// # Array mit allen Plattformen zum befüllen des MultiSelect
 	// #
 	// ###################
+
 	const allPlatforms = platforms.map((platform) => ({
 		value: platform.platform_id,
 		label: platform.platform_name,
@@ -322,6 +326,24 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 										/>
 									</td>
 								</tr>
+								{editMode && (
+									<tr>
+										<td></td>
+										<td>
+											<Select
+												options={allPlatforms}
+												isMulti
+												value={newGameDetail[selectedGame].Platform.map(
+													(platform) => ({
+														value: platform.platform_id,
+														label: platform.platform_name,
+													})
+												)}
+												instanceId={'platforms'}
+											/>
+										</td>
+									</tr>
+								)}
 								{/* ###################################
 								# 
 								# Beschreibung
@@ -369,44 +391,41 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 										></input>
 									</td>
 								</tr>
+								<tr>
+									<td>&nbsp;</td>
+								</tr>
+								{/* ########################### 
+								# 
+								# IGDB-Alias 
+								#
+								########################### */}
+								<tr>
+									<td>IGDB Alias</td>
+									<td>
+										<input
+											disabled={!editMode}
+											className={css.InfoInput}
+											type="text"
+										></input>
+									</td>
+								</tr>
 								{/* ########################### 
 								# 
 								# IGDB-ID 
 								#
 								########################### */}
-								{/* <tr>
+								<tr>
 									<td>IGDB ID:</td>
 									<td>
 										<input
-											disabled={!editMode}
+											disabled
 											readOnly
 											type="text"
 											className={css.InfoInput}
 											value={gameDetail.game_igdb_id}
-											onChange={(e) => {
-												const newGame = {
-													...gameDetail,
-													game_igdb_id: Number(e.target.value),
-												};
-
-												setGameDetail(newGame);
-											}}
 										></input>
 									</td>
-								</tr> */}
-								{editMode && (
-									<tr>
-										<td>IGDB ID:</td>
-										<td>
-											<input
-												readOnly
-												type="text"
-												className={css.InfoInput}
-												value={newGameDetail[selectedGame].game_igdb_id}
-											></input>
-										</td>
-									</tr>
-								)}
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -438,7 +457,10 @@ function handleSelectGame(dir: string, index: number, maxIndex: number) {
 	}
 }
 
-async function fetchGamesFromIGDB(gameDetail: GameData) {
+async function fetchGamesFromIGDB(
+	gameDetail: GameData,
+	platformData: Platform[]
+) {
 	// ##############################
 	// #
 	// # Sucht bei IGDB nach allen Datensätzen mit dem Spieletitel
@@ -472,6 +494,8 @@ async function fetchGamesFromIGDB(gameDetail: GameData) {
 			gameDetail.game_id
 		);
 
+		const gamePlatforms = handlePlatforms(fetchedgame, platformData);
+
 		const newGame: GameData = {
 			...gameDetail,
 			game_name: gameName,
@@ -480,12 +504,52 @@ async function fetchGamesFromIGDB(gameDetail: GameData) {
 			game_release_date: releaseDate,
 			game_update: false,
 			Trailer: newTrailer,
+			Platform: gamePlatforms as Platform[],
 		};
 
 		return newGame;
 	});
 
 	return newGames;
+}
+
+function handlePlatforms(fetchedgame: IGDBGameData, platformData: Platform[]) {
+	// Überprüfe, ob überhaupt eine Platform mitgegeben wird
+	if (!fetchedgame.platforms?.length) {
+		return [
+			{
+				platform_id: 0,
+				platform_name: 'Keine Platform',
+				platform_image: 'Kein Bild',
+				platform_type: 'PC',
+			},
+		];
+	}
+
+	// Gehe alle Plattformen durch
+	const selectedPlatforms = fetchedgame.platforms
+		.map((platform) => {
+			// Überprüfe, ob die Plattform schon in der DB ist (= relevant ist)
+			if (platformData.find((p) => p.platform_name === platform.name)) {
+				// Ergänze das IGDB-Objekt mit den Daten aus der DB zu eimem Plattform-Objekt
+				return {
+					platform_name: platform.name,
+					platform_id: platformData.find(
+						(p) => p.platform_name === platform.name
+					)!.platform_id,
+					platform_image: platformData.find(
+						(p) => p.platform_name === platform.name
+					)!.platform_image,
+					platform_type: platformData.find(
+						(p) => p.platform_name === platform.name
+					)!.platform_type,
+				};
+			}
+		})
+		// Filtere undefinied (das waren die nicht-relevante Plattformen)
+		.filter((platform) => platform !== undefined);
+
+	return selectedPlatforms;
 }
 
 function handleKeyartURL(game: IGDBGameData) {

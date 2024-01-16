@@ -25,7 +25,7 @@ type IGDBReleaseDate = {
 	human: string;
 };
 
-type IGDBPlatform = {
+export type IGDBPlatform = {
 	name: string;
 };
 
