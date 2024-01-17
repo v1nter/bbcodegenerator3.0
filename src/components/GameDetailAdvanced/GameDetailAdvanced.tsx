@@ -1,6 +1,6 @@
 'use client';
 import type { GameData, IGDBGameData, IGDBPlatform } from '@/app/lib/types';
-import { Fragment, useEffect, useState } from 'react';
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
 import css from './GameDetailAdvanced.module.css';
 import { Platform, Trailer } from '@prisma/client';
 import { useRouter } from 'next/navigation';
@@ -16,6 +16,19 @@ type Props = {
 
 export const dynamic = 'force-dynamic';
 
+// Todo:
+// 01. game.game_delta: Es darf nicht immer game_delta = true gesetzt werden, sondern nur dann, wenn sich was geändert hat
+// 		=> Bei jeder Änderung an gameDetail eine Hilfsfunktion aufrufen, die game.game_delta auf true setzt
+// 02. Trailer löschen
+// 03. Eine leere Trailerbox einbauen, in die Trailername + Trailer-URL eingetragen werden können. Dazu Speichern-Button
+// 04. Trailer ignorieren einbauen
+// 05. Ist Trailer-Delta korrekt eingebaut?
+// 06. Kein Export einbauen
+// 07. Buttons mit CSS stylen
+// 08. Speichern mit Reihenupdate einbauen
+// 09. Buttons zum Übernehmen der IGDB-Daten einbauen
+// 10. Select-Boxen mit CSS Stylen
+
 export default function GameDetailAdvanced({ game, platforms }: Props) {
 	const [gameDetail, setGameDetail] = useState(game); // Beinhaltet die Daten des Spiels aus DB => wird (ggf. modifiziert) auch wieder in DB gespeichert
 	const [trigger, setTrigger] = useState(0); // Trigger zum Nachladen von Daten per API
@@ -29,12 +42,11 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 
 	useEffect(() => {
 		if (trigger > 0) {
-			// Soll nicht beim ersten Laden der Komponente ausgelöst werden, daher der Trigger
-
 			// ############################
 			// #
 			// # Holt sich die neuen Spiele bei IGDB, die zum Suchbegriff passen
 			// # und speichert sie als Array in newGameDetail
+			// # Soll nicht beim ersten Laden der Komponente ausgelöst werden, daher der Trigger
 			// #
 			// ############################
 			const fetchGames = async () => {
@@ -156,7 +168,10 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 							) : (
 								<button
 									onClick={() => {
-										handleSaveGame(gameDetail).then(() => setEditMode(false));
+										handleSaveGame(gameDetail)
+											.then(() => setEditMode(false))
+											.then(() => handleSaveTrailer(gameDetail))
+											.then(() => router.push('/Spiele'));
 									}}
 								>
 									Speichern
@@ -279,8 +294,6 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 														...newGameDetail[selectedGame],
 														game_release_date: e.target.value,
 													};
-
-													// setNewGameDetail(newGame);
 												}}
 											></input>
 										</td>
@@ -429,21 +442,62 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 							</tbody>
 						</table>
 					</div>
-					<div className={css.TrailerContainer}>
-						Dies ist der Trailercontainer
-						{gameDetail.Trailer.map((trailer) => (
-							<section>{trailer.trailer_name}</section>
+				</div>
+				{/* ###################################
+				#
+				# Trailer 
+				# 
+				################################### */}
+				<div className={css.TrailerContainer}>
+					{/* // Zeige alle Trailer an, die sich im gameDetail befinden */}
+
+					{gameDetail.Trailer.map((trailer) => (
+						<div key={trailer.trailer_url} className={css.TrailerBox}>
+							<p className={css.TrailerName}>{trailer.trailer_name}</p>
+							<div className={css.TrailerButtons}>
+								<button>Löschen</button>
+							</div>
+							<iframe
+								className={css.Trailer}
+								src={`https://www.youtube.com/embed/${trailer.trailer_url}`}
+								title="YouTube video player"
+							></iframe>
+						</div>
+					))}
+				</div>
+				{editMode && (
+					// Zeige alle Trailer an, die sich im newGameDetail befinden
+					// außer denen, die bereits in gameDetail vorhanden sind
+
+					<div className={css.NewTrailerContainer}>
+						{newGameDetail[selectedGame].Trailer.filter(
+							(trailer) =>
+								!gameDetail.Trailer.some(
+									(existingTrailer) =>
+										existingTrailer.trailer_url === trailer.trailer_url
+								)
+						).map((trailer) => (
+							<div key={trailer.trailer_url} className={css.TrailerBox}>
+								<p className={css.TrailerName}>{trailer.trailer_name}</p>
+								<div className={css.TrailerButtons}>
+									<button
+										onClick={() =>
+											handleAddTrailer(trailer, gameDetail, setGameDetail)
+										}
+									>
+										Übernehmen
+									</button>
+									<button>Ignorieren</button>
+								</div>
+								<iframe
+									className={css.Trailer}
+									src={`https://www.youtube.com/embed/${trailer.trailer_url}`}
+									title="YouTube video player"
+								></iframe>
+							</div>
 						))}
 					</div>
-					{editMode && (
-						<div className={css.NewTrailerContainer}>
-							Hier kommen die Trailer von IGDB
-							{newGameDetail[selectedGame].Trailer.map((trailer) => (
-								<section>{trailer.trailer_name}</section>
-							))}
-						</div>
-					)}
-				</div>
+				)}
 			</div>
 		</Fragment>
 	);
@@ -452,7 +506,7 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 function handleSelectGame(dir: string, index: number, maxIndex: number) {
 	// #######################
 	// #
-	// # Schaltet das angezeigte Spiel durch
+	// # Schaltet durch die Spiele, die von IGDB geladen wurden
 	// #
 	// #######################
 
@@ -508,8 +562,6 @@ async function fetchGamesFromIGDB(
 			gameDetail.game_id
 		);
 
-		console.log(newTrailer);
-
 		const gamePlatforms = handlePlatforms(fetchedgame, platformData);
 
 		const newGame: GameData = {
@@ -530,6 +582,12 @@ async function fetchGamesFromIGDB(
 }
 
 function handlePlatforms(fetchedgame: IGDBGameData, platformData: Platform[]) {
+	// #######################
+	// #
+	// # Füllt das <Select>-Element mit den Plattformen von IGDB
+	// #
+	// #######################
+
 	// Überprüfe, ob überhaupt eine Platform mitgegeben wird
 	if (!fetchedgame.platforms?.length) {
 		return [
@@ -646,6 +704,8 @@ async function handleSaveGame(game: GameData) {
 	// #
 	// ####################################
 
+	console.log(game);
+
 	const updateGame: GameData = {
 		...game,
 		game_delta: true,
@@ -675,4 +735,36 @@ async function handleDeleteGame(game: GameData) {
 	});
 
 	return result;
+}
+
+function handleAddTrailer(
+	trailer: Trailer,
+	gameDetail: GameData,
+	setGameDetail: Dispatch<SetStateAction<GameData>>
+) {
+	// ########################
+	// #
+	// # Fügt einen IGDB Trailer dem gameDetail-Objekt hinzu
+	// #
+	// ########################
+
+	const newGame: GameData = {
+		...gameDetail,
+		Trailer: [...gameDetail.Trailer, trailer],
+	};
+
+	setGameDetail(newGame);
+}
+
+function handleSaveTrailer(game: GameData) {
+	game.Trailer.map((trailer) => saveTrailer(trailer));
+}
+
+async function saveTrailer(trailer: Trailer) {
+	// Speichere Trailer aus gameDetail in der DB
+	const result = await fetch(`/api/Trailer/UpdateOrCreateTrailer`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(trailer),
+	});
 }

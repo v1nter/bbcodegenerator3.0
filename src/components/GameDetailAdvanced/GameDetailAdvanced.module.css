@@ -106,3 +106,50 @@
 	margin-left: 1rem;
 	margin-right: 1rem;
 }
+
+.TrailerContainer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	@media (width <= 876px) {
+		justify-content: center;
+		flex-direction: column;
+	}
+}
+
+.NewTrailerContainer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	@media (width <= 876px) {
+		justify-content: center;
+		flex-direction: column;
+	}
+}
+
+.TrailerBox {
+	/* border: solid; */
+	margin: 1rem;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+	text-align: center;
+}
+
+.TrailerName {
+	/* border: solid; */
+}
+
+.TrailerButtons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	margin-bottom: 1rem;
+}
+
+.Trailer {
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
