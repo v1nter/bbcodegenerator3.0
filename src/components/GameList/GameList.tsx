@@ -104,6 +104,7 @@ export default function GameList({ games }: Props) {
 													</li>
 												))}
 											</ul>
+											<p>{game.game_description}</p>
 										</td>
 									</tr>
 								</tbody>

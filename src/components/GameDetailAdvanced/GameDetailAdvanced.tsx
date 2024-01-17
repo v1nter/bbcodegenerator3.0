@@ -28,11 +28,21 @@ export const dynamic = 'force-dynamic';
 // 08. Speichern mit Reihenupdate einbauen
 // 09. Buttons zum Übernehmen der IGDB-Daten einbauen
 // 10. Select-Boxen mit CSS Stylen
+// 11. game_descriptions automatisch mit /n Zeilenumbrüchen ergänzen, um die Beschreibung nicht zu breit werden zu lassen
+// -------------------------------------
+// Sicherstellen, dass stets nur ein Event aktuell ist
+// Delta impementieren inkl. Änderung des Status nach dem Posten
+// Funktion implementieren, die Spiele aus vergangenen Events in das aktuelle Event holt
+// Überall Revalidate überprüfen
+// Kommentieren, Kommentieren, Kommentiere
+// Refactoring überall da, wo in HTML komplexe Funktionen aufgerufen werden
+// Imgur
+// Warum werden in der Spieleliste immer kurz alle Spiele angezeigt?
 
 export default function GameDetailAdvanced({ game, platforms }: Props) {
 	const [gameDetail, setGameDetail] = useState(game); // Beinhaltet die Daten des Spiels aus DB => wird (ggf. modifiziert) auch wieder in DB gespeichert
 	const [trigger, setTrigger] = useState(0); // Trigger zum Nachladen von Daten per API
-	const [newGameDetail, setNewGameDetail] = useState<GameData[]>([]); // Speichert die Spieldaten der IGDB-API
+	const [newGameDetail, setNewGameDetail] = useState<GameData[]>([]); // Enthält die Spieldaten der IGDB-API
 	const [selectedGame, setSelectedGame] = useState(0); // Merkt sich, welches IGDB-Spiel via Pfeiltasten ausgewählt wurde
 	const [maxSelectedGame, setMaxSelectedGame] = useState(0); // Höchster Index des IGDB-Arrays
 	const [editMode, setEditMode] = useState(false); // Edit-Mode: Im Edit-Mode ändert sich die Anzeige und die Datenquelle
@@ -41,6 +51,8 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 	triggerRevalidate('(sites)/Spiele/[id]');
 
 	useEffect(() => {
+		/* #region Lädt Spieldaten von IGDB und speichert sie in newGameDetail */
+
 		if (trigger > 0) {
 			// ############################
 			// #
@@ -100,24 +112,17 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 
 			fetchGames().then(() => setEditMode(true));
 		}
+
+		/* #endregion */
 	}, [trigger]);
 
-	// ################
-	// #
-	// # Array mit allen aktuellen Plattformen des Spiels
-	// #
-	// ###############
+	// # Array mit allen aktuellen Plattformen des Spiels (=gameDetail)
 	const currentPlatforms = gameDetail.Platform.map((platform) => ({
 		value: platform.platform_id,
 		label: platform.platform_name,
 	}));
 
-	// ###################
-	// #
 	// # Array mit allen Plattformen zum befüllen des MultiSelect
-	// #
-	// ###################
-
 	const allPlatforms = platforms.map((platform) => ({
 		value: platform.platform_id,
 		label: platform.platform_name,
@@ -133,6 +138,8 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
                 ########################################################################### */}
 
 				<div className={css.ControlPanel}>
+					{/* #region ControlPanel */}
+
 					<div className={css.TitleContainer}>
 						{/* Zeige im Edit-Mode den Titel des aktuell gewählten IGDB-Datensatzes an */}
 						{!editMode ? (
@@ -179,6 +186,8 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 							)}
 						</div>
 					</div>
+
+					{/* #endregion */}
 				</div>
 
 				{/* ############################################################################
@@ -194,6 +203,7 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 					<div className={css.ArtworkContainer}>
 						{editMode && (
 							<button
+								// Button zum zurückschalten
 								className={css.SelectGameBtn}
 								onClick={() => {
 									const newSelectedGame = handleSelectGame(
@@ -232,6 +242,7 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 						)}
 						{editMode && (
 							<button
+								// Button zum vorschalten
 								className={css.SelectGameBtn}
 								onClick={() => {
 									const newSelectedGame = handleSelectGame(
@@ -655,6 +666,11 @@ function handleDate(game: IGDBGameData) {
 
 	try {
 		const releaseDate = game.release_dates.find(() => true)!.human;
+
+		if (releaseDate === 'TBD') {
+			return 'TBA';
+		}
+
 		try {
 			// Versuche, in deutsches Format zu ändern
 			const newDate = new Date(releaseDate);
@@ -673,8 +689,8 @@ function handleDate(game: IGDBGameData) {
 function handleIGDBTrailer(game: IGDBGameData, game_id: number) {
 	// ###########################
 	// #
-	// # Erstellt ein Trailerobjekt zur Weiterverarbeitung und ordnet es über
-	// # gameGame_id dem Spiel in der DB zu
+	// # Erstellt ein Array aus Trailerobjekten
+	// # Daten werden geliefert von IGDB
 	// #
 	// ###########################
 
@@ -744,7 +760,7 @@ function handleAddTrailer(
 ) {
 	// ########################
 	// #
-	// # Fügt einen IGDB Trailer dem gameDetail-Objekt hinzu
+	// # Wird per Button aufgerufen und fügt IGDB Trailer dem gameDetail-Objekt hinzu
 	// #
 	// ########################
 
