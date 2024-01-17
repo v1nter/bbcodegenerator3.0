@@ -429,6 +429,20 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 							</tbody>
 						</table>
 					</div>
+					<div className={css.TrailerContainer}>
+						Dies ist der Trailercontainer
+						{gameDetail.Trailer.map((trailer) => (
+							<section>{trailer.trailer_name}</section>
+						))}
+					</div>
+					{editMode && (
+						<div className={css.NewTrailerContainer}>
+							Hier kommen die Trailer von IGDB
+							{newGameDetail[selectedGame].Trailer.map((trailer) => (
+								<section>{trailer.trailer_name}</section>
+							))}
+						</div>
+					)}
 				</div>
 			</div>
 		</Fragment>
@@ -493,6 +507,8 @@ async function fetchGamesFromIGDB(
 			fetchedgame,
 			gameDetail.game_id
 		);
+
+		console.log(newTrailer);
 
 		const gamePlatforms = handlePlatforms(fetchedgame, platformData);
 
