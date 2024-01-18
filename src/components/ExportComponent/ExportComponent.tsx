@@ -168,7 +168,7 @@ function createBBCode(games: GameData[], delta = false) {
 			// bbCode += `[table=0][align=left]${BBCODE_EMPTY_ROW}[/align][/table]`;
 			bbCode += `[table=0][align=left]`;
 			game.Platform.forEach((platform) => {
-				bbCode += `[img]${platform.platform_image}[/img] `;
+				bbCode += `[img]${platform.platform_image}[/img]\n`;
 			});
 			bbCode += `[/align][/table][/tr]`;
 		});

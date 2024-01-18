@@ -30,6 +30,7 @@ export const dynamic = 'force-dynamic';
 // 10. Select-Boxen mit CSS Stylen
 // 11. game_descriptions automatisch mit /n Zeilenumbrüchen ergänzen, um die Beschreibung nicht zu breit werden zu lassen
 // 12. Trailernamen anpassbar machen
+// 13. Plattforms in two
 // -------------------------------------
 // Sicherstellen, dass stets nur ein Event aktuell ist
 // Delta impementieren inkl. Änderung des Status nach dem Posten
