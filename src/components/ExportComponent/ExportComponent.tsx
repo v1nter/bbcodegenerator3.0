@@ -127,7 +127,7 @@ function handlePostDelta(games: GameData[], event: Event) {
 
 	navigator.clipboard.writeText(bbCode).then(() => {
 		const w = window.open(
-			`https://forum.gamespodcast.de/posting.php?mode=reply&t=10337${event.event_updatePost}`,
+			`https://forum.gamespodcast.de/posting.php?mode=reply&${event.event_updatePost}`,
 			'_blank'
 		);
 		if (w) {
@@ -137,38 +137,6 @@ function handlePostDelta(games: GameData[], event: Event) {
 }
 
 function createBBCode(games: GameData[], delta = false) {
-	// if (delta) {
-	// 	let bbCode = 'Delta';
-	// 	return bbCode;
-	// } else {
-	// 	let bbCode = BBCODE_TABLE_TOP;
-	// 	bbCode = bbCode.concat(BBCODE_TABLE_HEADER);
-
-	// 	games.map((game) => {
-	// 		bbCode = bbCode.concat(
-	// 			`[tr][table=0][align=left][img]${handleKeyart(
-	// 				game.game_keyart
-	// 			)}[/img][/align][/table]`
-	// 		);
-	// 		bbCode = bbCode.concat('[table=0][align=left] [/align][/table]');
-	// 		bbCode =
-	// 			bbCode.concat(`[table=0][align=left][u]${game.game_name}[/u][/align][/table]
-	// 		[table=0][align=left] [/align][/table]`);
-	// 		game.Trailer.map((trailer) => {
-	// 			bbCode = bbCode.concat(
-	// 				`[table=0][align=left][url=https://www.youtube.com/watch?v=${trailer.trailer_url}]${trailer.trailer_name}[/url]`
-	// 			);
-	// 			bbCode = bbCode.concat(BBCODE_EMPTY_ROW);
-	// 			// bbCode = bbCode.concat('[/align][/table]');
-	// 		});
-
-	// 		bbCode = bbCode.concat('[table=0][align=left] [/align][/table]');
-	// 	});
-
-	// 	bbCode = bbCode.concat(BBCODE_TABLE_BOTTOM);
-
-	// 	return bbCode;
-
 	if (delta) {
 		// Logik für Delta kann hier implementiert werden
 		let bbCode = 'Delta';
