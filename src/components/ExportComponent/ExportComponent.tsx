@@ -124,7 +124,10 @@ function handlePostMain(games: GameData[], event: Event) {
 }
 
 function handlePostDelta(games: GameData[], event: Event) {
-	const bbCode = createBBCode(games, true);
+	const bbCode = createBBCode(
+		games.filter((game) => game.game_delta == true),
+		true
+	);
 
 	navigator.clipboard.writeText(bbCode).then(() => {
 		const w = window.open(
@@ -138,47 +141,46 @@ function handlePostDelta(games: GameData[], event: Event) {
 }
 
 function createBBCode(games: GameData[], delta = false) {
-	if (delta) {
-		// Logik für Delta kann hier implementiert werden
-		let bbCode = 'Delta';
-		return bbCode;
-	} else {
-		let bbCode = BBCODE_TABLE_TOP;
-		bbCode += BBCODE_TABLE_HEADER;
+	let bbCode = BBCODE_TABLE_TOP;
+	bbCode += BBCODE_TABLE_HEADER;
 
-		games.forEach((game) => {
-			bbCode += `[tr][table=0][align=left][img]${handleKeyart(
-				game.game_keyart
-			)}[/img][/align][/table]`;
-			// bbCode += `[table=0][align=left]${BBCODE_EMPTY_ROW}[/align][/table]`;
-			bbCode += `[table=0][align=left][u]${game.game_name}[/u]\n\n`;
-			bbCode += `→ ${game.game_release_date}\n`;
-			bbCode += `→ ${game.game_description}\n[/align][/table]`;
-			// bbCode += `[table=0][align=left]${BBCODE_EMPTY_ROW}[/align][/table]`;
+	games.forEach((game) => {
+		bbCode += `[tr][table=0][align=left][img]${handleKeyart(
+			game.game_keyart
+		)}[/img][/align][/table]`;
+		// bbCode += `[table=0][align=left]${BBCODE_EMPTY_ROW}[/align][/table]`;
+		bbCode += `[table=0][align=left][u]${game.game_name}[/u]\n\n`;
+		bbCode += `→ ${game.game_release_date}\n`;
+		bbCode += `→ ${game.game_description}\n[/align][/table]`;
+		// bbCode += `[table=0][align=left]${BBCODE_EMPTY_ROW}[/align][/table]`;
 
-			if (game.Trailer.length > 0) {
-				bbCode += `[table=0][align=left]`;
-				game.Trailer.forEach((trailer) => {
-					bbCode += `[url=https://www.youtube.com/watch?v=${trailer.trailer_url}]${trailer.trailer_name}[/url]\n`;
-				});
-				bbCode += `[/align][/table]`;
-			} else {
-				bbCode += `[table=0][align=left] [/align][/table]`;
-			}
-
-			// bbCode += `[table=0][align=left]${BBCODE_EMPTY_ROW}[/align][/table]`;
+		if (game.Trailer.length > 0) {
 			bbCode += `[table=0][align=left]`;
-			game.Platform.forEach((platform) => {
-				bbCode += `[img]${platform.platform_image}[/img]\n`;
+			game.Trailer.forEach((trailer) => {
+				if (delta && trailer.trailer_delta) {
+					bbCode += `[color=#FF0000]NEU:[/color][url=https://www.youtube.com/watch?v=${trailer.trailer_url}]${trailer.trailer_name}[/url]\n`;
+				} else {
+					bbCode += `[url=https://www.youtube.com/watch?v=${trailer.trailer_url}]${trailer.trailer_name}[/url]\n`;
+				}
 			});
-			bbCode += `[/align][/table][/tr]`;
-			// bbCode += BBCODE_END_ROW;
+			bbCode += `[/align][/table]`;
+		} else {
+			bbCode += `[table=0][align=left] [/align][/table]`;
+		}
+
+		// bbCode += `[table=0][align=left]${BBCODE_EMPTY_ROW}[/align][/table]`;
+		bbCode += `[table=0][align=left]`;
+		game.Platform.forEach((platform) => {
+			bbCode += `[img]${platform.platform_image}[/img]\n`;
 		});
+		bbCode += `[/align][/table][/tr]`;
+		// bbCode += BBCODE_END_ROW;
+	});
 
-		bbCode += BBCODE_TABLE_BOTTOM;
+	bbCode += BBCODE_TABLE_BOTTOM;
 
-		return bbCode;
-	}
+	return bbCode;
+	// }
 }
 
 function handleKeyart(url: string) {
