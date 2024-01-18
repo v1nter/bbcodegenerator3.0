@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
 import Select from 'react-select';
+import { isDate } from 'util/types';
 
 type Props = {
 	game: GameData;
@@ -30,7 +31,6 @@ export const dynamic = 'force-dynamic';
 // 10. Select-Boxen mit CSS Stylen
 // 11. game_descriptions automatisch mit /n Zeilenumbrüchen ergänzen, um die Beschreibung nicht zu breit werden zu lassen
 // 12. Trailernamen anpassbar machen
-// 13. Plattforms in two
 // -------------------------------------
 // Sicherstellen, dass stets nur ein Event aktuell ist
 // Delta impementieren inkl. Änderung des Status nach dem Posten
@@ -40,6 +40,7 @@ export const dynamic = 'force-dynamic';
 // Refactoring überall da, wo in HTML komplexe Funktionen aufgerufen werden
 // Imgur
 // Warum werden in der Spieleliste immer kurz alle Spiele angezeigt?
+// AuthToken aus DB lesen und regelmäßig erneuern!
 
 export default function GameDetailAdvanced({ game, platforms }: Props) {
 	const [gameDetail, setGameDetail] = useState(game); // Beinhaltet die Daten des Spiels aus DB => wird (ggf. modifiziert) auch wieder in DB gespeichert
@@ -676,6 +677,10 @@ function handleDate(game: IGDBGameData) {
 		try {
 			// Versuche, in deutsches Format zu ändern
 			const newDate = new Date(releaseDate);
+
+			if (isNaN(newDate.getDate())) {
+				return releaseDate;
+			}
 
 			return newDate.toLocaleDateString('de-DE');
 		} catch {

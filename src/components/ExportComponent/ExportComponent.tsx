@@ -9,6 +9,7 @@ import {
 	BBCODE_TABLE_BOTTOM,
 	BBCODE_EMPTY_ROW,
 	BBCODE_TABLE_HEADER,
+	BBCODE_END_ROW,
 } from '@/app/lib/bbCode';
 
 type GameData = Game & { Platform: Platform[] } & {
@@ -171,6 +172,7 @@ function createBBCode(games: GameData[], delta = false) {
 				bbCode += `[img]${platform.platform_image}[/img]\n`;
 			});
 			bbCode += `[/align][/table][/tr]`;
+			// bbCode += BBCODE_END_ROW;
 		});
 
 		bbCode += BBCODE_TABLE_BOTTOM;
