@@ -156,7 +156,15 @@ function createBBCode(games: GameData[], delta = false) {
 
 		if (game.Trailer.length > 0) {
 			bbCode += `[table=0][align=left]`;
-			game.Trailer.forEach((trailer) => {
+			game.Trailer.sort((a, b) => {
+				if (a.trailer_delta && !b.trailer_delta) {
+					return -1; // a comes before b
+				} else if (!a.trailer_delta && b.trailer_delta) {
+					return 1; // a comes after b
+				} else {
+					return 0; // a and b have the same trailer_delta value
+				}
+			}).forEach((trailer) => {
 				if (delta && trailer.trailer_delta) {
 					bbCode += `[color=#FF0000]NEU:[/color][url=https://www.youtube.com/watch?v=${trailer.trailer_url}]${trailer.trailer_name}[/url]\n`;
 				} else {

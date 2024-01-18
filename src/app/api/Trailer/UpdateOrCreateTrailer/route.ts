@@ -11,7 +11,7 @@ export async function POST(request: Request) {
 					trailer_name: res.trailer_name,
 					trailer_url: res.trailer_url,
 					trailer_date: res.trailer_date,
-					trailer_delta: true,
+					trailer_delta: res.trailer_delta,
 					gameGame_id: res.gameGame_id,
 				},
 			});
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 					trailer_name: res.trailer_name,
 					trailer_url: res.trailer_url,
 					trailer_date: res.trailer_date,
-					trailer_delta: true,
+					trailer_delta: res.trailer_delta,
 					gameGame_id: res.gameGame_id,
 				},
 			});

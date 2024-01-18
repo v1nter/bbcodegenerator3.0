@@ -469,6 +469,39 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 						<div key={trailer.trailer_url} className={css.TrailerBox}>
 							<p className={css.TrailerName}>{trailer.trailer_name}</p>
 							<div className={css.TrailerButtons}>
+								<label htmlFor="Neu">Neu</label>
+								<input
+									type="checkbox"
+									id="Neu"
+									checked={trailer.trailer_delta}
+									onChange={(e) => {
+										// Erstelle eine Kopie des Trailers mit geändertem Delta-Flag
+										const newTrailer = {
+											...trailer,
+											trailer_delta: e.target.checked,
+										};
+
+										// Gehe das Trailerarray durch und ersetze den Trailer mit dem neu erstellten Trailer
+										const newTrailers: Trailer[] = gameDetail.Trailer.map(
+											(trailer) => {
+												if (trailer.trailer_id == newTrailer.trailer_id) {
+													return newTrailer;
+												} else {
+													return trailer;
+												}
+											}
+										);
+
+										// Kopiere das neue Trailerarray zurück nach gameDetails
+										const newGame = {
+											...gameDetail,
+											Trailer: newTrailers,
+										};
+
+										setGameDetail(newGame);
+									}}
+								/>
+
 								<button>Löschen</button>
 							</div>
 							<iframe
@@ -780,6 +813,8 @@ function handleAddTrailer(
 }
 
 function handleSaveTrailer(game: GameData) {
+	console.log(game.Trailer);
+
 	game.Trailer.map((trailer) => saveTrailer(trailer));
 }
 
