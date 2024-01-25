@@ -5,6 +5,8 @@ import css from './GameDetailAdvanced.module.css';
 import { Platform, Trailer } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 
+import TrailerBox from './Trailerbox/TrailerBox';
+
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
 import Select from 'react-select';
@@ -23,24 +25,27 @@ export const dynamic = 'force-dynamic';
 // 02. Trailer löschen
 // 03. Eine leere Trailerbox einbauen, in die Trailername + Trailer-URL eingetragen werden können. Dazu Speichern-Button
 // 04. Trailer ignorieren einbauen
-// 05. Ist Trailer-Delta korrekt eingebaut?
-// 06. Kein Export einbauen
+// 05. Nach dem Posten Delta löschen
+// 06. "Kein Export" einbauen
 // 07. Buttons mit CSS stylen
 // 08. Speichern mit Reihenupdate einbauen
 // 09. Buttons zum Übernehmen der IGDB-Daten einbauen
 // 10. Select-Boxen mit CSS Stylen
 // 11. game_descriptions automatisch mit /n Zeilenumbrüchen ergänzen, um die Beschreibung nicht zu breit werden zu lassen
 // 12. Trailernamen anpassbar machen
+// 13. Datum in den Trailer einbauen und nach Datum sortieren?
+// 14. Plattformen alphabetisch sortieren
 // -------------------------------------
 // Sicherstellen, dass stets nur ein Event aktuell ist
 // Delta impementieren inkl. Änderung des Status nach dem Posten
 // Funktion implementieren, die Spiele aus vergangenen Events in das aktuelle Event holt
 // Überall Revalidate überprüfen
-// Kommentieren, Kommentieren, Kommentiere
+// Kommentieren, Kommentieren, Kommentieren
 // Refactoring überall da, wo in HTML komplexe Funktionen aufgerufen werden
 // Imgur
 // Warum werden in der Spieleliste immer kurz alle Spiele angezeigt?
 // AuthToken aus DB lesen und regelmäßig erneuern!
+// GamePass / PSPlus einbauen (IGDB: Collection?)
 
 export default function GameDetailAdvanced({ game, platforms }: Props) {
 	const [gameDetail, setGameDetail] = useState(game); // Beinhaltet die Daten des Spiels aus DB => wird (ggf. modifiziert) auch wieder in DB gespeichert
@@ -180,8 +185,8 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 									onClick={() => {
 										handleSaveGame(gameDetail)
 											.then(() => setEditMode(false))
-											.then(() => handleSaveTrailer(gameDetail))
-											.then(() => router.push('/Spiele'));
+											.then(() => handleSaveTrailer(gameDetail));
+										// .then(() => router.push('/Spiele'));
 									}}
 								>
 									Speichern
@@ -466,50 +471,13 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 					{/* // Zeige alle Trailer an, die sich im gameDetail befinden */}
 
 					{gameDetail.Trailer.map((trailer) => (
-						<div key={trailer.trailer_url} className={css.TrailerBox}>
-							<p className={css.TrailerName}>{trailer.trailer_name}</p>
-							<div className={css.TrailerButtons}>
-								<label htmlFor="Neu">Neu</label>
-								<input
-									type="checkbox"
-									id="Neu"
-									checked={trailer.trailer_delta}
-									onChange={(e) => {
-										// Erstelle eine Kopie des Trailers mit geändertem Delta-Flag
-										const newTrailer = {
-											...trailer,
-											trailer_delta: e.target.checked,
-										};
-
-										// Gehe das Trailerarray durch und ersetze den Trailer mit dem neu erstellten Trailer
-										const newTrailers: Trailer[] = gameDetail.Trailer.map(
-											(trailer) => {
-												if (trailer.trailer_id == newTrailer.trailer_id) {
-													return newTrailer;
-												} else {
-													return trailer;
-												}
-											}
-										);
-
-										// Kopiere das neue Trailerarray zurück nach gameDetails
-										const newGame = {
-											...gameDetail,
-											Trailer: newTrailers,
-										};
-
-										setGameDetail(newGame);
-									}}
-								/>
-
-								<button>Löschen</button>
-							</div>
-							<iframe
-								className={css.Trailer}
-								src={`https://www.youtube.com/embed/${trailer.trailer_url}`}
-								title="YouTube video player"
-							></iframe>
-						</div>
+						<TrailerBox
+							key={trailer.trailer_url + 'old'}
+							game={gameDetail}
+							trailer={trailer}
+							setGameDetail={setGameDetail}
+							editMode={editMode}
+						/>
 					))}
 				</div>
 				{editMode && (
@@ -524,24 +492,14 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 										existingTrailer.trailer_url === trailer.trailer_url
 								)
 						).map((trailer) => (
-							<div key={trailer.trailer_url} className={css.TrailerBox}>
-								<p className={css.TrailerName}>{trailer.trailer_name}</p>
-								<div className={css.TrailerButtons}>
-									<button
-										onClick={() =>
-											handleAddTrailer(trailer, gameDetail, setGameDetail)
-										}
-									>
-										Übernehmen
-									</button>
-									<button>Ignorieren</button>
-								</div>
-								<iframe
-									className={css.Trailer}
-									src={`https://www.youtube.com/embed/${trailer.trailer_url}`}
-									title="YouTube video player"
-								></iframe>
-							</div>
+							<TrailerBox
+								key={trailer.trailer_url + 'new'}
+								game={gameDetail}
+								trailer={trailer}
+								setGameDetail={setGameDetail}
+								newTrailer={true}
+								editMode={editMode}
+							/>
 						))}
 					</div>
 				)}
@@ -760,8 +718,6 @@ async function handleSaveGame(game: GameData) {
 	// #
 	// ####################################
 
-	console.log(game);
-
 	const updateGame: GameData = {
 		...game,
 		game_delta: true,
@@ -793,6 +749,18 @@ async function handleDeleteGame(game: GameData) {
 	return result;
 }
 
+function setDelta(
+	gameDetail: GameData,
+	setGameDetail: Dispatch<SetStateAction<GameData>>
+) {
+	const newGame: GameData = {
+		...gameDetail,
+		game_delta: true,
+	};
+
+	setGameDetail(newGame);
+}
+
 function handleAddTrailer(
 	trailer: Trailer,
 	gameDetail: GameData,
@@ -813,8 +781,6 @@ function handleAddTrailer(
 }
 
 function handleSaveTrailer(game: GameData) {
-	console.log(game.Trailer);
-
 	game.Trailer.map((trailer) => saveTrailer(trailer));
 }
 
@@ -825,4 +791,42 @@ async function saveTrailer(trailer: Trailer) {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(trailer),
 	});
+}
+
+function checkforDelta(gameData1: GameData, gameData2: GameData): boolean {
+	return !deepEqual(gameData1, gameData2);
+}
+
+function deepEqual(obj1: any, obj2: any): boolean {
+	if (obj1 === obj2) {
+		return true;
+	}
+
+	if (
+		typeof obj1 !== 'object' ||
+		typeof obj2 !== 'object' ||
+		obj1 == null ||
+		obj2 == null
+	) {
+		return false;
+	}
+
+	const keys1 = Object.keys(obj1);
+	const keys2 = Object.keys(obj2);
+
+	if (keys1.length !== keys2.length) {
+		return false;
+	}
+
+	for (const key of keys1) {
+		if (!keys2.includes(key)) {
+			return false;
+		}
+
+		if (!deepEqual(obj1[key], obj2[key])) {
+			return false;
+		}
+	}
+
+	return true;
 }

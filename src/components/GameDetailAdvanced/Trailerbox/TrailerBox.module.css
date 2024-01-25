@@ -1,0 +1,35 @@
+.NewTrailerBox {
+	/* border: solid; */
+	margin: 1rem;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+	text-align: center;
+	border: solid red;
+}
+
+.OldTrailerBox {
+	margin: 1rem;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+	text-align: center;
+	border: solid green;
+}
+
+.RegularTrailerBox {
+	margin: 1rem;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
+	text-align: center;
+}
+
+.TrailerName {
+	margin: 1rem;
+}
+
+.TrailerButtons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	margin-bottom: 1rem;
+}
+
+.TrailerButton {
+	margin: 1rem;
+}
