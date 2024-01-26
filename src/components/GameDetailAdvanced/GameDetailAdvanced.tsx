@@ -23,7 +23,6 @@ export const dynamic = 'force-dynamic';
 // 01. game.game_delta: Es darf nicht immer game_delta = true gesetzt werden, sondern nur dann, wenn sich was geändert hat
 // 		=> Bei jeder Änderung an gameDetail eine Hilfsfunktion aufrufen, die game.game_delta auf true setzt
 // 02. Trailer löschen
-// 03. Eine leere Trailerbox einbauen, in die Trailername + Trailer-URL eingetragen werden können. Dazu Speichern-Button
 // 04. Trailer ignorieren einbauen
 // 05. Nach dem Posten Delta löschen
 // 06. "Kein Export" einbauen
@@ -32,7 +31,6 @@ export const dynamic = 'force-dynamic';
 // 09. Buttons zum Übernehmen der IGDB-Daten einbauen
 // 10. Select-Boxen mit CSS Stylen
 // 11. game_descriptions automatisch mit /n Zeilenumbrüchen ergänzen, um die Beschreibung nicht zu breit werden zu lassen
-// 12. Trailernamen anpassbar machen
 // 13. Datum in den Trailer einbauen und nach Datum sortieren?
 // 14. Plattformen alphabetisch sortieren
 // -------------------------------------
@@ -501,6 +499,18 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 								editMode={editMode}
 							/>
 						))}
+					</div>
+				)}
+				{editMode && (
+					// Leere Trailerbox, um manuell Trailer hinzuzufügen
+					<div className={css.DummyTrailerContainer}>
+						<TrailerBox
+							key={'EmptyTrailer'}
+							game={gameDetail}
+							setGameDetail={setGameDetail}
+							editMode={editMode}
+							emptyTrailer={true}
+						/>
 					</div>
 				)}
 			</div>
