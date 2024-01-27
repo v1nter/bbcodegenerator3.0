@@ -21,7 +21,7 @@ export const dynamic = 'force-dynamic';
 
 // Todo:
 // 01. game.game_delta: Es darf nicht immer game_delta = true gesetzt werden, sondern nur dann, wenn sich was geändert hat
-// 		=> Bei jeder Änderung an gameDetail eine Hilfsfunktion aufrufen, die game.game_delta auf true setzt
+// 		=> Bei jeder Änderung an gameDetail eine Hilfsfunktion aufrufen, die game.game_delta auf true setzt (Alternative: Eigentlich ist ja nur das Delta bei den Trailern relevant, um zu entscheiden, ob ein Spiel in das Deltaposting kommt)
 // 02. Trailer löschen
 // 04. Trailer ignorieren einbauen
 // 05. Nach dem Posten Delta löschen
@@ -471,10 +471,15 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 					{gameDetail.Trailer.map((trailer) => (
 						<TrailerBox
 							key={trailer.trailer_url + 'old'}
-							game={gameDetail}
+							gameDetail={gameDetail}
+							newGameDetail={newGameDetail}
+							selectedGame={selectedGame}
 							trailer={trailer}
 							setGameDetail={setGameDetail}
-							editMode={editMode}
+							setNewGameDetail={setNewGameDetail}
+							isNewTrailer={false}
+							isDummyTrailer={false}
+							isEditMode={editMode}
 						/>
 					))}
 				</div>
@@ -492,11 +497,15 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 						).map((trailer) => (
 							<TrailerBox
 								key={trailer.trailer_url + 'new'}
-								game={gameDetail}
+								gameDetail={gameDetail}
+								newGameDetail={newGameDetail}
+								selectedGame={selectedGame}
 								trailer={trailer}
 								setGameDetail={setGameDetail}
-								newTrailer={true}
-								editMode={editMode}
+								setNewGameDetail={setNewGameDetail}
+								isNewTrailer={true}
+								isDummyTrailer={false}
+								isEditMode={editMode}
 							/>
 						))}
 					</div>
@@ -506,10 +515,14 @@ export default function GameDetailAdvanced({ game, platforms }: Props) {
 					<div className={css.DummyTrailerContainer}>
 						<TrailerBox
 							key={'EmptyTrailer'}
-							game={gameDetail}
+							gameDetail={gameDetail}
+							newGameDetail={newGameDetail}
+							selectedGame={selectedGame}
 							setGameDetail={setGameDetail}
-							editMode={editMode}
-							emptyTrailer={true}
+							setNewGameDetail={setNewGameDetail}
+							isNewTrailer={true}
+							isDummyTrailer={true}
+							isEditMode={editMode}
 						/>
 					</div>
 				)}
@@ -727,6 +740,8 @@ async function handleSaveGame(game: GameData) {
 	// # Speichere ein Spiel in der DB
 	// #
 	// ####################################
+
+	console.log(game);
 
 	const updateGame: GameData = {
 		...game,

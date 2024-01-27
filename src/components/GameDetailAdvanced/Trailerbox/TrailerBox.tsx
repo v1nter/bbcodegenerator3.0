@@ -4,19 +4,22 @@ import css from './TrailerBox.module.css';
 
 import type { Trailer } from '@prisma/client';
 import type { GameData } from '@/app/lib/types';
-import { SetStateAction, Dispatch, useState } from 'react';
+import { SetStateAction, Dispatch, useState, useEffect } from 'react';
 
 type Props = {
-	game: GameData;
+	gameDetail: GameData;
+	newGameDetail: GameData[];
+	selectedGame: number;
 	trailer?: Trailer;
 	setGameDetail: Dispatch<SetStateAction<GameData>>;
-	newTrailer?: Boolean;
-	emptyTrailer?: Boolean;
-	editMode: Boolean;
+	setNewGameDetail: Dispatch<SetStateAction<GameData[]>>;
+	isNewTrailer: Boolean;
+	isDummyTrailer: Boolean;
+	isEditMode: Boolean;
 };
 
 // Falls kein Trailer übergeben wird, nutze den DummyTrailer
-const dummyTrailer: Trailer = {
+const dummy: Trailer = {
 	trailer_id: 0,
 	trailer_name: '',
 	trailer_url: '',
@@ -25,86 +28,91 @@ const dummyTrailer: Trailer = {
 	gameGame_id: 0,
 };
 
-export default function Trailerbox({
-	game,
-	trailer = dummyTrailer,
+export default function TrailerBox({
+	gameDetail,
+	newGameDetail,
+	selectedGame,
+	trailer = dummy,
 	setGameDetail,
-	newTrailer = false,
-	emptyTrailer = false,
-	editMode,
+	setNewGameDetail,
+	isNewTrailer,
+	isDummyTrailer,
+	isEditMode,
 }: Props) {
-	const [newDummyTrailer, setNewDummyTrailer] = useState(dummyTrailer);
+	const [trailerDetail, setTrailerDetail] = useState(trailer);
+
+	// const [dummyDetail, setDummyDetail] = useState(dummy);
+
+	useEffect(() => {
+		// trailer kommt von außen.
+		// => Wenn trailer sich ändert, muss auch Trailer-Detail aktualisiert werden
+		setTrailerDetail(trailer);
+	}, [trailer]);
 
 	return (
 		<div
-			key={trailer.trailer_url}
+			// key={trailerDetail.trailer_url}
 			// Legt die Rahmenfarbe der Trailerbox fest je nach Status
 			// Regulär: Kein Rahmen
 			// Bekannter Trailer: Grün
 			// Neuer Trailer: Rot
 			// Leere Trailerbox für manuelle Eingabe: Gelb
 			className={
-				editMode
-					? newTrailer
-						? css.NewTrailerBox
-						: emptyTrailer
-						? css.DummyTrailerBox
-						: css.OldTrailerBox
+				isNewTrailer && isDummyTrailer
+					? css.DummyTrailerBox
+					: isNewTrailer && !isDummyTrailer
+					? css.NewTrailerBox
+					: isEditMode
+					? css.OldTrailerBox
 					: css.RegularTrailerBox
 			}
 		>
 			<div className={css.InputFields}>
 				{/* Input-Feld für Trailername */}
-				{editMode && !newTrailer && !emptyTrailer ? (
+				{isEditMode ? (
 					<input
 						placeholder="Trailername eingeben"
 						className={css.TrailerName}
 						type="text"
-						value={trailer.trailer_name}
+						value={trailerDetail.trailer_name}
 						onChange={(e) => {
-							handleTrailerNameChange(
+							handleTrailerChange(
 								e.target.value,
-								trailer,
-								game,
-								setGameDetail
+								trailerDetail,
+								'Name',
+								setTrailerDetail,
+								gameDetail,
+								setGameDetail,
+								newGameDetail,
+								selectedGame,
+								setNewGameDetail,
+								isNewTrailer
 							);
 						}}
 					/>
 				) : (
-					<p className={css.TrailerName}>{trailer.trailer_name}</p>
+					<p className={css.TrailerName}>{trailerDetail.trailer_name}</p>
 				)}
 
-				{editMode && emptyTrailer && (
-					// DummyTrailer: Input-Feld für Trailer-Namen der leeren TrailerBox
-					<input
-						placeholder="Trailer Name eingeben"
-						className={css.TrailerName}
-						type="text"
-						value={newDummyTrailer.trailer_name}
-						onChange={(e) => {
-							handleDummyTrailerChange(
-								e.target.value,
-								newDummyTrailer,
-								'Name',
-								setNewDummyTrailer
-							);
-						}}
-					/>
-				)}
-
-				{editMode && emptyTrailer && (
+				{isEditMode && isDummyTrailer && (
 					// DummyTrailer: Input-Feld für Trailer-URL der leeren TrailerBox
 					<input
 						placeholder="Trailer URL eingeben"
 						className={css.TrailerUrl}
 						type="text"
-						value={newDummyTrailer.trailer_url}
+						value={trailerDetail.trailer_url}
 						onChange={(e) => {
-							handleDummyTrailerChange(
+							handleTrailerChange(
 								e.target.value,
-								newDummyTrailer,
+								trailerDetail,
 								'URL',
-								setNewDummyTrailer
+								setTrailerDetail,
+								gameDetail,
+								setGameDetail,
+								newGameDetail,
+								selectedGame,
+								setNewGameDetail,
+								isNewTrailer
 							);
 						}}
 					/>
@@ -112,19 +120,18 @@ export default function Trailerbox({
 			</div>
 
 			{/* Button zum Hinzufügen/Entfernen des Trailers */}
-			{editMode && (
+			{isEditMode && (
 				<button
 					className={css.TrailerButton}
 					onClick={() =>
 						toggleTrailerStatus(
-							trailer,
-							newDummyTrailer,
-							game,
-							newTrailer,
-							editMode,
-							emptyTrailer,
-							setGameDetail,
-							setNewDummyTrailer
+							trailerDetail,
+							gameDetail,
+							isNewTrailer,
+							isDummyTrailer,
+							isEditMode,
+							setTrailerDetail,
+							setGameDetail
 						)
 					}
 				>
@@ -136,19 +143,19 @@ export default function Trailerbox({
 				{/* // Checkbox für Delta */}
 				<label htmlFor="Neu">Neu</label>
 				<input
-					disabled={!editMode}
+					disabled={!isEditMode}
 					type="checkbox"
 					id="Neu"
-					checked={trailer.trailer_delta}
+					checked={trailerDetail.trailer_delta}
 					onChange={(e) => {
 						// Erstelle eine Kopie des Trailers mit geändertem Delta-Flag
 						const newTrailer = {
-							...trailer,
+							...trailerDetail,
 							trailer_delta: e.target.checked,
 						};
 
 						// Gehe das Trailerarray durch und ersetze den Trailer mit dem neu erstellten Trailer
-						const newTrailers: Trailer[] = game.Trailer.map((trailer) => {
+						const newTrailers: Trailer[] = gameDetail.Trailer.map((trailer) => {
 							if (trailer.trailer_id == newTrailer.trailer_id) {
 								return newTrailer;
 							} else {
@@ -158,7 +165,7 @@ export default function Trailerbox({
 
 						// Kopiere das neue Trailerarray zurück nach gameDetails
 						const newGame = {
-							...game,
+							...gameDetail,
 							Trailer: newTrailers,
 						};
 
@@ -176,29 +183,21 @@ export default function Trailerbox({
 }
 
 function toggleTrailerStatus(
-	trailer: Trailer,
-	newDummyTrailer: Trailer,
+	trailerDetail: Trailer,
 	game: GameData,
-	newTrailer: Boolean,
-	editMode: Boolean,
-	dummy: Boolean,
-	setGameDetail: Dispatch<SetStateAction<GameData>>,
-	setNewDummyTrailer: Dispatch<SetStateAction<Trailer>>
+	isNewTrailer: Boolean,
+	isDummyTrailer: Boolean,
+	isEditMode: Boolean,
+	setTrailerDetail: Dispatch<SetStateAction<Trailer>>,
+	setGameDetail: Dispatch<SetStateAction<GameData>>
 ) {
 	// Fügt einen Trailer hinzu oder entfernt ihn wieder
 
-	if (newTrailer) {
+	if (isNewTrailer || isDummyTrailer) {
 		// Handelt es sich um einen neuen Trailer, füge ihn dem Spiel hinzu
-		const newGame: GameData = {
-			...game,
-			Trailer: [...game.Trailer, trailer],
-		};
 
-		setGameDetail(newGame);
-	} else if (dummy) {
-		// Ansonsten handelt es sich um einen neuen Trailer, der manuell hinzugefügt werden soll
 		const newTrailer = {
-			...newDummyTrailer,
+			...trailerDetail,
 			gameGame_id: game.game_id,
 		};
 
@@ -208,13 +207,10 @@ function toggleTrailerStatus(
 		};
 
 		setGameDetail(newGame);
-
-		// Setze die DummyTrailerBox zurück
-		setNewDummyTrailer(dummyTrailer);
-	} else if (editMode) {
+	} else if (isEditMode) {
 		// Ansonsten handelt es sich um einen alten Trailer, der entfernt werden soll
 		const newTrailers = game.Trailer.filter(
-			(t) => t.trailer_id != trailer.trailer_id
+			(t) => t.trailer_id != trailerDetail.trailer_id
 		);
 
 		const newGame: GameData = {
@@ -226,53 +222,99 @@ function toggleTrailerStatus(
 	}
 }
 
-function handleTrailerNameChange(
-	newName: string,
-	trailer: Trailer,
-	game: GameData,
-	setGameDetail: Dispatch<SetStateAction<GameData>>
-) {
-	// Ändert den Namen eines bereits vorhandenen Trailers
-
-	trailer.trailer_name = newName;
-
-	const newTrailer: Trailer[] = game.Trailer.map((t) => {
-		if (t.trailer_id == trailer.trailer_id) {
-			return trailer;
-		} else {
-			return t;
-		}
-	});
-
-	const newGame: GameData = {
-		...game,
-		Trailer: newTrailer,
-	};
-
-	setGameDetail(newGame);
-}
-
-function handleDummyTrailerChange(
+function handleTrailerChange(
 	info: string,
-	dummyTrailer: Trailer,
+	trailerDetail: Trailer,
 	infoType: string,
-	setNewDummyTrailer: Dispatch<SetStateAction<Trailer>>
+	setTrailerDetail: Dispatch<SetStateAction<Trailer>>,
+	gameDetail: GameData,
+	setGameDetail: Dispatch<SetStateAction<GameData>>,
+	newGameDetail: GameData[],
+	selectedGame: number,
+	setNewGameDetail: Dispatch<SetStateAction<GameData[]>>,
+	isNewTrailer: Boolean
 ) {
-	// Ändert Namen oder URL eines DummyTrailers
+	// Ändert Namen oder URL eines Trailers
 
 	if (infoType === 'URL') {
-		const newDummyTrailer: Trailer = {
-			...dummyTrailer,
+		// Die URL kann nur bei einem DummyTrailer geändert werden,
+		// daher müssen nicht die von außen stammenden Daten aus game
+		// geändert werden
+
+		const newTrailer: Trailer = {
+			...trailerDetail,
 			trailer_url: info,
 		};
 
-		setNewDummyTrailer(newDummyTrailer);
+		setTrailerDetail(newTrailer);
 	} else if (infoType === 'Name') {
-		const newDummyTrailer: Trailer = {
-			...dummyTrailer,
+		// Dreigeteilte Logik:
+		// 1. Bei einem DummyTrailer wird nur der lokate State geupdated
+		//
+		// 2. Handelt es sich um einen Trailer von IGDB, so werden die Daten von außen
+		// an die TrailerBox geliefert. => Es muss auch newGameDetail geändert werden,
+		// der von außen kommt.
+		//
+		// 3. Handelt es sich um einen Trailer aus der DB, so werden die daten von außen
+		// an die TrailerBox geliefert => Es muss gameDetail geändert werden, der von außen
+		// kommt
+
+		const newTrailer: Trailer = {
+			...trailerDetail,
 			trailer_name: info,
 		};
 
-		setNewDummyTrailer(newDummyTrailer);
+		if (trailerDetail.gameGame_id === 0) {
+			// Ist die game_id === 0, ist es ein DummyTrailer und nur der lokale State muss
+			// überschrieben werden.
+			setTrailerDetail(newTrailer);
+		} else if (trailerDetail.gameGame_id !== 0 && isNewTrailer === true) {
+			// Wenn es sich um einen Trailer aus IGDB handelt, muss der Name in newGameDetail geändert werden
+
+			const trailers: Trailer[] = newGameDetail[selectedGame].Trailer.filter(
+				(trailer) =>
+					!gameDetail.Trailer.some(
+						(existingTrailer) =>
+							existingTrailer.trailer_url === trailer.trailer_url
+					)
+			).map((t) => {
+				if (t.trailer_url === newTrailer.trailer_url) {
+					return newTrailer;
+				} else {
+					return t;
+				}
+			});
+			// console.log(trailers);
+
+			const newGame: GameData = {
+				...newGameDetail[selectedGame],
+				Trailer: trailers,
+			};
+
+			const newGames: GameData[] = newGameDetail.map((g) => {
+				if (g.game_id === newGame.game_id) {
+					return newGame;
+				} else {
+					return g;
+				}
+			});
+
+			setNewGameDetail(newGames);
+		} else if (trailerDetail.gameGame_id !== 0 && isNewTrailer === false) {
+			// Wenn es sich um einen Trailer aus der DB handelt, muss der Name in gameDetail geändert werden
+
+			const newGame = {
+				...gameDetail,
+				Trailer: gameDetail.Trailer.map((t) => {
+					if (t.trailer_id === trailerDetail.trailer_id) {
+						return newTrailer;
+					} else {
+						return t;
+					}
+				}),
+			};
+
+			setGameDetail(newGame);
+		}
 	}
 }
