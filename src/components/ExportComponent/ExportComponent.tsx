@@ -1,6 +1,7 @@
 'use client';
 
-import { Game, Platform, Trailer, Event } from '@prisma/client';
+import { Event, Trailer } from '@prisma/client';
+import type { GameData } from '@/app/lib/types';
 import { Fragment } from 'react';
 import css from './ExportComponent.module.css';
 import triggerRevalidate from '@/app/lib/triggerRevalidate';
@@ -12,13 +13,13 @@ import {
 	BBCODE_END_ROW,
 } from '@/app/lib/bbCode';
 
-type GameData = Game & { Platform: Platform[] } & {
-	Trailer: Trailer[];
-} & { Event: Event };
+// type GameData = Game & { Platform: Platform[] } & {
+// 	Trailer: Trailer[];
+// } & { Event: Event };
 
 type Props = {
 	games: GameData[];
-	event: Event;
+	event: Event; // Wird benötigt, um den zugehörigen Forenthread zu öffnen
 };
 export default function ExportComponent({ games, event }: Props) {
 	// triggerRevalidate('/(sites)/Export/');
@@ -129,15 +130,57 @@ function handlePostDelta(games: GameData[], event: Event) {
 		true
 	);
 
-	navigator.clipboard.writeText(bbCode).then(() => {
-		const w = window.open(
-			`https://forum.gamespodcast.de/posting.php?mode=reply&${event.event_updatePost}`,
-			'_blank'
-		);
-		if (w) {
-			w.focus();
+	navigator.clipboard
+		.writeText(bbCode)
+		.then(() => {
+			const w = window.open(
+				`https://forum.gamespodcast.de/posting.php?mode=reply&${event.event_updatePost}`,
+				'_blank'
+			);
+			if (w) {
+				w.focus();
+			}
+		})
+		.then(() => handleDeleteDeltaFlags(games));
+}
+
+function handleDeleteDeltaFlags(games: GameData[]) {
+	games.map((game) => {
+		// Gehe alle Spiele durch und ändere die Delta-Flag auf False
+		if (game.game_delta == true) {
+			// Gehe alle Trailer durch und ändere die Delta-Flag auf False
+			const newTrailers: Trailer[] = game.Trailer.map((trailer) => {
+				if (trailer.trailer_delta == true) {
+					return {
+						...trailer,
+						trailer_delta: false,
+					};
+				} else {
+					return trailer;
+				}
+			});
+
+			// Speichere das Spiel in der DB
+
+			const updateGame: GameData = {
+				...game,
+				game_delta: false,
+				Trailer: newTrailers,
+			};
+
+			handleSaveGame(updateGame);
 		}
 	});
+}
+
+async function handleSaveGame(game: GameData) {
+	const result = await fetch(`/api/Games/UpdateOrCreateGame`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(game),
+	});
+
+	return result;
 }
 
 function createBBCode(games: GameData[], delta = false) {

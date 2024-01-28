@@ -11,6 +11,7 @@ type GameData = Game & { Platform: Platform[] } & {
 } & { Event: Event };
 
 export default async function page() {
+	// Lade alle Spiele, die dem aktuellen Event zugehörig sind
 	const responseGames = await fetch(`${host}/api/Games/GetExportGames`);
 	const games = (await responseGames.json()) as GameData[];
 
