@@ -141,9 +141,9 @@ export default function TrailerBox({
 
 			<div className={css.TrailerButtons}>
 				{/* // Checkbox für Delta */}
-				<label htmlFor="Neu">Neu</label>
+				<label htmlFor="Neu">Neuer Trailer</label>
 				<input
-					disabled={!isEditMode}
+					disabled={Boolean(!isEditMode || isNewTrailer || isDummyTrailer)}
 					type="checkbox"
 					id="Neu"
 					checked={trailerDetail.trailer_delta}
@@ -156,7 +156,7 @@ export default function TrailerBox({
 
 						// Gehe das Trailerarray durch und ersetze den Trailer mit dem neu erstellten Trailer
 						const newTrailers: Trailer[] = gameDetail.Trailer.map((trailer) => {
-							if (trailer.trailer_id == newTrailer.trailer_id) {
+							if (trailer.trailer_url === newTrailer.trailer_url) {
 								return newTrailer;
 							} else {
 								return trailer;
@@ -173,6 +173,7 @@ export default function TrailerBox({
 					}}
 				/>
 			</div>
+
 			<iframe
 				className={css.Trailer}
 				src={`https://www.youtube.com/embed/${trailer.trailer_url}`}
@@ -207,6 +208,10 @@ function toggleTrailerStatus(
 		};
 
 		setGameDetail(newGame);
+
+		if (isDummyTrailer) {
+			setTrailerDetail(dummy);
+		}
 	} else if (isEditMode) {
 		// Ansonsten handelt es sich um einen alten Trailer, der entfernt werden soll
 		const newTrailers = game.Trailer.filter(
